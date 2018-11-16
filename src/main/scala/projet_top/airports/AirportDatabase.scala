@@ -56,7 +56,7 @@ class AirportDatabase (_internalDatabase: Map[Int, Airport]) {
     */
   def getDistanceMap: AirportDistanceMap = {
     // TODO
-    new AirportDistanceMap(Map(), Array())
+    new AirportDistanceMap(Map(), Map())
   }
 
   /**
