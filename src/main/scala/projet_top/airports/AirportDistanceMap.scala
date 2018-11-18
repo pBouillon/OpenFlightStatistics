@@ -1,13 +1,11 @@
 package projet_top.airports
 
-import scala.collection.immutable
-
 /**
   * Classe qui représente une carte des distances entre les aéroports
-  * @param airportIdToAirport map airportId <=> objet Airport, qui contient les aéroports représentés dans la carte des distances
-  * @param airportIdsToDist carte des distances entre les aéroports, indentifiés par leur airportId
+  * @param _internalAirportMap map airportId <=> objet Airport, qui contient les aéroports représentés dans la carte des distances
+  * @param _internalDistanceMap carte des distances entre les aéroports, indentifiés par leur airportId
   */
-class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airport], private val airportIdsToDist: immutable.Map[(Int, Int), Double]) {
+class AirportDistanceMap(_internalAirportMap: Map[Int, Airport], _internalDistanceMap: Map[(Int, Int), Double]) {
   /**
     * Retourne la distance qui sépare les deux aéroports les plus proches de la carte
     * @return la distance qui sépare les deux aéroports les plus proches de la carte

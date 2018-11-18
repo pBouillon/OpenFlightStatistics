@@ -2,8 +2,6 @@ package projet_top.countries
 
 import java.io.File
 
-import scala.collection.immutable
-
 /**
   * Objet compagnon de la classe CountryDatabase. Contient les champs et méthodes statiques
   */
@@ -31,9 +29,9 @@ object CountryDatabase {
 
 /**
   * Classe qui permet de contenir des objets Country et de réaliser des opérations dessus.
-  * @param countryNameToCountry map countryName <=> objets Country contenants les données des pays
+  * @param _internalMap map countryName <=> objets Country contenants les données des pays
   */
-class CountryDatabase private (private val countryNameToCountry: immutable.Map[String, Country]) {
+class CountryDatabase(_internalMap: Map[String, Country]) {
   /**
     * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce countryName n'est pas dans la base de données.
     * @param countryName nom du pays à récupérer
