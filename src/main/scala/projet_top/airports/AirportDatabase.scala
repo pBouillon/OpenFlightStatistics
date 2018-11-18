@@ -38,8 +38,15 @@ object AirportDatabase {
   }
 
   def fromList(airports: List[Airport]): AirportDatabase = {
-    // TODO
-    new AirportDatabase(Map())
+    var data: Map[Int, Airport] = Map()
+
+    var cpt = 0
+    airports.foreach(airport => {
+      cpt += 1
+      data += (cpt -> airport)
+    })
+
+    new AirportDatabase(data)
   }
 }
 
