@@ -37,6 +37,11 @@ object AirportDatabase {
     fromList(airports)
   }
 
+  /**
+    * Créé un objet projet_top.airports.AirportDatabase à partir d'une liste fournie de projet_top.airports.Airport en paramètre.
+    * @param airports liste de top.airports.Airport à map dans l'objet projet_top.airports.AirportDatabase
+    * @return un objet projet_top.airports.AirportDatabase
+    */
   def fromList(airports: List[Airport]): AirportDatabase = {
     var data: Map[Int, Airport] = Map()
 
