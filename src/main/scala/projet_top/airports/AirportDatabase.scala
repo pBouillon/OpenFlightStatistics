@@ -2,8 +2,11 @@ package projet_top.airports
 
 import java.io._
 
+import scala.collection.immutable
+
 import projet_top.airports.airport_filters.AirportFilter
 import projet_top.countries.Country
+
 
 /**
   * Objet compagnon de la classe projet_top.airports.AirportDatabase. Sert à contenir les méthodes et champs statiques.
@@ -27,9 +30,9 @@ object AirportDatabase {
 
 /**
   * Classe principale qui va contenir nos données d'aéroport et qui va contenir les méthodes de traitement sur cette base de données.
-  * @param _internalDatabase Map airportID <=> objets projet_top.airports.Airport contenants les données des aéroports
+  * @param airportIdToAirport Map airportID <=> objets projet_top.airports.Airport contenants les données des aéroports
   */
-class AirportDatabase (_internalDatabase: Map[Int, Airport]) {
+class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int, Airport]) {
   /**
     * Retourne l'objet projet_top.airports.Airport correspondant à l'ID choisi, et lève une exception si cet ID n'est pas dans la base de données.
     * @param airportId ID de l'aéroport à récupérer
