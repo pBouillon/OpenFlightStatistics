@@ -24,12 +24,12 @@ object AirportDatabase {
     val reader = CSVReader.open(inputFile)
     reader.foreach(fields => {
       airports = new Airport(
-        airportId = fields.head.toInt,
-        name = fields(2),
-        city = fields(3),
-        countryName = fields(4),
-        latitude = fields(5).toDouble,
-        longitude = fields(6).toDouble
+        airportId = fields(0).toInt,
+        name = fields(1),
+        city = fields(2),
+        countryName = fields(3),
+        latitude = fields(4).toDouble,
+        longitude = fields(5).toDouble
       ) :: airports
     })
     reader.close()
