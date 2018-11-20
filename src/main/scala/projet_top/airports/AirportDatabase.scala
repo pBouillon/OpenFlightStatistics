@@ -34,7 +34,7 @@ object AirportDatabase {
     })
     reader.close()
 
-    fromList(airports)
+    AirportDatabase.fromList(airports)
   }
 
   /**
