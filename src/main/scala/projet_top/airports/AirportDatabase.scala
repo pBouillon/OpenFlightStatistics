@@ -2,8 +2,9 @@ package projet_top.airports
 
 import java.io._
 
-import scala.collection.immutable
+import com.github.tototoshi.csv.CSVReader
 
+import scala.collection.immutable
 import projet_top.airports.airport_filters.AirportFilter
 import projet_top.countries.Country
 
@@ -18,8 +19,22 @@ object AirportDatabase {
     * @return un objet projet_top.airports.AirportDatabase
     */
   def loadFromCSV(inputFile: File): AirportDatabase = {
-    // TODO
-    new AirportDatabase(Map())
+    var airports: List[Airport] = Nil
+
+    val reader = CSVReader.open(inputFile)
+    reader.foreach(fields => {
+      airports = new Airport(
+        airportId = fields(0).toInt,
+        name = fields(1),
+        city = fields(2),
+        countryName = fields(3),
+        latitude = fields(4).toDouble,
+        longitude = fields(5).toDouble
+      ) :: airports
+    })
+    reader.close()
+
+    AirportDatabase.fromList(airports)
   }
 
   /**
