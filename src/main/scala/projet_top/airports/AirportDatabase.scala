@@ -28,8 +28,8 @@ object AirportDatabase {
         name = fields(1),
         city = fields(2),
         countryName = fields(3),
-        latitude = fields(4).toDouble,
-        longitude = fields(5).toDouble
+        latitude = fields(6).toDouble,
+        longitude = fields(7).toDouble
       ) :: airports
     })
     reader.close()
@@ -38,20 +38,13 @@ object AirportDatabase {
   }
 
   /**
-    * Créé un objet projet_top.airports.AirportDatabase à partir d'une liste fournie de projet_top.airports.Airport en paramètre.
-    * @param airports liste de top.airports.Airport à map dans l'objet projet_top.airports.AirportDatabase
-    * @return un objet projet_top.airports.AirportDatabase
+    * Créé un objet AirportDatabase à partir de la liste d'objets Airport passée en paramètres.
+    * @param airports la liste d'objets Airport qui sert à la construction de la base
+    * @return un objet AirportDatabase contenant les mêmes aéroports que la liste passée en paramètres
     */
   def fromList(airports: List[Airport]): AirportDatabase = {
-    var data: Map[Int, Airport] = Map()
-
-    var cpt = 0
-    airports.foreach(airport => {
-      cpt += 1
-      data += (cpt -> airport)
-    })
-
-    new AirportDatabase(data)
+    val airportIdToAirport: immutable.Map[Int, Airport] = airports.map((airport: Airport) => (airport.airportId, airport)).toMap
+    new AirportDatabase(airportIdToAirport)
   }
 }
 
@@ -66,8 +59,40 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return l'objet projet_top.airports.Airport correspondant à l'aéroport demandé.
     */
   def getAirportById(airportId: Int): Airport = {
-    // TODO
-    Airport(0, "", "", "", 0.0, 0.0)
+    if (this.airportIdToAirport.contains(airportId)) {
+      this.airportIdToAirport(airportId)
+    } else {
+      throw new NoSuchElementException(s"The database doesn't contain an airport with ID ${airportId}")
+    }
+  }
+
+  /**
+    * Retourne l'objet projet_top.airports.Airport correspondant à l'ID choisi, et lève une exception si cet ID n'est pas dans la base de données.
+    * Identique à projet_top.airports.AirportDatabase.getAirportById
+    * @param airportId ID de l'aéroport à récupérer
+    * @return l'objet projet_top.airports.Airport correspondant à l'aéroport demandé.
+    */
+  def apply(airportId: Int): Airport = this.getAirportById(airportId)
+
+  /**
+    * Indique si l'aéroport correspondant à l'airportId choisi est présent dans la base de données
+    * @param airportId l'ID de l'aéroport à tester
+    * @return true ssi l'aéroport est présent dans la base de données
+    */
+  def contains(airportId: Int): Boolean = this.airportIdToAirport.contains(airportId)
+
+  /**
+    * Indique si l'aéroport spécifié est présent dans la base de données. Lève une exception si un aéroport de même airportId est présent dans la base, mais avec des données différentes
+     * @param airport l'aéroport à tester
+    * @return true ssi l'aéroport est présent dans la base de données
+    */
+  def contains(airport: Airport): Boolean = {
+    if (this.airportIdToAirport.contains(airport.airportId)) {
+      if (this.airportIdToAirport(airport.airportId) != airport) throw new RuntimeException(s"Internal data corrupted: airport \"${airport.airportId}\" is present in the database but with different data")
+      else true
+    } else {
+      false
+    }
   }
 
   /**
