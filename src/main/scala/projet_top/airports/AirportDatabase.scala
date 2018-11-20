@@ -23,12 +23,6 @@ object AirportDatabase {
   }
 
   /**
-    * Créé un objet CountryDatabase à partir de la liste d'objets Country passée en paramètres.
-    * @param countries la liste d'objets Country qui sert à la construction de la base
-    * @return un objet CountryDatabase contenant les mêmes pays que la liste passée en paramètres
-    */
-
-  /**
     * Créé un objet AirportDatabase à partir de la liste d'objets Airport passée en paramètres.
     * @param airports la liste d'objets Airport qui sert à la construction de la base
     * @return un objet AirportDatabase contenant les mêmes aéroports que la liste passée en paramètres
