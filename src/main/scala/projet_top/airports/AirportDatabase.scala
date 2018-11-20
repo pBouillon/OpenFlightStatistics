@@ -39,8 +39,40 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return l'objet projet_top.airports.Airport correspondant à l'aéroport demandé.
     */
   def getAirportById(airportId: Int): Airport = {
-    // TODO
-    Airport(0, "", "", "", 0.0, 0.0)
+    if (this.airportIdToAirport.contains(airportId)) {
+      this.airportIdToAirport(airportId)
+    } else {
+      throw new NoSuchElementException(s"The database doesn't contain an airport with ID ${airportId}")
+    }
+  }
+
+  /**
+    * Retourne l'objet projet_top.airports.Airport correspondant à l'ID choisi, et lève une exception si cet ID n'est pas dans la base de données.
+    * Identique à projet_top.airports.AirportDatabase.getAirportById
+    * @param airportId ID de l'aéroport à récupérer
+    * @return l'objet projet_top.airports.Airport correspondant à l'aéroport demandé.
+    */
+  def apply(airportId: Int): Airport = this.getAirportById(airportId)
+
+  /**
+    * Indique si l'aéroport correspondant à l'airportId choisi est présent dans la base de données
+    * @param airportId l'ID de l'aéroport à tester
+    * @return true ssi l'aéroport est présent dans la base de données
+    */
+  def contains(airportId: Int): Boolean = this.airportIdToAirport.contains(airportId)
+
+  /**
+    * Indique si l'aéroport spécifié est présent dans la base de données. Lève une exception si un aéroport de même airportId est présent dans la base, mais avec des données différentes
+     * @param airport l'aéroport à tester
+    * @return true ssi l'aéroport est présent dans la base de données
+    */
+  def contains(airport: Airport): Boolean = {
+    if (this.airportIdToAirport.contains(airport.airportId)) {
+      if (this.airportIdToAirport(airport.airportId) != airport) throw new RuntimeException(s"Internal data corrupted: airport \"${airport.airportId}\" is present in the database but with different data")
+      else true
+    } else {
+      false
+    }
   }
 
   /**
