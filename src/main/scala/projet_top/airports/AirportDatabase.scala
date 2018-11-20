@@ -28,8 +28,8 @@ object AirportDatabase {
         name = fields(1),
         city = fields(2),
         countryName = fields(3),
-        latitude = fields(4).toDouble,
-        longitude = fields(5).toDouble
+        latitude = fields(6).toDouble,
+        longitude = fields(7).toDouble
       ) :: airports
     })
     reader.close()
