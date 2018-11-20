@@ -6,7 +6,7 @@ import scala.math.sqrt
 /**
   * Classe qui représente une carte des distances entre les aéroports
   * @param airportIdToAirport map airportId <=> objet Airport, qui contient les aéroports représentés dans la carte des distances
-  * @param airportIdsToDist map Distance <=> (Id1, Id2) qui contient des distances entre les aéroports, indentifiés par leur airportId (Id1, Id2)
+  * @param airportIdsToDist map (airportId1, airportId2) <=> distance qui contient des distances entre les aéroports, indentifiés par leur airportId
   */
 class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airport],
                          private val airportIdsToDist: immutable.Map[(Int, Int), Double]) {
@@ -52,10 +52,10 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     */
   def stdDev: Double = {
     // On enlève les doublons inutiles
-    val noDup = airportIdsToDist.dropWhile((r :((Int, Int), Double)) => r._1._1 > r._1._2)
+    val noDup = airportIdsToDist.filter((r :((Int, Int), Double)) => r._1._1 < r._1._2)
     val moy = noDup.foldLeft(0.0)(_ + _._2) / noDup.size
-    // On calcule l'ecart-type et on le renvoit
-    sqrt(noDbl.foldLeft(0.0)((s: Double, r: ((Int,Int), Double)) => s + Math.pow(r._2 - moy, 2) ) / n)
+    // On calcule l'écart-type et on le renvoit
+    sqrt(noDbl.foldLeft(0.0)((s: Double, r: ((Int,Int), Double)) => s + Math.pow(r._2 - moy, 2)) / noDup.size)
   }
 
   /**
