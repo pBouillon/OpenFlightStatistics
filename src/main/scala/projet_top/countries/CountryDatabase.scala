@@ -24,8 +24,8 @@ object CountryDatabase {
     * @return un objet CountryDatabase contenant les mêmes pays que la liste passée en paramètres
     */
   def fromList(countries: List[Country]): CountryDatabase = {
-    // TODO
-    new CountryDatabase(Map())
+    val countryNameToCountry: immutable.Map[String, Country] = countries.map((country: Country) => (country.countryName, country)).toMap
+    new CountryDatabase(countryNameToCountry)
   }
 }
 
@@ -40,8 +40,40 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     * @return l'objet Country correspondant au pays demandé
     */
   def getCountryByName(countryName: String): Country = {
-    // TODO
-    Country("", 0, 0.0)
+    if (this.countryNameToCountry.contains(countryName)) {
+      countryNameToCountry(countryName)
+    } else {
+      throw new NoSuchElementException(s"This database doesn't contain \"${countryName}\"")
+    }
+  }
+
+  /**
+    * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce countryName n'est pas dans la base de données.
+    * Identique à projet_top.countries.CountryDatabase.getCountryByName
+    * @param countryName nom du pays à récupérer
+    * @return l'objet Country correspondant au pays demandé
+    */
+  def apply(countryName: String): Country = this.getCountryByName(countryName)
+
+  /**
+    * Indique si le pays correspondant au countryName choisi est présent dans la base de données
+    * @param countryName le nom du pays à tester
+    * @return true ssi le pays est présent dans la base de données
+    */
+  def contains(countryName: String): Boolean = this.countryNameToCountry.contains(countryName)
+
+  /**
+    * Indique si le pays spécifié est présent dans la base de données. Lève une exception si un pays de même countryName est présent dans la base, mais avec des données différentes
+    * @param country le pays à tester
+    * @return true ssi le pays est présent dans la base de données
+    */
+  def contains(country: Country): Boolean = {
+    if (this.countryNameToCountry.contains(country.countryName)) {
+      if (this.countryNameToCountry(country.countryName) != country) throw new RuntimeException(s"Internal data corrupted: country \"${country.countryName}\" is present in the database but with different data")
+      else true
+    } else {
+      false
+    }
   }
 
   /**
