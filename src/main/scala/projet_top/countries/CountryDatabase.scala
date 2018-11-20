@@ -24,8 +24,8 @@ object CountryDatabase {
     * @return un objet CountryDatabase contenant les mêmes pays que la liste passée en paramètres
     */
   def fromList(countries: List[Country]): CountryDatabase = {
-    // TODO
-    new CountryDatabase(Map())
+    val countryNameToCountry: immutable.Map[String, Country] = countries.map((country: Country) => (country.countryName, country)).toMap
+    new CountryDatabase(countryNameToCountry)
   }
 }
 
