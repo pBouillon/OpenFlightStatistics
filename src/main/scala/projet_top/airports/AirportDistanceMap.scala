@@ -53,7 +53,7 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
   def stdDev: Double = {
     // On enlève les doublons inutiles
     val noDup = airportIdsToDist.dropWhile((r :((Int, Int), Double)) => r._1._1 > r._1._2)
-    val moy = noDup.foldLeft(0.0)(_ + _._2)/noDup.size;
+    val moy = noDup.foldLeft(0.0)(_ + _._2) / noDup.size
     // On calcule l'ecart-type et on le renvoit
     sqrt(noDbl.foldLeft(0.0)((s: Double, r: ((Int,Int), Double)) => s + Math.pow(r._2 - moy, 2) ) / n)
   }
