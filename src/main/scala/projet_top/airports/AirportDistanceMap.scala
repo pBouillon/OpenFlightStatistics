@@ -42,8 +42,19 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     * @return la distance médiane entre les aéroports de la carte
     */
   def medianDistance: Double = {
-    // TODO
-    0.0
+    // On enlève les doublons inutiles et on trie nos distances
+    val noDupAirportRecords = airportIdsToDist filter
+      { case ((airportId1, airportId2), distance) => airportId1 < airportId2 }
+    val noDupSortedDistances = (noDupAirportRecords map
+      { case ((airportId1, airportId2), distance) => distance }).toList
+      .sortWith({ case (distance, distance2) => distance < distance2})
+    // Puis on calcule notre médiane selon le nombre d'éléments (pair/impair) dans notre ensemble
+    if (noDupSortedDistances.size % 2 == 1)
+      noDupSortedDistances(noDupSortedDistances.size/2)
+    else {
+      val (a, b) = noDupSortedDistances.splitAt(noDupSortedDistances.size/2)
+      (a.last + b.head)/2
+    }
   }
 
   /**
