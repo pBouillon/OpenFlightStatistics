@@ -13,6 +13,10 @@ import scala.math.{sqrt, pow}
   */
 class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airport],
                          private val airportIdsToDist: immutable.Map[(Int, Int), Double]) {
+
+  private val airportToAirportId: immutable.Map[Airport, Int] =
+    this.airportIdToAirport map { case (airportId, airport) => (airport, airportId) }
+
   /**
     * Retourne la distance qui sépare les deux aéroports les plus proches de la carte
     *
@@ -80,8 +84,12 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     * @return la distance entre les deux
     */
   def apply(airportIdA: Int)(airportIdB: Int): Double = {
-    // TODO
-    0.0
+    if (!this.airportIdsToDist.contains((airportIdA, airportIdB))) {
+      throw new NoSuchElementException(
+        s"""Distance between airports with IDs ${airportIdA} and ${airportIdB} is not present in the map"""
+      )
+    }
+    this.airportIdsToDist((airportIdA, airportIdB))
   }
 
   /**
@@ -92,7 +100,19 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     * @return la distance entre les deux
     */
   def apply(airportA: Airport)(airportB: Airport): Double = {
-    // TODO
-    0.0
+    if (!this.airportToAirportId.contains(airportA)) {
+      throw new NoSuchElementException(
+        """The first airport specified is not present in the map"""
+      )
+    }
+    if (!this.airportToAirportId.contains(airportB)) {
+      throw new NoSuchElementException(
+        """The second airport specified is not present in the map"""
+      )
+    }
+    this.airportIdsToDist(
+      this.airportToAirportId(airportA),
+      this.airportToAirportId(airportB)
+    )
   }
 }
