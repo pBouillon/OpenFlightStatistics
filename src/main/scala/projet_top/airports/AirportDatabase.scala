@@ -103,8 +103,8 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     if (this.airportIdToAirport.contains(airport.airportId)) {
       if (this.airportIdToAirport(airport.airportId) != airport) {
         throw new RuntimeException(
-          s"Internal data corrupted: airport \"${airport.airportId}\" " +
-          s"is present in the database but with different data"
+          s"""Internal data corrupted: airport "${airport.airportId}" """ +
+          s"""is present in the database but with different data"""
         )
       }
       else {
