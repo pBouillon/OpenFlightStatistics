@@ -119,12 +119,14 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * Retourne les aéroports correspondants au filtre choisi. Retourne une liste vide si aucun ne correspond.
     * Si aucun filtre n'est spécifié, retourne la liste complète des aéroports.
     *
-    * @param filter filtre à appliquer sur la base de données de tous les aéroports
+    * @param airportFilter filtre à appliquer sur la base de données de tous les aéroports
     * @return la liste des aéroports correspondants aux filtre choisi
     */
-  def getSubset(filter: AirportFilter = airport_filters.All): AirportDatabase = {
+  def getSubset(airportFilter: AirportFilter = airport_filters.All): AirportDatabase = {
     // TODO
-    new AirportDatabase(Map())
+    new AirportDatabase(
+      this.airportIdToAirport filter { case (airportId, airport) => airportFilter.accepts(airport) }
+    )
   }
 
   /**
