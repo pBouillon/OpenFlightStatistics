@@ -49,7 +49,7 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     if (this.countryNameToCountry.contains(countryName)) {
       countryNameToCountry(countryName)
     } else {
-      throw new NoSuchElementException(s"This database doesn't contain \"$countryName\"")
+      throw new NoSuchElementException(s"This database doesn't contain \"${countryName}\"")
     }
   }
 
