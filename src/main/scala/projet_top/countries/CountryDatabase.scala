@@ -10,6 +10,7 @@ import scala.collection.immutable
 object CountryDatabase {
   /**
     * Créé un objet CountryDatabase en lisant le fichier .csv fourni en paramètre.
+    *
     * @param inputFile fichier CSV dont les données sont extraites pour construire l'objet CountryDatabase
     * @return un objet CountryDatabase
     */
@@ -20,22 +21,27 @@ object CountryDatabase {
 
   /**
     * Créé un objet CountryDatabase à partir de la liste d'objets Country passée en paramètres.
+    *
     * @param countries la liste d'objets Country qui sert à la construction de la base
     * @return un objet CountryDatabase contenant les mêmes pays que la liste passée en paramètres
     */
   def fromList(countries: List[Country]): CountryDatabase = {
-    val countryNameToCountry: immutable.Map[String, Country] = countries.map((country: Country) => (country.countryName, country)).toMap
+    val countryNameToCountry: immutable.Map[String, Country] =
+      countries.map((country: Country) => (country.countryName, country)).toMap
     new CountryDatabase(countryNameToCountry)
   }
 }
 
 /**
   * Classe qui permet de contenir des objets Country et de réaliser des opérations dessus.
+  *
   * @param countryNameToCountry map countryName <=> objets Country contenants les données des pays
   */
 class CountryDatabase private (private val countryNameToCountry: immutable.Map[String, Country]) {
   /**
-    * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce countryName n'est pas dans la base de données.
+    * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce
+    * countryName n'est pas dans la base de données.
+    *
     * @param countryName nom du pays à récupérer
     * @return l'objet Country correspondant au pays demandé
     */
@@ -43,13 +49,15 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     if (this.countryNameToCountry.contains(countryName)) {
       countryNameToCountry(countryName)
     } else {
-      throw new NoSuchElementException(s"This database doesn't contain \"${countryName}\"")
+      throw new NoSuchElementException(s"This database doesn't contain \"$countryName\"")
     }
   }
 
   /**
-    * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce countryName n'est pas dans la base de données.
+    * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce
+    * countryName n'est pas dans la base de données.
     * Identique à projet_top.countries.CountryDatabase.getCountryByName
+    *
     * @param countryName nom du pays à récupérer
     * @return l'objet Country correspondant au pays demandé
     */
@@ -63,13 +71,20 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
   def contains(countryName: String): Boolean = this.countryNameToCountry.contains(countryName)
 
   /**
-    * Indique si le pays spécifié est présent dans la base de données. Lève une exception si un pays de même countryName est présent dans la base, mais avec des données différentes
+    * Indique si le pays spécifié est présent dans la base de données. Lève une exception si un pays
+    * de même countryName est présent dans la base, mais avec des données différentes
+    *
     * @param country le pays à tester
     * @return true ssi le pays est présent dans la base de données
     */
   def contains(country: Country): Boolean = {
     if (this.countryNameToCountry.contains(country.countryName)) {
-      if (this.countryNameToCountry(country.countryName) != country) throw new RuntimeException(s"Internal data corrupted: country \"${country.countryName}\" is present in the database but with different data")
+      if (this.countryNameToCountry(country.countryName) != country) {
+        throw new RuntimeException(
+          s"Internal data corrupted: country \"${country.countryName}\" " +
+          s"is present in the database but with different data"
+        )
+      }
       else true
     } else {
       false
