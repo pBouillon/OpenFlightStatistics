@@ -45,6 +45,7 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
 
   /**
     * Retourne la distance médiane entre les aéroports de la carte
+    *
     * @return la distance médiane entre les aéroports de la carte
     */
   def medianDistance: Double = {

@@ -56,7 +56,7 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
   /**
     * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce
     * countryName n'est pas dans la base de données.
-    * Identique à projet_top.countries.CountryDatabase.getCountryByName
+    * Identique à CountryDatabase.getCountryByName
     *
     * @param countryName nom du pays à récupérer
     * @return l'objet Country correspondant au pays demandé
@@ -65,6 +65,7 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
 
   /**
     * Indique si le pays correspondant au countryName choisi est présent dans la base de données
+    *
     * @param countryName le nom du pays à tester
     * @return true ssi le pays est présent dans la base de données
     */
@@ -85,7 +86,9 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
           s"is present in the database but with different data"
         )
       }
-      else true
+      else {
+        true
+      }
     } else {
       false
     }
@@ -93,6 +96,7 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
 
   /**
     * Retourne la liste des objets Country contenus dans la CountryDatabase courante
+    *
     * @return la liste des objets Country contenus dans la CountryDatabase courante
     */
   def toList: List[Country] = {

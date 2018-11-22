@@ -10,13 +10,14 @@ import projet_top.countries.Country
 
 
 /**
-  * Objet compagnon de la classe projet_top.airports.AirportDatabase. Sert à contenir les méthodes et champs statiques.
+  * Objet compagnon de la classe AirportDatabase. Sert à contenir les méthodes et champs statiques.
   */
 object AirportDatabase {
   /**
     * Créé un objet projet_top.airports.AirportDatabase en lisant le fichier .csv fourni en paramètre.
-    * @param inputFile fichier CSV dont les données sont extraites pour construire l'projet_top.airports.AirportDatabase
-    * @return un objet projet_top.airports.AirportDatabase
+    *
+    * @param inputFile fichier CSV dont les données sont extraites pour construire l'AirportDatabase
+    * @return un objet AirportDatabase
     */
   def loadFromCSV(inputFile: File): AirportDatabase = {
     var airports: List[Airport] = Nil
@@ -39,11 +40,13 @@ object AirportDatabase {
 
   /**
     * Créé un objet AirportDatabase à partir de la liste d'objets Airport passée en paramètres.
+    *
     * @param airports la liste d'objets Airport qui sert à la construction de la base
     * @return un objet AirportDatabase contenant les mêmes aéroports que la liste passée en paramètres
     */
   def fromList(airports: List[Airport]): AirportDatabase = {
-    val airportIdToAirport: immutable.Map[Int, Airport] = airports.map((airport: Airport) => (airport.airportId, airport)).toMap
+    val airportIdToAirport: immutable.Map[Int, Airport] =
+      airports.map((airport: Airport) => (airport.airportId, airport)).toMap
     new AirportDatabase(airportIdToAirport)
   }
 }
@@ -52,7 +55,7 @@ object AirportDatabase {
   * Classe principale qui va contenir nos données d'aéroport et qui va contenir les méthodes de traitement
   * sur cette base de données.
   *
-  * @param airportIdToAirport Map airportID <=> objets projet_top.airports.Airport contenants les données des aéroports
+  * @param airportIdToAirport Map airportID <=> objets Airport contenants les données des aéroports
   */
 class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int, Airport]) {
   /**
@@ -60,28 +63,30 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * cet ID n'est pas dans la base de données.
     *
     * @param airportId ID de l'aéroport à récupérer
-    * @return l'objet projet_top.airports.Airport correspondant à l'aéroport demandé.
+    * @return l'objet Airport correspondant à l'aéroport demandé.
     */
   def getAirportById(airportId: Int): Airport = {
     if (this.airportIdToAirport.contains(airportId)) {
       this.airportIdToAirport(airportId)
     } else {
-      throw new NoSuchElementException(s"The database doesn't contain an airport with ID $airportId")
+      //noinspection RedundantBlock
+      throw new NoSuchElementException(s"The database doesn't contain an airport with ID ${airportId}")
     }
   }
 
   /**
-    * Retourne l'objet projet_top.airports.Airport correspondant à l'ID choisi, et lève une exception si cet ID
+    * Retourne l'objet Airport correspondant à l'ID choisi, et lève une exception si cet ID
     * n'est pas dans la base de données.
-    * Identique à projet_top.airports.AirportDatabase.getAirportById
+    * Identique à AirportDatabase.getAirportById
     *
     * @param airportId ID de l'aéroport à récupérer
-    * @return l'objet projet_top.airports.Airport correspondant à l'aéroport demandé.
+    * @return l'objet Airport correspondant à l'aéroport demandé.
     */
   def apply(airportId: Int): Airport = this.getAirportById(airportId)
 
   /**
     * Indique si l'aéroport correspondant à l'airportId choisi est présent dans la base de données
+    *
     * @param airportId l'ID de l'aéroport à tester
     * @return true ssi l'aéroport est présent dans la base de données
     */
@@ -99,10 +104,12 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
       if (this.airportIdToAirport(airport.airportId) != airport) {
         throw new RuntimeException(
           s"Internal data corrupted: airport \"${airport.airportId}\" " +
-            s"is present in the database but with different data"
+          s"is present in the database but with different data"
         )
       }
-      else true
+      else {
+        true
+      }
     } else {
       false
     }

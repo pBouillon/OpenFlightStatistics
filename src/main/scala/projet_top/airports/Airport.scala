@@ -1,7 +1,7 @@
 package projet_top.airports
 
 /**
-  * Objet compagnon de la classe projet_top.airports.Airport. Contient les méthodes et champs statiques
+  * Objet compagnon de la classe Airport. Contient les méthodes et champs statiques
   * pour cette dernière
   */
 object Airport {
@@ -20,7 +20,7 @@ object Airport {
 
 /**
   * Classe immuable qui contient les données relatives à un aéroport. Sert principalement dans la classe
-  * projet_top.airports.AirportDatabase, et possède peu/pas de méthodes
+  * AirportDatabase, et possède peu/pas de méthodes
   */
 case class Airport(airportId: Int, name: String, city: String, countryName: String, latitude: Double, longitude: Double)
 
