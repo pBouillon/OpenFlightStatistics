@@ -1,7 +1,7 @@
 package projet_top.airports
 
 import scala.collection.immutable
-import scala.math.sqrt
+import scala.math.{sqrt, pow}
 
 /**
   * Classe qui représente une carte des distances entre les aéroports
@@ -71,10 +71,16 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     */
   def stdDev: Double = {
     // On enlève les doublons inutiles
-    val noDup = airportIdsToDist.filter((r :((Int, Int), Double)) => r._1._1 < r._1._2)
-    val moy = noDup.foldLeft(0.0)(_ + _._2) / noDup.size
+    val noDupAirportRecords = airportIdsToDist filter
+      { case ((airportId1, airportId2), distance) => airportId1 < airportId2 }
+    val noDupDistances = (noDupAirportRecords map
+      { case ((airportId1, airportId2), distance) => distance }).toList
+
+    val length = noDupDistances.length
+    val mean = noDupDistances.sum / length
+
     // On calcule l'écart-type et on le renvoit
-    sqrt(noDup.foldLeft(0.0)((s: Double, r: ((Int,Int), Double)) => s + Math.pow(r._2 - moy, 2)) / noDup.size)
+    sqrt((noDupDistances map { distance => pow(distance - mean, 2) }).sum / length)
   }
 
   /**
