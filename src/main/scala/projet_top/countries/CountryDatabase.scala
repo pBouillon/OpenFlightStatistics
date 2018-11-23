@@ -49,7 +49,7 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     if (this.countryNameToCountry.contains(countryName)) {
       countryNameToCountry(countryName)
     } else {
-      throw new NoSuchElementException(s"This database doesn't contain \"${countryName}\"")
+      throw new NoSuchElementException(s"""This database doesn't contain "${countryName}"""")
     }
   }
 
@@ -82,8 +82,8 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     if (this.countryNameToCountry.contains(country.countryName)) {
       if (this.countryNameToCountry(country.countryName) != country) {
         throw new RuntimeException(
-          s"Internal data corrupted: country \"${country.countryName}\" " +
-          s"is present in the database but with different data"
+          s"""Internal data corrupted: country "${country.countryName}" """ +
+          s"""is present in the database but with different data"""
         )
       }
       else {
