@@ -13,7 +13,14 @@ import scala.math.{sqrt, pow}
   */
 class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airport],
                          private val airportIdsToDist: immutable.Map[(Int, Int), Double]) {
-  /**
+  private val noDupAirportRecords = airportIdsToDist filter
+    { case ((airportId1, airportId2), distance) => airportId1 < airportId2 }
+  private val noDupLength = this.noDupAirportRecords.size
+  private val noDupSortedDistances = (noDupAirportRecords map
+    { case ((airportId1, airportId2), distance) => distance }).toList
+    .sortWith({ case (distance, distance2) => distance < distance2})
+
+/**
     * Retourne la distance qui sépare les deux aéroports les plus proches de la carte
     *
     * @return la distance qui sépare les deux aéroports les plus proches de la carte
@@ -49,8 +56,13 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     * @return la distance médiane entre les aéroports de la carte
     */
   def medianDistance: Double = {
-    // TODO
-    0.0
+    // On calcule notre médiane selon le nombre d'éléments (pair/impair) dans notre ensemble
+    if (this.noDupLength % 2 == 1)
+      this.noDupSortedDistances(this.noDupLength / 2)
+    else {
+      val (centerLeft, centerRight) = noDupSortedDistances.splitAt(this.noDupLength / 2)
+      (centerLeft.last + centerRight.head) / 2.0
+    }
   }
 
   /**
@@ -60,16 +72,9 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     */
   def stdDev: Double = {
     // On enlève les doublons inutiles
-    val noDupAirportRecords = airportIdsToDist filter
-      { case ((airportId1, airportId2), distance) => airportId1 < airportId2 }
-    val noDupDistances = (noDupAirportRecords map
-      { case ((airportId1, airportId2), distance) => distance }).toList
-
-    val length = noDupDistances.length
-    val mean = noDupDistances.sum / length
-
+    val avg = this.avgDistance
     // On calcule l'écart-type et on le renvoit
-    sqrt((noDupDistances map { distance => pow(distance - mean, 2) }).sum / length)
+    sqrt((this.noDupSortedDistances map { distance => pow(distance - avg, 2) }).sum / this.noDupLength)
   }
 
   /**
