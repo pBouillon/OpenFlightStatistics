@@ -14,7 +14,7 @@ import projet_top.countries.Country
   */
 object AirportDatabase {
   /**
-    * Créé un objet projet_top.airports.AirportDatabase en lisant le fichier .csv fourni en paramètre.
+    * Créé un objet AirportDatabase en lisant le fichier .csv fourni en paramètre.
     *
     * @param inputFile fichier CSV dont les données sont extraites pour construire l'AirportDatabase
     * @return un objet AirportDatabase
@@ -60,7 +60,7 @@ object AirportDatabase {
   */
 class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int, Airport]) {
   /**
-    * Retourne l'objet projet_top.airports.Airport correspondant à l'ID choisi, et lève une exception si
+    * Retourne l'objet Airport correspondant à l'ID choisi, et lève une exception si
     * cet ID n'est pas dans la base de données.
     *
     * @param airportId ID de l'aéroport à récupérer
@@ -123,6 +123,7 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @param airportFilter filtre à appliquer sur la base de données de tous les aéroports
     * @return la liste des aéroports correspondants aux filtre choisi
     */
+  //noinspection ScalaUnusedSymbol
   def getSubset(airportFilter: AirportFilter = airport_filters.All): AirportDatabase = {
     // TODO
     new AirportDatabase(
@@ -148,8 +149,11 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return la liste des objets Airport contenus dans l'AirportDatabase courante
     */
   def toList: List[Airport] = {
-    // TODO
-    List()
+    var airports: List[Airport] = Nil
+    this.airportIdToAirport.foreach {
+      case (_: Int, value: Airport) => airports = value :: airports
+    }
+    airports
   }
 
   /**
