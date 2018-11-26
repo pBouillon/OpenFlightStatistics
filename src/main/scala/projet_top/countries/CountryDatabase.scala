@@ -115,7 +115,10 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     * @return la liste des objets Country contenus dans la CountryDatabase courante
     */
   def toList: List[Country] = {
-    // TODO
-    List()
+    var countries: List[Country] = Nil
+    this.countryNameToCountry.foreach {
+      case (_: String, value: Country) => countries = value :: countries
+    }
+    countries
   }
 }
