@@ -117,7 +117,7 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
   def toList: List[Country] = {
     var countries: List[Country] = Nil
     this.countryNameToCountry.foreach {
-      case (_: String, value: Country) => countries = value :: countries
+      case (countryName: String, country: Country) => countries = country :: countries
     }
     countries
   }
