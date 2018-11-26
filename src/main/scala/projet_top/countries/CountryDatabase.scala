@@ -2,6 +2,8 @@ package projet_top.countries
 
 import java.io.File
 
+import com.github.tototoshi.csv.CSVReader
+
 import scala.collection.immutable
 
 /**
@@ -15,8 +17,20 @@ object CountryDatabase {
     * @return un objet CountryDatabase
     */
   def loadFromCSV(inputFile: File): CountryDatabase = {
-    // TODO
-    new CountryDatabase(Map())
+    var countries: List[Country] = Nil
+
+    val reader = CSVReader.open(inputFile)
+    reader.foreach(fields => {
+      //noinspection ZeroIndexToHead
+      countries = Country(
+        countryName = fields(0).toString,
+        inhabitants = fields(2).toLong,
+        surface = fields(3).toDouble
+      ) :: countries
+    })
+    reader.close()
+
+    CountryDatabase.fromList(countries)
   }
 
   /**
