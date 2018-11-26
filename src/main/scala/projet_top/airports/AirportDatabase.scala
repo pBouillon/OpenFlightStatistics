@@ -24,6 +24,7 @@ object AirportDatabase {
 
     val reader = CSVReader.open(inputFile)
     reader.foreach(fields => {
+      //noinspection ZeroIndexToHead
       airports = new Airport(
         airportId = fields(0).toInt,
         name = fields(1),
