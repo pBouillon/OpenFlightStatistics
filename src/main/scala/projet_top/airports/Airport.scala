@@ -11,11 +11,11 @@ object Airport {
   val EarthRadius: Double = 6371.009
 
   /**
-    * Retourne la distance entre les deux aéroports passés en paramètres.
+    * Retourne la distance en km entre les deux aéroports passés en paramètres.
     *
     * @param airportA données (objet Airport) pour le premier aéroport
     * @param airportB données (objet Airport) pour le second aéroport
-    * @return la distance en ??? entre les deux aéroports choisis TODO ???
+    * @return la distance en km entre les deux aéroports choisis
     */
   def distance(airportA: Airport, airportB: Airport): Double = {
     // Conversion en radians
