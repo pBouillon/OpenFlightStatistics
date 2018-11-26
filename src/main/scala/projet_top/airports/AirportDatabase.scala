@@ -149,8 +149,11 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return la liste des objets Airport contenus dans l'AirportDatabase courante
     */
   def toList: List[Airport] = {
-    // TODO
-    List()
+    var airports: List[Airport] = Nil
+    this.airportIdToAirport.foreach {
+      case (_: Int, value: Airport) => airports = value :: airports
+    }
+    airports
   }
 
   /**
