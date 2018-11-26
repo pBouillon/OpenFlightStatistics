@@ -24,8 +24,8 @@ object CountryDatabase {
       //noinspection ZeroIndexToHead
       countries = Country(
         countryName = fields(0).toString,
-        inhabitants = fields(2).toLong,
-        surface = fields(3).toDouble
+        inhabitants = fields(1).toLong,
+        surface = fields(2).toDouble
       ) :: countries
     })
     reader.close()
