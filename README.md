@@ -55,7 +55,7 @@ val distMinimale = maMatricePlusPetite.minDistance
 ### Question 5
 
 ```scala
-import projet_top.projet_top.countries.CountryDatabase
+import projet_top.countries.CountryDatabase
 import java.io.File
 
 val maBaseDePays = CountryDatabase.loadFromCSV(new File("monFichierCSVDePays.csv"))
