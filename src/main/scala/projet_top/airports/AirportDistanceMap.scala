@@ -11,6 +11,7 @@ import scala.math.{sqrt, pow}
   * @param airportIdsToDist map (airportId1, airportId2) <=> distance qui contient des distances entre
   *                         les aéroports, indentifiés par leur airportId
   */
+//noinspection RedundantBlock,ScalaUnusedSymbol
 class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airport],
                          private val airportIdsToDist: immutable.Map[(Int, Int), Double]) {
 
@@ -75,9 +76,8 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     * @return l'écart-type des distances qui séparent les aéroports de la carte
     */
   def stdDev: Double = {
-    // On enlève les doublons inutiles
     val avg = this.avgDistance
-    // On calcule l'écart-type et on le renvoit
+    // On calcule l'écart-type et on le renvoie
     sqrt((this.noDupSortedDistances map { distance => pow(distance - avg, 2) }).sum / this.noDupLength)
   }
 

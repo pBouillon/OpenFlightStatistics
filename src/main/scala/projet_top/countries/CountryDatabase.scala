@@ -51,6 +51,7 @@ object CountryDatabase {
   *
   * @param countryNameToCountry map countryName <=> objets Country contenants les données des pays
   */
+//noinspection RedundantBlock
 class CountryDatabase private (private val countryNameToCountry: immutable.Map[String, Country]) {
   /**
     * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce

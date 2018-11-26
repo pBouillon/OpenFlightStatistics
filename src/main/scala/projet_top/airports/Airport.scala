@@ -8,8 +8,8 @@ object Airport {
   /**
     * Retourne la distance entre les deux aéroports passés en paramètres.
     *
-    * @param airportA données (objet projet_top.airports.Airport) pour le premier aéroport
-    * @param airportB données (objet projet_top.airports.Airport) pour le second aéroport
+    * @param airportA données (objet Airport) pour le premier aéroport
+    * @param airportB données (objet Airport) pour le second aéroport
     * @return la distance en ??? entre les deux aéroports choisis TODO ???
     */
   def distance(airportA: Airport, airportB: Airport): Double = {
