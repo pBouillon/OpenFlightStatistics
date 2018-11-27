@@ -5,7 +5,7 @@ package projet_top.countries
   * classe CountryDatabase.
   *
   * @param countryName nom du pays, sert d'identifiant unique
-  * @param inhabitants nombre d'habitants du pays au km²
+  * @param inhabitants nombre d'habitants du pays
   * @param surface superficie du pays en km²
   */
 case class Country(countryName: String, inhabitants: Long, surface: Double) {
@@ -18,7 +18,7 @@ case class Country(countryName: String, inhabitants: Long, surface: Double) {
     "country inhabitants cannot be a negative value"
   )
   require(
-    surface >= .0,
+    surface >= 0.0,
     "country surface cannot be a negative value"
   )
 }
