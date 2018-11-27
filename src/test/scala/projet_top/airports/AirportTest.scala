@@ -5,6 +5,7 @@ import org.scalatest.FlatSpec
 /**
   * Tests pour le constructeur de Airport
   */
+//noinspection ScalaFileName
 class AirportConstructorSpec extends FlatSpec {
   "An airport instantiated with an empty airport name" should "throw an IAE" in {
     intercept[IllegalArgumentException] {
