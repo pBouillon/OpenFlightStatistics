@@ -5,7 +5,7 @@ import org.scalatest.FlatSpec
 /**
   * Tests pour le constructeur de Country
   */
-class CountryTest extends FlatSpec {
+class CountryConstructorTest extends FlatSpec {
   "A country instantiated with an empty country name" should "throw an IAE" in {
     intercept[IllegalArgumentException] {
       Country(countryName = "", inhabitants = 0, surface = 0.0)
