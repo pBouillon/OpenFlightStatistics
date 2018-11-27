@@ -2,10 +2,11 @@ package projet_top.countries
 
 import org.scalatest.FlatSpec
 
+//noinspection ScalaFileName
 /**
   * Tests pour le constructeur de Country
   */
-class CountryConstructorTest extends FlatSpec {
+class CountryConstructorSpec extends FlatSpec {
   "A country instantiated with an empty country name" should "throw an IAE" in {
     intercept[IllegalArgumentException] {
       Country(countryName = "", inhabitants = 0, surface = 0.0)
