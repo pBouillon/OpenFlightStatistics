@@ -115,7 +115,6 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     * @return la liste des objets Country contenus dans la CountryDatabase courante
     */
   def toList: List[Country] = {
-    // TODO
-    List()
+    this.countryNameToCountry.values.toList
   }
 }
