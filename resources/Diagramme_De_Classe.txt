@@ -1,0 +1,87 @@
+@startuml
+
+class Airport {
+	+ airportId : Int
+	+ name : String
+	+ city : String
+	+ countryName : String
+	+ latitude : Double
+	+ longitude : Double
+	+ {static} distance(Airport airportA, Airport airportB) : Double
+}
+
+class AirportDatabase {
+	{field} - airportIdToAirport : Map(Int, Airport)
+	+ {static} loadFromCSV(File inputFile) : AirportDatabase
+	+ {static} fromList(List[Airport] airports) : AirportDatabase
+	+ getAirportById(Int airportId) : Airport
+	+ apply(Int airportId) : Airport
+	+ contains(Int airportId) : Boolean
+	+ contains(Airport airport) : Boolean
+	+ getSubset(AirportFilter filter) : AirportDatabase
+	+ getDistanceMap() : AirportDistanceMap
+	+ toList() : List[Airport]
+	+ getDensityIn(Country country, (Country, Double) againstWhat) : Double
+}
+
+class AirportDistanceMap {
+	{field} - airportIdToAirport : Map(Int, Airport)
+	{field} - airportIdsToDist : Map((Int, Int), Double)
+	{field} - noDupAirportRecords : Map((Int, Int), Double)
+	{field} - noDupSortedDistances : List[Double]
+	+ minDistance() : Double
+	+ maxDistance() : Double
+	+ avgDistance() : Double
+	+ medianDistance() : Double
+	+ stdDev() : Double
+	+ apply(Int airportIdA, Int airportIdB) : Double
+	+ apply (Airport airportA, Airport airportB) : Double
+}
+
+class Country {
+	+ countryName : String
+	+ inhabitants : Long
+	+ surface : Double
+}
+
+class CountryDatabase {
+	{field} - countryNameToCountry : Map(String, Country)
+	+ {static} loadFromCSV(File inputFile) : CountryDatabase
+	+ {static} fromList(List[Country] countries) : CountryDatabase
+	+ getCountryByName(String countryName) : Country
+	+ apply(String countryName) : Country
+	+ contains(String countryName) : Boolean
+	+ contains(Country country) : Boolean
+	+ toList() : List[Country]
+}
+
+interface AirportFilter {
+	+ accepts(Airport candidate) : Boolean
+	+ rejects(Airport candidate) : Boolean
+	+ unary_!() : AirportFilter
+	+ ||(AirportFilter that) : AirportFilter
+	+ &&(AirportFilter that) : AirportFilter
+}
+
+class CustomAirportFilter {
+	{field} + func : (Airport, Boolean)
+	+ accepts(Airport candidate) : Boolean
+}
+
+class All {
+	{field} + func : (Airport, Boolean)
+	+ accepts(Airport candidate) : Boolean
+}
+
+AirportFilter <|-- CustomAirportFilter
+All <|-- CustomAirportFilter
+
+Airport o-- AirportDatabase
+Airport o-- AirportDistanceMap
+AirportDatabase ..> AirportDistanceMap
+AirportDatabase ..> AirportFilter
+
+Country o-- CountryDatabase
+Airport o-- AirportFilter
+
+@enduml
