@@ -74,8 +74,20 @@ class All {
 	+ accepts(Airport candidate) : Boolean
 }
 
+enum HemisphereChoice {
+	NORTH
+	SOUTH
+}
+
+class Hemisphere {
+	+ Hemisphere(HemisphereChoice choice)
+}
+
+
 AirportFilter <|-- All
 AirportFilter <|-- CountryNames
+AirportFilter <|-- Hemisphere
+Hemisphere ..> HemisphereChoice
 
 Airport o-- AirportDatabase
 Airport o-- AirportDistanceMap
