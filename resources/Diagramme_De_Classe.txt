@@ -11,9 +11,10 @@ class Airport {
 }
 
 class AirportDatabase {
-	{field} - airportIdToAirport : Map(Int, Airport)
+	{field} - airportIdToAirport : Map[Int, Airport]
 	+ {static} loadFromCSV(File inputFile) : AirportDatabase
 	+ {static} fromList(List[Airport] airports) : AirportDatabase
+	+ AirportDatabase(Map[Int, Airport])
 	+ getAirportById(Int airportId) : Airport
 	+ apply(Int airportId) : Airport
 	+ contains(Int airportId) : Boolean
@@ -25,9 +26,9 @@ class AirportDatabase {
 }
 
 class AirportDistanceMap {
-	{field} - airportIdToAirport : Map(Int, Airport)
-	{field} - airportIdsToDist : Map((Int, Int), Double)
-	{field} - noDupAirportRecords : Map((Int, Int), Double)
+	{field} - airportIdToAirport : Map[Int, Airport)]
+	{field} - airportIdsToDist : Map[[Int, Int], Double]
+	{field} - noDupAirportRecords : Map[[Int, Int], Double]
 	{field} - noDupSortedDistances : List[Double]
 	{field} - noDupLength: Int
 	+ minDistance() : Double
@@ -46,7 +47,7 @@ class Country {
 }
 
 class CountryDatabase {
-	{field} - countryNameToCountry : Map(String, Country)
+	{field} - countryNameToCountry : Map[String, Country]
 	+ {static} loadFromCSV(File inputFile) : CountryDatabase
 	+ {static} fromList(List[Country] countries) : CountryDatabase
 	+ getCountryByName(String countryName) : Country
