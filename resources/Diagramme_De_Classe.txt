@@ -80,6 +80,7 @@ Airport o-- AirportDatabase
 Airport o-- AirportDistanceMap
 AirportDatabase ..> AirportDistanceMap
 AirportDatabase ..> AirportFilter
+AirportDatabase ..> Country
 
 Country o-- CountryDatabase
 Airport o-- AirportFilter
