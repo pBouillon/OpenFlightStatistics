@@ -63,8 +63,8 @@ interface AirportFilter {
 	+ &&(AirportFilter that) : AirportFilter
 }
 
-class CustomAirportFilter {
-	{field} + func : (Airport, Boolean)
+class CountryNames{
+	{field} + countryNames: List[String]
 	+ accepts(Airport candidate) : Boolean
 }
 
@@ -73,8 +73,8 @@ class All {
 	+ accepts(Airport candidate) : Boolean
 }
 
-AirportFilter <|-- CustomAirportFilter
-All <|-- CustomAirportFilter
+AirportFilter <|-- All
+AirportFilter <|-- CountryNames
 
 Airport o-- AirportDatabase
 Airport o-- AirportDistanceMap
