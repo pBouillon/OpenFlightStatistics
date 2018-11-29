@@ -7,6 +7,7 @@ class Airport {
 	+ countryName : String
 	+ latitude : Double
 	+ longitude : Double
+	+ Airport(Int airportId, String name, String city, String countryName, Double latitude, Double longitude) 
 	+ {static} distance(Airport airportA, Airport airportB) : Double
 }
 
@@ -31,6 +32,7 @@ class AirportDistanceMap {
 	{field} - noDupAirportRecords : Map[[Int, Int], Double]
 	{field} - noDupSortedDistances : List[Double]
 	{field} - noDupLength: Int
+	+ AirportDistanceMap(Map[Int, Airport] airportIdToAirport, Map[[Int, Int], Double] airportIdsToDist)
 	+ minDistance() : Double
 	+ maxDistance() : Double
 	+ avgDistance() : Double
@@ -44,12 +46,14 @@ class Country {
 	+ countryName : String
 	+ inhabitants : Long
 	+ surface : Double
+	+ Country(String countryName, Long inhabitants, Double surface)
 }
 
 class CountryDatabase {
 	{field} - countryNameToCountry : Map[String, Country]
 	+ {static} loadFromCSV(File inputFile) : CountryDatabase
 	+ {static} fromList(List[Country] countries) : CountryDatabase
+	+ CountryDatabase(Map[String, Country], countryNameToCountry)
 	+ getCountryByName(String countryName) : Country
 	+ apply(String countryName) : Country
 	+ contains(String countryName) : Boolean
