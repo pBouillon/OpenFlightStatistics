@@ -72,10 +72,10 @@ interface AirportFilter {
 class CountryNames{
 	{field} + countryNames: List[String]
 	+ accepts(Airport candidate) : Boolean
+	+ CountryNames(List[String] countryNames) 
 }
 
-class All {
-	{field} + func : (Airport, Boolean)
+class All << (S,#FF7700) Singleton >> {
 	+ accepts(Airport candidate) : Boolean
 }
 
