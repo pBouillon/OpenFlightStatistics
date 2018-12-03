@@ -60,9 +60,9 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     */
   def avgDistance: Double = {
     // somme des distances de la liste sur la taille de la liste ce qui donne la moyenne
-    if (this.isEmpty)
+    if (this.isEmpty) {
       this.noDupSortedDistances.sum / this.noDupLength
-    else {
+    } else {
       AirportDistanceMap.EmptyMapSoNoValue
     }
 
