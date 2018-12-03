@@ -15,7 +15,7 @@ class AirportDatabase {
 	{field} - airportIdToAirport : Map[Int, Airport]
 	+ {static} loadFromCSV(File inputFile) : AirportDatabase
 	+ {static} fromList(List[Airport] airports) : AirportDatabase
-	+ AirportDatabase(Map[Int, Airport] airportIdToAirport)
+	- AirportDatabase(Map[Int, Airport] airportIdToAirport)
 	+ getAirportById(Int airportId) : Airport
 	+ apply(Int airportId) : Airport
 	+ contains(Int airportId) : Boolean
@@ -53,7 +53,7 @@ class CountryDatabase {
 	{field} - countryNameToCountry : Map[String, Country]
 	+ {static} loadFromCSV(File inputFile) : CountryDatabase
 	+ {static} fromList(List[Country] countries) : CountryDatabase
-	+ CountryDatabase(Map[String, Country] countryNameToCountry)
+	- CountryDatabase(Map[String, Country] countryNameToCountry)
 	+ getCountryByName(String countryName) : Country
 	+ apply(String countryName) : Country
 	+ contains(String countryName) : Boolean
