@@ -8,19 +8,19 @@ import org.scalatest.FlatSpec
 //noinspection ScalaFileName
 class AirportDatabaseGetByIdTest extends FlatSpec {
   val airportList: List[Airport] = new Airport(
-    airportId = 1,
-    name = "name 1",
-    city = "city 1",
-    countryName = "country 1",
-    latitude = .1,
-    longitude = .1
-  ) :: new Airport(
     airportId = 2,
     name = "name 2",
     city = "city 2",
     countryName = "country 2",
     latitude = .2,
     longitude = .2
+  ) :: new Airport(
+    airportId = 1,
+    name = "name 1",
+    city = "city 1",
+    countryName = "country 1",
+    latitude = .1,
+    longitude = .1
   ) :: Nil
 
   val airportDatabase: AirportDatabase = AirportDatabase.fromList(airportList)
@@ -42,6 +42,37 @@ class AirportDatabaseGetByIdTest extends FlatSpec {
     assert(found.countryName == to_search.countryName)
     assert(found.latitude == to_search.latitude)
     assert(found.longitude == to_search.longitude)
+  }
+
+}
+
+/**
+  * Tests pour la conversion d'un AirportDatabase en List
+  */
+//noinspection ScalaFileName
+class AirportDatabaseToList extends FlatSpec {
+  val airportList: List[Airport] = new Airport(
+    airportId = 2,
+    name = "name 2",
+    city = "city 2",
+    countryName = "country 2",
+    latitude = .2,
+    longitude = .2
+  ) :: new Airport(
+    airportId = 1,
+    name = "name 1",
+    city = "city 1",
+    countryName = "country 1",
+    latitude = .1,
+    longitude = .1
+  ) :: Nil
+
+  val airportDatabase: AirportDatabase = AirportDatabase.fromList(airportList)
+
+  "An AirportDatabase" should "return a valid list of its airports" in {
+    airportDatabase.toList.foreach(airport => {
+      assert(airportList.contains(airport))
+    })
   }
 
 }
