@@ -69,3 +69,61 @@ class CountryDatabaseApplyTest extends FlatSpec {
     assert(found.surface == to_search.surface)
   }
 }
+
+/**
+  * Tests pour la vérifier si un élément est contenu dans CountryDatabase
+  */
+//noinspection ScalaFileName
+class CountryDatabaseContainsTest extends FlatSpec {
+  val countryList: List[Country] = Country (
+    countryName = "name 2",
+    inhabitants = 2,
+    surface = .2
+  ) :: Country (
+    countryName = "name 1",
+    inhabitants = 1,
+    surface = .1
+  ) :: Nil
+
+  val countryDatabase: CountryDatabase = CountryDatabase.fromList(countryList)
+
+  "A countryDatabase" should "return false when non-existent country is searched" in {
+    val to_search = Country (
+      countryName = "name 0",
+      inhabitants = 0,
+      surface = .0
+    )
+
+    val found = countryDatabase.contains(to_search)
+
+    assert(!found)
+  }
+
+  "A countryDatabase" should "return false when non-existent country is searched with its name" in {
+    val to_search = Country (
+      countryName = "name 0",
+      inhabitants = 0,
+      surface = .0
+    )
+
+    val found = countryDatabase.contains(to_search.countryName)
+
+    assert(!found)
+  }
+
+  "A countryDatabase" should "return true when a stored country is searched" in {
+    val to_search = countryList(1)
+
+    val found = countryDatabase.contains(to_search)
+
+    assert(found)
+  }
+
+  "A countryDatabase" should "return true when a stored country is searched with its name" in {
+    val to_search = countryList(1)
+
+    val found = countryDatabase.contains(to_search.countryName)
+
+    assert(found)
+  }
+}
