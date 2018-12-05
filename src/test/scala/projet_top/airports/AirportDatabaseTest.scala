@@ -2,11 +2,7 @@ package projet_top.airports
 
 import org.scalatest.FlatSpec
 
-/**
-  * Tests pour la récupération par ID dans la AirportDatabase
-  */
-//noinspection ScalaFileName
-class AirportDatabaseGetAirportByIdTest extends FlatSpec {
+object AirportDatabaseTestObjects {
   val airportList: List[Airport] = Airport(
     airportId = 2,
     name = "name 2",
@@ -24,16 +20,23 @@ class AirportDatabaseGetAirportByIdTest extends FlatSpec {
   ) :: Nil
 
   val airportDatabase: AirportDatabase = AirportDatabase.fromList(airportList)
+}
+
+/**
+  * Tests pour la récupération par ID dans la AirportDatabase
+  */
+//noinspection ScalaFileName
+class AirportDatabaseGetAirportByIdTest extends FlatSpec {
 
   "An AirportDatabase" should "throw an NSEE when looking for a non-existent ID" in {
     intercept[NoSuchElementException](
-      airportDatabase.getAirportById(-1)
+      AirportDatabaseTestObjects.airportDatabase.getAirportById(-1)
     )
   }
 
   "An AirportDatabase" should "return the correct airport when looking for its ID" in {
-    val to_search = airportList(1)
-    val found = airportDatabase.getAirportById(to_search.airportId)
+    val to_search = AirportDatabaseTestObjects.airportList(1)
+    val found = AirportDatabaseTestObjects.airportDatabase.getAirportById(to_search.airportId)
     assert(found == to_search)
   }
 
@@ -45,33 +48,16 @@ class AirportDatabaseGetAirportByIdTest extends FlatSpec {
   */
 //noinspection ScalaFileName
 class AirportDatabaseApplyTest extends FlatSpec {
-  val airportList: List[Airport] = Airport(
-    airportId = 2,
-    name = "name 2",
-    city = "city 2",
-    countryName = "country 2",
-    latitude = .2,
-    longitude = .2
-  ) :: Airport(
-    airportId = 1,
-    name = "name 1",
-    city = "city 1",
-    countryName = "country 1",
-    latitude = .1,
-    longitude = .1
-  ) :: Nil
-
-  val airportDatabase: AirportDatabase = AirportDatabase.fromList(airportList)
 
   "An AirportDatabase" should "throw an NSEE when looking for a non-existent ID" in {
     intercept[NoSuchElementException](
-      airportDatabase.apply(-1)
+      AirportDatabaseTestObjects.airportDatabase.apply(-1)
     )
   }
 
   "An AirportDatabase" should "return the correct airport when looking for its ID" in {
-    val to_search = airportList(1)
-    val found = airportDatabase.apply(to_search.airportId)
+    val to_search = AirportDatabaseTestObjects.airportList(1)
+    val found = AirportDatabaseTestObjects.airportDatabase.apply(to_search.airportId)
     assert(found == to_search)
   }
 
@@ -83,27 +69,10 @@ class AirportDatabaseApplyTest extends FlatSpec {
   */
 //noinspection ScalaFileName
 class AirportDatabaseToListTest extends FlatSpec {
-  val airportList: List[Airport] = Airport(
-    airportId = 2,
-    name = "name 2",
-    city = "city 2",
-    countryName = "country 2",
-    latitude = .2,
-    longitude = .2
-  ) :: Airport(
-    airportId = 1,
-    name = "name 1",
-    city = "city 1",
-    countryName = "country 1",
-    latitude = .1,
-    longitude = .1
-  ) :: Nil
-
-  val airportDatabase: AirportDatabase = AirportDatabase.fromList(airportList)
 
   "An AirportDatabase" should "return a valid list of its airports" in {
-    assert(airportDatabase.toList.sortBy(airport => airport.airportId)
-      == airportList.sortBy(airport => airport.airportId))
+    assert(AirportDatabaseTestObjects.airportDatabase.toList.sortBy(airport => airport.airportId)
+      == AirportDatabaseTestObjects.airportList.sortBy(airport => airport.airportId))
   }
 
 }
@@ -114,23 +83,6 @@ class AirportDatabaseToListTest extends FlatSpec {
   */
 //noinspection ScalaFileName
 class AirportDatabaseContainsTest extends FlatSpec {
-  val airportList: List[Airport] = Airport (
-    airportId = 2,
-    name = "name 2",
-    city = "city 2",
-    countryName = "country 2",
-    latitude = .2,
-    longitude = .2
-  ) :: Airport (
-    airportId = 1,
-    name = "name 1",
-    city = "city 1",
-    countryName = "country 1",
-    latitude = .1,
-    longitude = .1
-  ) :: Nil
-
-  val airportDatabase: AirportDatabase = AirportDatabase.fromList(airportList)
 
   "An airportDatabase" should "return false when non-existent airport is searched" in {
     val to_search = Airport(
@@ -142,7 +94,7 @@ class AirportDatabaseContainsTest extends FlatSpec {
       longitude = .0
     )
 
-    val found = airportDatabase.contains(to_search)
+    val found = AirportDatabaseTestObjects.airportDatabase.contains(to_search)
 
     assert(!found)
   }
@@ -157,23 +109,23 @@ class AirportDatabaseContainsTest extends FlatSpec {
       longitude = .0
     )
 
-    val found = airportDatabase.contains(to_search.airportId)
+    val found = AirportDatabaseTestObjects.airportDatabase.contains(to_search.airportId)
 
     assert(!found)
   }
 
   "An airportDatabase" should "return true when a stored airport is searched" in {
-    val to_search = airportList(1)
+    val to_search = AirportDatabaseTestObjects.airportList(1)
 
-    val found = airportDatabase.contains(to_search)
+    val found = AirportDatabaseTestObjects.airportDatabase.contains(to_search)
 
     assert(found)
   }
 
   "An airportDatabase" should "return true when a stored airport is searched with its id" in {
-    val to_search = airportList(1)
+    val to_search = AirportDatabaseTestObjects.airportList(1)
 
-    val found = airportDatabase.contains(to_search.airportId)
+    val found = AirportDatabaseTestObjects.airportDatabase.contains(to_search.airportId)
 
     assert(found)
   }
