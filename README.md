@@ -1,5 +1,18 @@
 # Projet TOP
 
+## Groupe de projet
+
+[![](https://img.shields.io/badge/Scala%20Architect-%40tbagrel1-green.svg?logo=scala&longCache=true&style=popout&colorB=de3423&link=https://gitlab.telecomnancy.univ-lorraine.fr/Projets_TOP/projet_top_a2&link=mailto:thomas.bagrel@telecomnancy.eu
+)]() 
+[![](https://img.shields.io/badge/Git%20Master-%40pBouillon-green.svg?logo=gitlab&longCache=true&style=popout&colorB=fc6d26&link=https://gitlab.telecomnancy.univ-lorraine.fr/Projets_TOP/projet_top_a2&link=mailto:pierre.bouillon@telecomnancy.eu
+)]() 
+[![](https://img.shields.io/badge/Placeholder-%40noname-green.svg?logo=stackoverflow&longCache=true&style=popout&colorB=orange&link=https://gitlab.telecomnancy.univ-lorraine.fr/Projets_TOP/projet_top_a2&link=mailto:placeholder@telecomnancy.eu
+)]() 
+[![](https://img.shields.io/badge/Placeholder-%40noname-green.svg?logo=stackoverflow&longCache=true&style=popout&colorB=orange&link=https://gitlab.telecomnancy.univ-lorraine.fr/Projets_TOP/projet_top_a2&link=mailto:placeholder@telecomnancy.eu
+)]() 
+
+
+
 ## Ressources
 
 ### Liste des meilleures librairies SCALA
