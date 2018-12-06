@@ -8,34 +8,21 @@ object Cli {
     *
     * @param input entrée utilisateur à traiter
     */
-  //noinspection RedundantBlock
   def executeCommand(input: Int): Unit ={
     input match {
-      case Option.Quest1 => {
-        println("Question 1")
-      }
-      case Option.Quest2 => {
-        println("Question 2")
-      }
-      case Option.Quest3 => {
-        println("Question 3")
-      }
-      case Option.Quest4 => {
-        println("Question 4")
-      }
-      case Option.Quest5 => {
-        println("Question 5")
-      }
-      case Option.Help => {
+      case Option.Quest1 => Logic.questionOne()
+      case Option.Quest2 => Logic.questionTwo()
+      case Option.Quest3 => Logic.questionThree()
+      case Option.Quest4 => Logic.questionFour()
+      case Option.Quest5 => Logic.questionFive()
+      case Option.Quest6 => Logic.questionSix()
+      case Option.Quest7 => Logic.questionSeven()
+      case Option.Help =>
         println(CliData.helper)
-      }
-      case Option.Quit => {
+      case Option.Quit =>
         println("Fermeture de l'application ...")
         System.exit(0)
-      }
-      case _ => {
-        println(CliData.errMessage)
-      }
+      case _ => println(CliData.errMessage)
     }
   }
 
