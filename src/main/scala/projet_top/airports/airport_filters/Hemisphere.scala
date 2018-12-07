@@ -14,7 +14,11 @@ case class Hemisphere(choice: HemisphereChoice) extends AirportFilter {
     * @return true ssi l'aéroport est sur le bon hémisphère, false sinon
     */
   override def accepts(candidate: Airport): Boolean = choice match {
-    case North && candidate.latitude > 0 | South && candidate.latitude < 0  => true
+      // Si on recherche les aéroports au nord, on retient ceux au dessus de l'equateur
+    case North => candidate.latitude >= 0
+      // Si on recherche les aéroports au sud, on retient ceux en dessous de l'equateur
+    case South => candidate.latitude <= 0
+      // Sinon, c'est une erreur ou un cas non traité
     case _ => false
   }
 }
