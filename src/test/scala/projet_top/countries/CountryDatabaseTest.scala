@@ -25,9 +25,9 @@ class CountryDatabaseGetByNameTest extends FlatSpec {
   behavior of "A CountryDatabase getCountryByName method"
 
   it should "throw an NSEE when looking for a non-existent name" in {
-    intercept[NoSuchElementException](
+    intercept[NoSuchElementException] {
       CountryDatabaseTestObjects.countryDatabase.getCountryByName("")
-    )
+    }
   }
 
   it should "return the correct country when looking for its name" in {
@@ -49,9 +49,9 @@ class CountryDatabaseApplyTest extends FlatSpec {
   behavior of "A CountryDatabase apply method"
 
   it should "throw an NSEE when looking for a non-existent name" in {
-    intercept[NoSuchElementException](
+    intercept[NoSuchElementException] {
       CountryDatabaseTestObjects.countryDatabase.apply("")
-    )
+    }
   }
 
   it should "return the correct country when looking for its name" in {
@@ -82,9 +82,9 @@ class CountryDatabaseContainsTest extends FlatSpec {
       surface = impossibleSurface
     )
 
-    intercept[RuntimeException](
+    intercept[RuntimeException] {
       CountryDatabaseTestObjects.countryDatabase.contains(to_search)
-    )
+    }
   }
 
   it should "return false when non-existent country is searched" in {
