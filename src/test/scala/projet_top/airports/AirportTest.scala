@@ -28,7 +28,7 @@ class AirportConstructorSpec extends FlatSpec {
     }
   }
 
-  it should "throw an IAE when instantiated with a latitude < -90" in {
+  it should "throw an IAE when instantiated with a latitude <= -90" in {
     intercept[IllegalArgumentException] {
       Airport(0, "TestAirport", "TestCity", "TestCountry", -98.0, 0.0)
     }
@@ -40,7 +40,7 @@ class AirportConstructorSpec extends FlatSpec {
     }
   }
 
-  it should "throw an IAE when instantiated with a longitude < -180" in {
+  it should "throw an IAE when instantiated with a longitude <= -180" in {
     intercept[IllegalArgumentException] {
       Airport(0, "TestAirport", "TestCity", "TestCountry", 0.0, -192.1)
     }
