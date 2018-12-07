@@ -31,9 +31,9 @@ class AirportDatabaseGetAirportByIdTest extends FlatSpec {
   behavior of "The AirportDatabase getAirportById method"
 
   it should "throw an NSEE when looking for a non-existent ID" in {
-    intercept[NoSuchElementException](
+    intercept[NoSuchElementException] {
       AirportDatabaseTestObjects.airportDatabase.getAirportById(-1)
-    )
+    }
   }
 
   it should "return the correct airport when looking for its ID" in {
@@ -54,9 +54,9 @@ class AirportDatabaseApplyTest extends FlatSpec {
   behavior of "The AirportDatabase apply method"
 
   it should "throw an NSEE when looking for a non-existent ID" in {
-    intercept[NoSuchElementException](
+    intercept[NoSuchElementException] {
       AirportDatabaseTestObjects.airportDatabase.apply(-1)
-    )
+    }
   }
 
   it should "return the correct airport when looking for its ID" in {
@@ -105,9 +105,9 @@ class AirportDatabaseContainsTest extends FlatSpec {
         longitude = reference.longitude
       )
 
-    intercept[RuntimeException](
+    intercept[RuntimeException] {
       AirportDatabaseTestObjects.airportDatabase.contains(to_search)
-    )
+    }
   }
 
   it should "return false when non-existent airport is searched" in {
