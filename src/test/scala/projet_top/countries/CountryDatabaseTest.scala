@@ -63,6 +63,21 @@ class CountryDatabaseApplyTest extends FlatSpec {
 //noinspection ScalaFileName
 class CountryDatabaseContainsTest extends FlatSpec {
 
+  "An countryDatabase" should "throw an RE when looking for a different country with same ID" in {
+    val impossibleSurface = 1000000000
+    val reference = CountryDatabaseTestObjects.countryList.head
+
+    val to_search = Country (
+      countryName = reference.countryName,
+      inhabitants = reference.inhabitants,
+      surface = impossibleSurface
+    )
+
+    intercept[RuntimeException](
+      CountryDatabaseTestObjects.countryDatabase.contains(to_search)
+    )
+  }
+
   "A countryDatabase" should "return false when non-existent country is searched" in {
     val to_search = Country (
       countryName = "name 0",
