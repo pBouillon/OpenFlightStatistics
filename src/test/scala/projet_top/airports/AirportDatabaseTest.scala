@@ -84,6 +84,24 @@ class AirportDatabaseToListTest extends FlatSpec {
 //noinspection ScalaFileName
 class AirportDatabaseContainsTest extends FlatSpec {
 
+  "An AirportDatabase" should "throw an RE when looking for a different airport with same ID" in {
+      val impossibleCity = "Gotham City"
+      val reference = AirportDatabaseTestObjects.airportList.head
+
+      val to_search = Airport (
+        airportId = reference.airportId,
+        name = reference.name,
+        city = impossibleCity,
+        countryName = reference.countryName,
+        latitude = reference.latitude,
+        longitude = reference.longitude
+      )
+
+    intercept[RuntimeException](
+      AirportDatabaseTestObjects.airportDatabase.contains(to_search)
+    )
+  }
+
   "An airportDatabase" should "return false when non-existent airport is searched" in {
     val to_search = Airport(
       airportId = 0,
