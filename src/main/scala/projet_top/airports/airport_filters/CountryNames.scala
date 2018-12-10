@@ -8,7 +8,6 @@ import projet_top.airports.Airport
   */
 case class CountryNames(countryNames: List[String]) extends AirportFilter {
   def accepts(candidate: Airport): Boolean = {
-    // TODO
-    false
+    countryNames.contains(candidate.countryName)
   }
 }
