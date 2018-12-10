@@ -43,7 +43,7 @@ trait AirportFilter {
 
 /**
   * Classe interne qui permet d'instancier un filtre à partir de la méthode accepts seulement.
-  * @param func futur méthode accepts pour le filtre qui sera créé
+  * @param func future méthode accepts pour le filtre qui sera créé
   */
 private case class CustomAirportFilter(func: Airport => Boolean) extends AirportFilter {
   override def accepts(candidate: Airport): Boolean = func(candidate)
