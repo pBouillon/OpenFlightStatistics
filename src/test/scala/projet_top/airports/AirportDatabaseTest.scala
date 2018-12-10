@@ -5,15 +5,15 @@ import org.scalatest.FlatSpec
 object AirportDatabaseTestObjects {
   val airportList: List[Airport] = Airport(
     airportId = 2,
-    name = "name 2",
-    city = "city 2",
+    airportName = "name 2",
+    cityName = "city 2",
     countryName = "country 2",
     latitude = .2,
     longitude = .2
   ) :: Airport(
     airportId = 1,
-    name = "name 1",
-    city = "city 1",
+    airportName = "name 1",
+    cityName = "city 1",
     countryName = "country 1",
     latitude = .1,
     longitude = .1
@@ -98,8 +98,8 @@ class AirportDatabaseContainsTest extends FlatSpec {
 
       val to_search = Airport (
         airportId = reference.airportId,
-        name = reference.name,
-        city = impossibleCity,
+        airportName = reference.airportName,
+        cityName = impossibleCity,
         countryName = reference.countryName,
         latitude = reference.latitude,
         longitude = reference.longitude
@@ -113,8 +113,8 @@ class AirportDatabaseContainsTest extends FlatSpec {
   it should "return false when non-existent airport is searched" in {
     val to_search = Airport(
       airportId = 0,
-      name = "name 0",
-      city = "city 0",
+      airportName = "name 0",
+      cityName = "city 0",
       countryName = "country 0",
       latitude = .0,
       longitude = .0
@@ -128,8 +128,8 @@ class AirportDatabaseContainsTest extends FlatSpec {
   it should "return false when non-existent airport is searched with its id" in {
     val to_search = Airport (
       airportId = 0,
-      name = "name 0",
-      city = "city 0",
+      airportName = "name 0",
+      cityName = "city 0",
       countryName = "country 0",
       latitude = .0,
       longitude = .0

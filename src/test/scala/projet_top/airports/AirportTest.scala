@@ -57,4 +57,3 @@ class AirportConstructorSpec extends FlatSpec {
     Airport(0, "TestAirport", "TestCity", "TestCountry", -34.123, 112.3)
   }
 }
-
