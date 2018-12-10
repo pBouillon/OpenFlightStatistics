@@ -4,6 +4,13 @@ import scala.collection.immutable
 import scala.math.{sqrt, pow}
 
 /**
+  * Objet compagnon de la classe AirportDistanceMap. Sert à contenir les méthodes et champs statiques.
+  */
+object AirportDistanceMap {
+  val EmptyMapSoNoValue = -1
+}
+
+/**
   * Classe qui représente une carte des distances entre les aéroports
   *
   * @param airportIdToAirport map airportId <=> objet Airport, qui contient les aéroports représentés
@@ -15,6 +22,7 @@ import scala.math.{sqrt, pow}
 class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airport],
                          private val airportIdsToDist: immutable.Map[(Int, Int), Double]) {
 
+
   private val airportToAirportId: immutable.Map[Airport, Int] =
     this.airportIdToAirport map { case (airportId, airport) => (airport, airportId) }
 
@@ -24,15 +32,15 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
   private val noDupSortedDistances = (noDupAirportRecords map
     { case ((airportId1, airportId2), distance) => distance }).toList
     .sortWith({ case (distance, distance2) => distance < distance2})
-
+  val isEmpty: Boolean = this.noDupLength == 0
 /**
-    * Retourne la distance qui sépare les deux aéroports les plus proches de la carte
+    * Retourne la distance qui sépares les deux aéroports les plus proches de la carte
     *
     * @return la distance qui sépare les deux aéroports les plus proches de la carte
     */
   def minDistance: Double = {
-    // TODO
-    0.0
+    // on prend la première valeur de la liste des distances rangées dans l'odre croissant
+    this.noDupSortedDistances.head
   }
 
   /**
@@ -41,8 +49,9 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     * @return la distance qui sépare les deux aéroports les plus éloignés de la carte
     */
   def maxDistance: Double = {
-    // TODO
-    0.0
+    // on prend la dernière valeur de la liste des distances rangées dans l'odre croissant
+
+    this.noDupSortedDistances.last
   }
 
   /**
@@ -51,8 +60,13 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     * @return la distance moyenne entre les aéroports de la carte
     */
   def avgDistance: Double = {
-    // TODO
-    0.0
+    // somme des distances de la liste sur la taille de la liste ce qui donne la moyenne
+    if (this.isEmpty) {
+      this.noDupSortedDistances.sum / this.noDupLength
+    } else {
+      AirportDistanceMap.EmptyMapSoNoValue
+    }
+
   }
 
   /**
