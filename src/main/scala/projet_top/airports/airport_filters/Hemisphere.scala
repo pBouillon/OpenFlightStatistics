@@ -17,8 +17,6 @@ case class Hemisphere(choice: HemisphereChoice) extends AirportFilter {
     case North => candidate.latitude >= 0
       // retient les aeroports au sud
     case South => candidate.latitude <= 0
-      // cas non traité / erreur
-    case _ => false
   }
 }
 
