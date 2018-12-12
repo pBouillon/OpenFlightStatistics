@@ -6,7 +6,7 @@
 )]() 
 [![](https://img.shields.io/badge/Git%20Master-%40pBouillon-green.svg?logo=gitlab&longCache=true&style=popout&colorB=fc6d26&link=https://gitlab.telecomnancy.univ-lorraine.fr/Projets_TOP/projet_top_a2&link=mailto:pierre.bouillon@telecomnancy.eu
 )]() 
-[![](https://img.shields.io/badge/Placeholder-%40noname-green.svg?logo=stackoverflow&longCache=true&style=popout&colorB=orange&link=https://gitlab.telecomnancy.univ-lorraine.fr/Projets_TOP/projet_top_a2&link=mailto:placeholder@telecomnancy.eu
+[![](https://img.shields.io/badge/UML%20Master-%40fVogt-green.svg?logo=buffer&longCache=true&style=popout&colorB=4285F4&logoColor=4285F4&link=https://gitlab.telecomnancy.univ-lorraine.fr/Projets_TOP/projet_top_a2&link=mailto:florian.vogt@telecomnancy.eu
 )]() 
 [![](https://img.shields.io/badge/Placeholder-%40noname-green.svg?logo=stackoverflow&longCache=true&style=popout&colorB=orange&link=https://gitlab.telecomnancy.univ-lorraine.fr/Projets_TOP/projet_top_a2&link=mailto:placeholder@telecomnancy.eu
 )]() 
