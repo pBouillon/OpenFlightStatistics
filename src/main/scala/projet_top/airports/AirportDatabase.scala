@@ -163,7 +163,9 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return la densité d'aéroports en fonction du champ extrait par la fonction againstWhat
     */
   def getDensityIn(country: Country, againstWhat: Country => Double): Double = {
-    // TODO
-    0.0
+    // récupère le nombre d'aéroport dans le pays ciblé
+    val nbAirportInCountry = this.airportIdToAirport.count(_._2.countryName == country.countryName)
+    // retourne la densité par rapport à la fonction extractrice
+    nbAirportInCountry / againstWhat(country)
   }
 }
