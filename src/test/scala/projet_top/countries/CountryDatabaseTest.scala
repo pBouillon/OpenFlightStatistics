@@ -22,7 +22,7 @@ object CountryDatabaseTestObjects {
 //noinspection ScalaFileName
 class CountryDatabaseGetByNameTest extends FlatSpec {
 
-  behavior of "A CountryDatabase getCountryByName method"
+  behavior of "The CountryDatabase getCountryByName method"
 
   it should "throw an NSEE when looking for a non-existent name" in {
     intercept[NoSuchElementException](
@@ -46,7 +46,7 @@ class CountryDatabaseGetByNameTest extends FlatSpec {
 //noinspection ScalaFileName
 class CountryDatabaseApplyTest extends FlatSpec {
 
-  behavior of "A CountryDatabase apply method"
+  behavior of "The CountryDatabase apply method"
 
   it should "throw an NSEE when looking for a non-existent name" in {
     intercept[NoSuchElementException](
@@ -70,7 +70,7 @@ class CountryDatabaseApplyTest extends FlatSpec {
 //noinspection ScalaFileName
 class CountryDatabaseContainsTest extends FlatSpec {
 
-  behavior of "A CountryDatabase contains method"
+  behavior of "The CountryDatabase contains method"
 
   it should "throw an RE when looking for a different country with same ID" in {
     val impossibleSurface = 1000000000
@@ -136,7 +136,7 @@ class CountryDatabaseContainsTest extends FlatSpec {
 //noinspection ScalaFileName
 class CountryDatabaseToListTest extends FlatSpec {
 
-  behavior of "A CountryDatabase toList method"
+  behavior of "The CountryDatabase toList method"
 
   it should "return a valid list of its countries" in {
     assert(CountryDatabaseTestObjects.countryDatabase.toList.sortBy(country => country.countryName)

@@ -22,4 +22,12 @@ trait HasCoordinates {
     -180 < this.longitude && this.longitude <= 180,
     "longitude must be in range ]-180, 180]°"
   )
+
+  /**
+    * Creates a point with the same coordinates as this object.
+    * @return a point with the same coordinates as this object
+    */
+  def toPoint: Point = {
+    Point(this.latitude, this.longitude)
+  }
 }

@@ -8,7 +8,7 @@ import projet_top.maps.{HasCoordinates, Point}
   */
 object Window {
   /**
-    * Case-constructeur pour la classe Window
+    * Case-constructeur pour la classe Window.
     * @param coordA premier objet possédant des coordonnées pour délimiter la fenêtre
     * @param coordB second objet possédant des coordonnées pour délimiter la fenêtre
     * @return l'instance du filtre Window correspondante
@@ -23,11 +23,11 @@ object Window {
   }
 
   /**
-    * Case-extracteur pour la classe Window
+    * Case-extracteur pour la classe Window.
     * @param window l'instance Window dont extraire les données
     * @return le coin inférieur gauche et supérieur droit délimitant la fenêtre
     */
-  def unapply(window: Window): Option[(Point, Point)] = Some(window.bottomLeft, window.topRight)
+  def unapply(window: Window): Option[(Point, Point)] = Some((window.bottomLeft, window.topRight))
 }
 
 /**
