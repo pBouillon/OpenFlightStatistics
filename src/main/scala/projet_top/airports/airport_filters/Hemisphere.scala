@@ -7,14 +7,16 @@ case object South extends HemisphereChoice
 
 case class Hemisphere(choice: HemisphereChoice) extends AirportFilter {
   /**
-    * Retourne true ssi le filtre "conserve" le candidat passé en paramètre.
+    * Ne conserve que les aéroports situés dans l'hémisphère choisi, équateur compris.
     *
     * @param candidate objet Airport à tester
-    * @return true ssi le filtre "conserve" le candidat passé en paramètre
+    * @return true ssi l'aéroport est sur le bon hémisphère, false sinon
     */
-  override def accepts(candidate: Airport): Boolean = {
-    // TODO
-    false
+  override def accepts(candidate: Airport): Boolean = this.choice match {
+      // retient les aéroports au nord
+    case North => candidate.latitude >= 0
+      // retient les aéroports au sud
+    case South => candidate.latitude <= 0
   }
 }
 
