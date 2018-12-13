@@ -25,10 +25,10 @@ object AirportDatabase {
     val reader = CSVReader.open(inputFile)
     reader.foreach(fields => {
       //noinspection ZeroIndexToHead
-      airports = new Airport(
+      airports = Airport(
         airportId = fields(0).toInt,
-        name = fields(1),
-        city = fields(2),
+        airportName = fields(1),
+        cityName = fields(2),
         countryName = fields(3),
         latitude = fields(6).toDouble,
         longitude = fields(7).toDouble
@@ -125,7 +125,6 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     */
   //noinspection ScalaUnusedSymbol
   def getSubset(airportFilter: AirportFilter = airport_filters.All): AirportDatabase = {
-    // TODO
     new AirportDatabase(
       this.airportIdToAirport filter { case (airportId, airport) => airportFilter.accepts(airport) }
     )
@@ -149,11 +148,7 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return la liste des objets Airport contenus dans l'AirportDatabase courante
     */
   def toList: List[Airport] = {
-    var airports: List[Airport] = Nil
-    this.airportIdToAirport.foreach {
-      case (_: Int, value: Airport) => airports = value :: airports
-    }
-    airports
+    this.airportIdToAirport.values.toList
   }
 
   /**
@@ -168,7 +163,9 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return la densité d'aéroports en fonction du champ extrait par la fonction againstWhat
     */
   def getDensityIn(country: Country, againstWhat: Country => Double): Double = {
-    // TODO
-    0.0
+    // récupère le nombre d'aéroport dans le pays ciblé
+    val nbAirportInCountry = this.airportIdToAirport.count(_._2.countryName == country.countryName)
+    // retourne la densité par rapport à la fonction extractrice
+    nbAirportInCountry / againstWhat(country)
   }
 }
