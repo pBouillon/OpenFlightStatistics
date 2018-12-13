@@ -1,0 +1,21 @@
+{
+  "name": "backmaps_provider",
+  "version": "0.1.0",
+  "description": "Custom backmaps",
+  "main": "index.js",
+  "scripts": {
+    "start": "node_modules/.bin/nodejs index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thomas BAGREL <thomas.bagrel@telecomnancy.eu>",
+  "license": "ISC",
+  "dependencies": {
+    "convert-svg-to-png": "^0.5.0",
+    "d3": "^5.7.0",
+    "express": "^4.16.4",
+    "fs": "0.0.1-security",
+    "jsdom": "^13.0.0",
+    "node-fetch-polyfill": "^2.0.6",
+    "nodejs": "0.0.0"
+  }
+}
