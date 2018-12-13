@@ -3,9 +3,9 @@ package projet_top.airports.airport_filters
 import projet_top.airports.Airport
 
 /**
-  * Interface pour les filtres d'aéroports
+  * Classe abstraite pour les filtres d'aéroports
   */
-trait AirportFilter {
+abstract class AirportFilter {
   /**
     * Retourne true ssi le filtre "conserve" le candidat passé en paramètre.
     * @param candidate objet Airport à tester

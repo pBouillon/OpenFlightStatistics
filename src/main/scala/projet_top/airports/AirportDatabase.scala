@@ -125,7 +125,6 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     */
   //noinspection ScalaUnusedSymbol
   def getSubset(airportFilter: AirportFilter = airport_filters.All): AirportDatabase = {
-    // TODO
     new AirportDatabase(
       this.airportIdToAirport filter { case (airportId, airport) => airportFilter.accepts(airport) }
     )
