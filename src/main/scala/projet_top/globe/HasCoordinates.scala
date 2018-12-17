@@ -1,26 +1,26 @@
 package projet_top.globe
 
 /**
-  * Pour un objet qui possède une latitude et une longitude
+  * Pour un objet qui possède une longitude et une longitude
   */
 trait HasCoordinates {
   /**
-    * Latitude en degrés. Doit être dans la plage ]-90, 90]°.
+    * Latitude en degrés. Doit être dans la plage [-90, 90[°.
     */
   val latitude: Double
 
   /**
-    * Longitude en degrés. Doit être dans la plage ]-180, 180]°.
+    * Longitude en degrés. Doit être dans la plage [-180, 180[°.
     */
   val longitude: Double
 
   require(
-    -90 < this.latitude && this.latitude <= 90,
-    "latitude must be in range ]-90, 90]°"
+    -90 <= this.latitude && this.latitude < 90,
+    "longitude must be in range [-90, 90[°"
   )
   require(
-    -180 < this.longitude && this.longitude <= 180,
-    "longitude must be in range ]-180, 180]°"
+    -180 <= this.longitude && this.longitude < 180,
+    "longitude must be in range [-180, 180[°"
   )
 
   /**

@@ -2,7 +2,7 @@ package projet_top.globe
 
 /**
   * Représente un point quelconque sur la carte.
-  * @param latitude latitude en degrés
+  * @param latitude longitude en degrés
   * @param longitude longitude en degrés
   */
 case class Point(latitude: Double, longitude: Double) extends HasCoordinates {

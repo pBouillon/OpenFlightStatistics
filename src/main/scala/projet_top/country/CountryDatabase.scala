@@ -124,8 +124,18 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     */
   override def toString: String = {
     "CountryDatabase [\n" +
-    s"    country       ${this.countryNameToCountry.size}\n" +
-    this.toList.map(country => "   " + country.toString).mkString("\n") +
+    s"    countries       ${this.countryNameToCountry.size}\n" +
     "\n]"
+  }
+
+  /**
+    * Aperçu de l'objet complet
+    * @return un aperçu de l'objet complet
+    */
+  def toStringFull: String = {
+    "CountryDatabase [\n" +
+      s"    countries       ${this.countryNameToCountry.size}\n" +
+      this.toList.map(country => "   " + country.toString).mkString("\n") +
+      "\n]"
   }
 }

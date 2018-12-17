@@ -170,13 +170,23 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
   }
 
   /**
-    * Aperçu de l'objet
+    * Aperçu de l'objet.
     * @return un aperçu de l'objet
     */
   override def toString: String = {
     "AirportDatabase [\n" +
-    s"    airport        ${this.airportIdToAirport.size}\n" +
-    this.toList.map(airport => "   " + airport.toString).mkString("\n") +
+    s"    airports        ${this.airportIdToAirport.size}\n" +
     "\n]"
+  }
+
+  /**
+    * Aperçu de l'objet complet.
+    * @return un aperçu de l'objet complet
+    */
+  def toStringFull: String = {
+    "AirportDatabase [\n" +
+      s"    airports        ${this.airportIdToAirport.size}\n" +
+      this.toList.map(airport => "   " + airport.toString).mkString("\n") +
+      "\n]"
   }
 }

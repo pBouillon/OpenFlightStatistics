@@ -31,7 +31,7 @@ case class Airport(airportId: Int, airportName: String, cityName: String, countr
     s"    airportName     ${this.airportName}\n" +
     s"    cityName        ${this.cityName}\n" +
     s"    countryName     ${this.countryName}\n" +
-    s"    latitude        ${this.latitude}\n" +
+    s"    longitude        ${this.latitude}\n" +
     s"    longitude       ${this.longitude}\n" +
     "]"
   }

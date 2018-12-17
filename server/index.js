@@ -119,9 +119,9 @@ async function serveMap (req, res) {
   const projection = notSet(req.query.proj) ?
     defaultProjection : req.query.proj
   const style = notSet(req.query.style) ?
-    defaultStyle : fromBase64(req.query.style) 
+    defaultStyle : fromBase64(req.query.style)
   const mapJsonDataUrl = notSet(req.query.dataurl) ?
-    defaultMapJsonDataUrl : fromBase64(req.query.data)
+    defaultMapJsonDataUrl : fromBase64(req.query.dataurl)
   const projectionMethod = projectionToMethod[projection]
   const svgMap = await createSVGMap(
     width, height, centerLongitude, centerLatitude, projectionMethod, style,
@@ -182,6 +182,6 @@ async function createSVGMap (
       return 'country' + d.properties.iso_a3
     })
     .attr('class', 'country')
-  
+
     return d3.select('body').html()
 }

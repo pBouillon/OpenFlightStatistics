@@ -21,12 +21,16 @@ case class MapCreator(projector: Projector, backmapProvider: BackmapProvider)(wi
   val image: BufferedImage = backmapProvider.provide(projector)(width)
   val brush: Graphics2D = this.image.createGraphics()
 
-  def plotObject(obj: HasCoordinates): Unit = {
-    // TODO
+  def plotObject(obj: HasCoordinates)(marker: Marker): Unit = {
+    val projected = this.projector.projects(obj)(this.width)
+    projected match {
+      case OutOfMap => Unit  // Do nothing
+      case OnMap(x, y) => marker(this.brush)(x, y)
+    }
   }
 
-
   def saveToFile(outputFile: File): Unit = {
+    this.brush.dispose()
     ImageIO.write(this.image, "png", outputFile)
   }
 }

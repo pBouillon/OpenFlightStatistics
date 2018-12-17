@@ -6,7 +6,7 @@ import projet_top.projection.ProjectedPoint
 
 abstract class Projector {
   /**
-    * Centre de la projection (latitude et longitude)
+    * Centre de la projection (longitude et longitude)
     */
   val center: Point
   /**
