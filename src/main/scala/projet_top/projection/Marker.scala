@@ -6,6 +6,7 @@ import java.awt.{BasicStroke, Color, Graphics2D, Shape}
 sealed abstract class Marker(color: Color, filling: Filling) {
   def shapeFactory(xCenter: Double, yCenter: Double): Shape
 
+  //noinspection RedundantBlock
   def apply(brush: Graphics2D)(x: Double, y: Double): Unit = {
 
     brush.setColor(this.color)

@@ -7,6 +7,7 @@ import projet_top.Utils.encodeBase64
 import projet_top.projection.projection_types.{EquiRectangular, Projection}
 import projet_top.projection.projectors.Projector
 
+//noinspection RedundantBlock
 class D3BackMapProvider(rawApiUrl: String, style: Option[String] = None, customMapJsonDataUrl: Option[String] = None) extends BackmapProvider {
   private[this] val apiUrl = if (rawApiUrl endsWith "/") { rawApiUrl } else { rawApiUrl + "/" }
 

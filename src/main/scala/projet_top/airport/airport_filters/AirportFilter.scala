@@ -2,6 +2,7 @@ package projet_top.airport.airport_filters
 
 import projet_top.airport.Airport
 
+//noinspection RedundantBlock
 object AirportFilter {
   /**
     * Wrap la représentation de la contrainte d'un filtre avec du texte.
