@@ -7,7 +7,7 @@ class Airport {
 	+ countryName : String
 	+ latitude : Double
 	+ longitude : Double
-	+ Airport(Int airportId, String name, String city, String countryName, Double longitude, Double longitude)
+	+ Airport(Int airportId, String name, String city, String countryName, Double latitude, Double longitude)
 	+ {static} distance(Airport airportA, Airport airportB) : Double
 }
 
