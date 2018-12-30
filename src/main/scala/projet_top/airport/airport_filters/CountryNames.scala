@@ -12,10 +12,10 @@ case class CountryNames(countryNames: List[String]) extends AirportFilter {
     * si le candidat est dans un des pays de la liste countryNames.
     * @param candidate objet Airport à tester
     * @return true ssi le filtre "conserve" le candidat passé en paramètre
+    * vérifie si le pays choisit est dans la liste des pays
     */
   def accepts(candidate: Airport): Boolean = {
-    // TODO
-    false
+    countryNames.contains(candidate.countryName)
   }
 
   /**
