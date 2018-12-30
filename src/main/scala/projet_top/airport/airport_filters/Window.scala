@@ -1,14 +1,14 @@
-package projet_top.airports.airport_filters
+package projet_top.airport.airport_filters
 
-import projet_top.airports.Airport
-import projet_top.maps.{HasCoordinates, Point}
+import projet_top.airport.Airport
+import projet_top.globe.{HasCoordinates, Point}
 
 /**
   * Objet compagnon de la classe Window. Contient les méthodes statiques
   */
 object Window {
   /**
-    * Case-constructeur pour la classe Window
+    * Case-constructeur pour la classe Window.
     * @param coordA premier objet possédant des coordonnées pour délimiter la fenêtre
     * @param coordB second objet possédant des coordonnées pour délimiter la fenêtre
     * @return l'instance du filtre Window correspondante
@@ -23,11 +23,11 @@ object Window {
   }
 
   /**
-    * Case-extracteur pour la classe Window
+    * Case-extracteur pour la classe Window.
     * @param window l'instance Window dont extraire les données
     * @return le coin inférieur gauche et supérieur droit délimitant la fenêtre
     */
-  def unapply(window: Window): Option[(Point, Point)] = Some(window.bottomLeft, window.topRight)
+  def unapply(window: Window): Option[(Point, Point)] = Some((window.bottomLeft, window.topRight))
 }
 
 /**
@@ -45,5 +45,13 @@ class Window private (val bottomLeft: Point, val topRight: Point) extends Airpor
   override def accepts(candidate: Airport): Boolean = {
     this.bottomLeft.latitude <= candidate.latitude && candidate.latitude <= this.topRight.latitude &&
     this.bottomLeft.longitude <= candidate.longitude && candidate.longitude <= this.topRight.longitude
+  }
+
+  /**
+    * Retourne une représentation de la contrainte du filtre.
+    * @return une représentation de la contrainte du filtre
+    */
+  override def constraintsRepr: String = {
+    s"airport in Window(${this.bottomLeft}, ${this.topRight})"
   }
 }

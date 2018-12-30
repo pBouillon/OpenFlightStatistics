@@ -1,4 +1,4 @@
-package projet_top.airports
+package projet_top.airport
 
 import org.scalatest.FlatSpec
 
@@ -28,13 +28,13 @@ class AirportConstructorSpec extends FlatSpec {
     }
   }
 
-  it should "throw an IAE when instantiated with a latitude < -90" in {
+  it should "throw an IAE when instantiated with a longitude < -90" in {
     intercept[IllegalArgumentException] {
       Airport(0, "TestAirport", "TestCity", "TestCountry", -98.0, 0.0)
     }
   }
 
-  it should "throw an IAE when instantiated with a latitude > 90" in {
+  it should "throw an IAE when instantiated with a longitude >= 90" in {
     intercept[IllegalArgumentException] {
       Airport(0, "TestAirport", "TestCity", "TestCountry", 198.0, 0.0)
     }
@@ -46,14 +46,14 @@ class AirportConstructorSpec extends FlatSpec {
     }
   }
 
-  it should "throw an IAE when instantiated with a longitude > 180" in {
+  it should "throw an IAE when instantiated with a longitude >= 180" in {
     intercept[IllegalArgumentException] {
       Airport(0, "TestAirport", "TestCity", "TestCountry", 0.0, 212.3)
     }
   }
 
   it should "not throw any exception when instantiated with a non-empty airport name, a non-empty city name, " +
-    "a non-empty country name, and a valid latitude and longitude" in {
+    "a non-empty country name, and a valid longitude and longitude" in {
     Airport(0, "TestAirport", "TestCity", "TestCountry", -34.123, 112.3)
   }
 }

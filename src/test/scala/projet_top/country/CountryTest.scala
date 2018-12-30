@@ -1,4 +1,4 @@
-package projet_top.countries
+package projet_top.country
 
 import org.scalatest.FlatSpec
 

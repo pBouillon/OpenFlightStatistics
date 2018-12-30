@@ -7,7 +7,7 @@ class Airport {
 	+ countryName : String
 	+ latitude : Double
 	+ longitude : Double
-	+ Airport(Int airportId, String name, String city, String countryName, Double latitude, Double longitude) 
+	+ Airport(Int airportId, String name, String city, String countryName, Double latitude, Double longitude)
 	+ {static} distance(Airport airportA, Airport airportB) : Double
 }
 
@@ -72,7 +72,7 @@ interface AirportFilter {
 class CountryNames{
 	{field} + countryNames: List[String]
 	+ accepts(Airport candidate) : Boolean
-	+ CountryNames(List[String] countryNames) 
+	+ CountryNames(List[String] countryNames)
 }
 
 class All << (S,#FF7700) Singleton >> {

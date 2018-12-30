@@ -1,4 +1,4 @@
-package projet_top.airports
+package projet_top.airport
 
 import org.scalatest.FlatSpec
 
@@ -76,7 +76,7 @@ class AirportDatabaseToListTest extends FlatSpec {
 
   behavior of "The AirportDatabase toList method"
 
-  it should "return a valid list of its airports" in {
+  it should "return a valid list of its airport" in {
     assert(AirportDatabaseTestObjects.airportDatabase.toList.sortBy(airport => airport.airportId)
       == AirportDatabaseTestObjects.airportList.sortBy(airport => airport.airportId))
   }

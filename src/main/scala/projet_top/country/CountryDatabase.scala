@@ -1,4 +1,4 @@
-package projet_top.countries
+package projet_top.country
 
 import java.io.File
 
@@ -116,5 +116,26 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     */
   def toList: List[Country] = {
     this.countryNameToCountry.values.toList
+  }
+
+  /**
+    * Aperçu de l'objet
+    * @return un aperçu de l'objet
+    */
+  override def toString: String = {
+    "CountryDatabase [\n" +
+    s"    countries       ${this.countryNameToCountry.size}\n" +
+    "\n]"
+  }
+
+  /**
+    * Aperçu de l'objet complet
+    * @return un aperçu de l'objet complet
+    */
+  def toStringFull: String = {
+    "CountryDatabase [\n" +
+      s"    countries       ${this.countryNameToCountry.size}\n" +
+      this.toList.map(country => "   " + country.toString).mkString("\n") +
+      "\n]"
   }
 }

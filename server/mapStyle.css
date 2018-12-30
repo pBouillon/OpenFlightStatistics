@@ -1,0 +1,8 @@
+body {
+  background-color: #ffffff;
+}
+.country{
+  fill: #ffffff;   /* country colour */
+  stroke: #000000; /* country border colour */
+  stroke-width: 1; /* country border width */
+}

@@ -1,4 +1,4 @@
-package projet_top.maps
+package projet_top.globe
 
 import scala.math.{acos, cos, sin, toRadians}
 
@@ -7,6 +7,9 @@ import scala.math.{acos, cos, sin, toRadians}
   */
 object Utils {
   // https://fr.wikipedia.org/wiki/Rayon_de_la_Terre
+  /**
+    * Rayon de la terre en km.
+    */
   val EarthRadius: Double = 6371.009
 
   /**
