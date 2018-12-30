@@ -1,7 +1,9 @@
 package projet_top.airport
 
+import projet_top.globe.Utils.distance
+
 import scala.collection.immutable
-import scala.math.{sqrt, pow}
+import scala.math.{pow, sqrt}
 
 /**
   * Objet compagnon de la classe AirportDistanceMap. Sert à contenir les méthodes et champs statiques.
@@ -13,27 +15,17 @@ object AirportDistanceMap {
 /**
   * Classe qui représente une carte des distances entre les aéroports
   *
-  * @param airportIdToAirport map airportId <=> objet Airport, qui contient les aéroports représentés
-  *                           dans la carte des distances
-  * @param airportIdsToDistance map (airportId1, airportId2) <=> distance qui contient des distances entre
-  * les aéroports, indentifiés par leur airportId. Seules les clés (id1, id2) avec id2 > id1 doivent être présentes
+  * @param airportDatabase base d'aéroports à partir de laquelle créer la carte
+  *                        des distances
   */
 //noinspection RedundantBlock,ScalaUnusedSymbol
-class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airport],
-                         private val airportIdsToDistance: immutable.Map[(Int, Int), Double]) {
+class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
 
-  require(
-    this.airportIdsToDistance forall { case ((airportId1, airportId2), distance) => airportId1 < airportId2 },
-    "IDs in the airportIdsToDistance map should respect airportId1 < airportId2"
-  )
-
-  require(
-    this.airportIdsToDistance forall {
-      case ((airportId1, airportId2), distance) =>
-        this.airportIdToAirport.contains(airportId1) && this.airportIdToAirport.contains(airportId2)
-    },
-    "IDs indexing the airportIdsToDistance map should all be present in the airportIdToAirport map"
-  )
+  private val airportIdToAirport: Map[Int, Airport] = this.airportDatabase.airportIdToAirport
+  private val airportIdsToDistance: Map[(Int, Int), Double] =
+    for ((airportId1, airport1) <- this.airportIdToAirport;
+         (airportId2, airport2) <- this.airportIdToAirport if airportId1 < airportId2)
+    yield { (airportId1, airportId2) -> distance(airport1, airport2) }
 
   /**
     * Inverse de la map airportIdToAirport, utilisée par apply(Airport, Airport)
@@ -127,12 +119,13 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
     * @return la distance entre les deux
     */
   def getDistanceBetween(airportIdA: Int)(airportIdB: Int): Double = {
-    if (!this.airportIdsToDistance.contains((airportIdA, airportIdB))) {
+    val (airportId1, airportId2) = (airportIdA min airportIdB, airportIdA max airportIdB)
+    if (!this.airportIdsToDistance.contains((airportId1, airportId2))) {
       throw new NoSuchElementException(
-        s"Distance between airport with IDs ${airportIdA} and ${airportIdB} is not present in the map"
+        s"Distance between airport with IDs ${airportId1} and ${airportId2} is not present in the map"
       )
     }
-    this.airportIdsToDistance((airportIdA, airportIdB))
+    this.airportIdsToDistance(airportId1, airportId2)
   }
 
   /**
@@ -163,10 +156,7 @@ class AirportDistanceMap(private val airportIdToAirport: immutable.Map[Int, Airp
         "The second airport specified is not present in the map"
       )
     }
-    this.airportIdsToDistance(
-      this.airportToAirportId(airportA),
-      this.airportToAirportId(airportB)
-    )
+    this.getDistanceBetween(this.airportToAirportId(airportA))(this.airportToAirportId(airportB))
   }
 
   /**
