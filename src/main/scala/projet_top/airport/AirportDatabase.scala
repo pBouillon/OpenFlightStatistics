@@ -3,10 +3,10 @@ package projet_top.airport
 import java.io._
 
 import com.github.tototoshi.csv.CSVReader
-
-import scala.collection.immutable
 import projet_top.airport.airport_filters.AirportFilter
 import projet_top.country.Country
+
+import scala.collection.immutable
 
 
 /**
@@ -58,7 +58,7 @@ object AirportDatabase {
   *
   * @param airportIdToAirport Map airportID <=> objets Airport contenants les données des aéroports
   */
-class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int, Airport]) {
+class AirportDatabase private (val airportIdToAirport: immutable.Map[Int, Airport]) {
   /**
     * Retourne l'objet Airport correspondant à l'ID choisi, et lève une exception si
     * cet ID n'est pas dans la base de données.
@@ -138,8 +138,7 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     *         de l'AirportDatabase courante
     */
   def getDistanceMap: AirportDistanceMap = {
-    // TODO
-    new AirportDistanceMap(Map(), Map())
+    new AirportDistanceMap(this)
   }
 
   /**
