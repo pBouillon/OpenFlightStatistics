@@ -50,7 +50,11 @@ class D3BackMapProvider(rawApiUrl: String, style: Option[String] = None, customM
       case _: EquiRectangularProjector | _: EquiRectangularLat0Projector => "equirectangular"
       case _ => throw new UnsupportedOperationException(s"Projector ${projector.name} cannot be used with this provider")
     }
-    var request = s"?width=${width}&height=${height}&lat=${centerLatitude}&long=${centerLongitude}&proj=${projectionMethodStr}"
+    val effectiveCenterLatitude = projector match {
+      case _: EquiRectangularLat0Projector => 0.0
+      case _ => centerLatitude
+    }
+    var request = s"?width=${width}&height=${height}&lat=${effectiveCenterLatitude}&long=${centerLongitude}&proj=${projectionMethodStr}"
     if (this.style.isDefined) {
       val styleB64 = encodeBase64(this.style.get)
       request += s"&style=${styleB64}"
