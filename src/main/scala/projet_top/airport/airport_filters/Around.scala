@@ -49,6 +49,6 @@ class Around private (val center: Point, val radius: Double) extends AirportFilt
     * @return une représentation de la contrainte du filtre
     */
   override def constraintsRepr: String = {
-    s"airport in Circle(${this.center}, ${this.radius})"
+    s"airport in Circle(${this.center}, ${this.radius} km)"
   }
 }
