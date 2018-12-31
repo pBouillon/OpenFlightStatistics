@@ -11,6 +11,6 @@ case class Point(latitude: Double, longitude: Double) extends HasCoordinates {
     * @return un aperçu de l'objet
     */
   override def toString: String = {
-    s"(lat: ${this.latitude}, long: ${this.longitude})"
+    s"<lat: ${this.latitude}, long: ${this.longitude}>"
   }
 }

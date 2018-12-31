@@ -9,15 +9,15 @@ sealed trait HemisphereChoice
 /**
   * Hémisphère Nord.
   */
-case object North extends HemisphereChoice {
-  override def toString: String = "North"
+case object Northern extends HemisphereChoice {
+  override def toString: String = "Northern"
 }
 
 /**
   * Hémisphère Sud.
   */
-case object South extends HemisphereChoice {
-  override def toString: String = "South"
+case object Southern extends HemisphereChoice {
+  override def toString: String = "Southern"
 }
 
 case class Hemisphere(choice: HemisphereChoice) extends AirportFilter {
@@ -29,9 +29,9 @@ case class Hemisphere(choice: HemisphereChoice) extends AirportFilter {
     */
   override def accepts(candidate: Airport): Boolean = this.choice match {
       // retient les aéroports au nord
-    case North => candidate.latitude >= 0
+    case Northern => candidate.latitude >= 0
       // retient les aéroports au sud
-    case South => candidate.latitude <= 0
+    case Southern => candidate.latitude <= 0
   }
 
   /**
@@ -39,7 +39,7 @@ case class Hemisphere(choice: HemisphereChoice) extends AirportFilter {
     * @return une représentation de la contrainte du filtre
     */
   override def constraintsRepr: String = {
-    s"airport in hemisphere ${this.choice}"
+    s"airport in ${this.choice} hemisphere"
   }
 }
 
