@@ -14,4 +14,11 @@ object Utils {
   def encodeBase64(data: String): String = {
     Base64.getEncoder.encodeToString(data.getBytes("ASCII"))
   }
+
+  def rightPad(string: String, length: Int): String = {
+    if (string.length > length) throw new IllegalArgumentException(
+      s"String length (${ string.length }) > specified length (${ length })!"
+    )
+    string + (" " * (length - string.length))
+  }
 }
