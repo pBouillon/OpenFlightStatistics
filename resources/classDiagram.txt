@@ -4,11 +4,12 @@ class Airport {
 	+ airportId : Int
 	+ name : String
 	+ city : String
+	+ airportName : String
+	+ cityName : String
 	+ countryName : String
 	+ latitude : Double
 	+ longitude : Double
 	+ Airport(Int airportId, String name, String city, String countryName, Double latitude, Double longitude)
-	+ {static} distance(Airport airportA, Airport airportB) : Double
 }
 
 class AirportDatabase {
@@ -27,19 +28,23 @@ class AirportDatabase {
 }
 
 class AirportDistanceMap {
+	{field} - airportDatabase : AirportDatabase
 	{field} - airportIdToAirport : Map[Int, Airport)]
 	{field} - airportIdsToDist : Map[[Int, Int], Double]
 	{field} - noDupAirportRecords : Map[[Int, Int], Double]
-	{field} - noDupSortedDistances : List[Double]
+	{field} - sortedDistances : List[Double]
 	{field} - noDupLength: Int
-	+ AirportDistanceMap(Map[Int, Airport] airportIdToAirport, Map[[Int, Int], Double] airportIdsToDist)
-	+ minDistance() : Double
-	+ maxDistance() : Double
-	+ avgDistance() : Double
-	+ medianDistance() : Double
-	+ stdDev() : Double
+	{field} - containsPair : Boolean
+	{field} + minDistance : Double
+	{field} + maxDistance : Double
+	{field} + avgDistance : Double
+	{field} + medianDistance : Double
+	{field} + stdDev : Double
+	+ AirportDistanceMap(AirportDatabase)
 	+ apply(Int airportIdA, Int airportIdB) : Double
 	+ apply (Airport airportA, Airport airportB) : Double
+	+ getDistanceBetween(Airport, Airport) : Double
+	+ toString() : String
 }
 
 class Country {
@@ -47,6 +52,7 @@ class Country {
 	+ inhabitants : Long
 	+ surface : Double
 	+ Country(String countryName, Long inhabitants, Double surface)
+	+ toString() : String
 }
 
 class CountryDatabase {
@@ -59,9 +65,12 @@ class CountryDatabase {
 	+ contains(String countryName) : Boolean
 	+ contains(Country country) : Boolean
 	+ toList() : List[Country]
+	+ toString() : String
+	+ toStringFull() : String
 }
 
-interface AirportFilter {
+abstract class AirportFilter {
+	+ {static} fancyWrap(constraintsRepr string) : String
 	+ accepts(Airport candidate) : Boolean
 	+ rejects(Airport candidate) : Boolean
 	+ unary_!() : AirportFilter
@@ -71,24 +80,164 @@ interface AirportFilter {
 
 class CountryNames{
 	{field} + countryNames: List[String]
+	+ {static} apply(HasCoordinates center, Double radius) : Around
 	+ accepts(Airport candidate) : Boolean
 	+ CountryNames(List[String] countryNames)
+	+ constraintsRepr() : String
 }
 
 class All << (S,#FF7700) Singleton >> {
 	+ accepts(Airport candidate) : Boolean
+	+ constraintsRepr() : String
 }
 
 enum HemisphereChoice {
-	NORTH
-	SOUTH
+	Northern
+	Southern
 }
 
 class Hemisphere {
 	+ Hemisphere(HemisphereChoice choice)
+	+ constraintsRepr() : String
 }
 
+interface HasCoordinates {
+	+ longitude : Double
+	+ latitude : Double
+	+ toPoint() : Point
+}
 
+class Point {
+	+ Point (latitude, longitude)
+	+ toString() : String
+}
+
+class Utils << (S,#FF7700) Singleton >> {
+	+ EarthRadius : Double
+	+ distance (HasCoordinates, HasCoordinates) : Double
+}
+
+class Around {
+	{field} - countryNameToCountry : Map[String, Country]
+	+ {static} apply(HasCoordinates center, Double radius) : Around
+	+ {static} unapply(Around around) : Point | Double
+	- Around(Point center, Double radius)
+	+ accepts(Airport candidate) : Boolean
+	+ constraintsRepr() : String
+}
+
+class Window {
+	{field} - countryNameToCountry : Map[String, Country]
+	+ {static} apply(HasCoordinates coordA, HasCoordinates coordB) : Window
+	+ {static} unapply(Around around) : Point
+	- Window(Point bottomLeft, Point topRight)
+	+ accepts(Airport candidate) : Boolean
+	+ constraintsRepr() : String
+}
+
+abstract class BackMapProvider {
+	+ provide(Projector projector, Int width) : BufferedImage
+}
+
+class D3BackMapProvider {
+	+ apiUrl : String
+	+ D3BackMapProvider(String rawApiUrl, String, String customMapJsonDataUrl)
+	+ provide(Projector, Int) : BufferedImage
+	+ requestBuilder(Int width, Int height, Double centerLatitude, Double centerLongitude, Projector projector)
+}
+
+abstract class Projector {
+	+ center : Point
+	+ name : String
+	+ description : String
+	+ ratioWidthHeight : Double
+	+ toString() : String
+	+ projects(HasCoordinates, Int) : ProjectedPoint
+}
+
+class EquiRectangularProjector {
+	+ rotator : function
+	+ EquiRectangularProjector(HasCoordinates centerRaw)
+}
+
+interface Filling {
+
+}
+
+class Filled {
+
+}
+
+class Outline {
+	+ Outline(width float)
+}
+
+abstract class Marker {
+	+ color : Color
+	+ filling : Filling
+	+ shapeFactory (Double x, Double y) : Shape
+	+ putAt (Graphics2D brush, Double x, Double y)
+}
+
+class Rectangle {
+	+ Rectangle (Color, Filling, Double width, Double height)
+	+ shapeFactory(Double xC, double yC) : Shape
+}
+
+class Round {
+	+ Round (Color, Filling, Double radius)
+	+ shapeFactory(Double xC, double yC) : Shape
+}
+
+class MapCreator {
+	+ image : BufferedImage
+	+ brush : Graphics2D
+	+ MapCreator(Projector proj, BackMapProvider bmp, Int width)
+	+ plotObject(HasCoordinates, Marker)
+	+ saveToFile(outputFile File)
+}
+
+abstract class ProjectedPoint {
+
+}
+class OutOfMap {
+	+ toString() : String
+}
+class OnMap {
+	+ OnMap(Double x, Double y)
+	+ toString() : String
+}
+
+ProjectedPoint <|-- OutOfMap
+ProjectedPoint <|-- OnMap
+
+MapCreator ..> Marker
+MapCreator ..> HasCoordinates
+MapCreator ..> Projector
+MapCreator ..> BackMapProvider
+
+Marker ..> Filling
+Marker <|-- Round
+Marker <|-- Rectangle
+
+Filling <|-- Outline
+Filling <|-- Filled
+
+Projector <|-- EquiRectangularProjector
+Projector ..> ProjectedPoint
+
+BackMapProvider <|-- D3BackMapProvider
+BackMapProvider ..> Projector
+
+HasCoordinates <|-- Airport
+HasCoordinates <|-- Point
+
+Utils ..> HasCoordinates
+Window ..> HasCoordinates
+Around ..> HasCoordinates
+
+AirportFilter <|-- Around
+AirportFilter <|-- Window
 AirportFilter <|-- All
 AirportFilter <|-- CountryNames
 AirportFilter <|-- Hemisphere
@@ -96,11 +245,14 @@ Hemisphere ..> HemisphereChoice
 
 Airport o-- AirportDatabase
 Airport o-- AirportDistanceMap
+Airport o-- AirportFilter
+
+AirportDatabase o-- AirportDistanceMap
+
 AirportDatabase ..> AirportDistanceMap
 AirportDatabase ..> AirportFilter
 AirportDatabase ..> Country
 
 Country o-- CountryDatabase
-Airport o-- AirportFilter
 
 @enduml
