@@ -6,6 +6,8 @@ import com.github.tototoshi.csv.CSVReader
 
 import scala.collection.immutable
 
+import projet_top.Utils.prefixLinesWith
+
 /**
   * Objet compagnon de la classe CountryDatabase. Contient les champs et méthodes statiques
   */
@@ -134,8 +136,8 @@ class CountryDatabase private (val countryNameToCountry: immutable.Map[String, C
     */
   def toStringFull: String = {
     "CountryDatabase [\n" +
-      s"    countries       ${this.countryNameToCountry.size}\n" +
-      this.toList.map(country => "   " + country.toString).mkString("\n") +
+      s"    countries       ${this.countryNameToCountry.size}\n\n" +
+      prefixLinesWith(this.toList.sortBy(_.countryName).map(_.toString).mkString(",\n"), "    ") +
       "\n]"
   }
 }
