@@ -2,9 +2,8 @@ package projet_top.cli
 
 import java.io.File
 
-import projet_top.airport.AirportDatabase
 import projet_top.airport.airport_filters.{CountryNames, Hemisphere, Northern}
-import projet_top.cli.Cli.{base, defaultCountriesSources}
+import projet_top.cli.Cli.defaultCountriesSources
 import projet_top.country.CountryDatabase
 import projet_top.globe.Utils
 
