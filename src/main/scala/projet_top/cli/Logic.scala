@@ -37,19 +37,23 @@ object Logic {
     val secondAirport = Cli.base.toList(1)
 
     println(
-      s"Les aéroports utilisés pour la distance seront ceux " +
+      s"    Les aéroports utilisés pour la distance seront ceux " +
         s"d'ID ${firstAirport.airportId} et ${secondAirport.airportId}"
     )
 
-    println("Evaluation de la distance ...")
+    println("    Evaluation de la distance ...")
     val distance = Utils.distance(firstAirport, secondAirport)
-    //noinspection RedundantBlock
-    println(s"La distance entre ces deux aéroports est de: ${distance} km.\n")
+    println("    Evaluation effectuée.\n")
 
-    println("Génération de la DistanceMap ...")
+    //noinspection RedundantBlock
+    println(s"    La distance entre ces deux aéroports est de: ${distance} km.\n")
+
+    println("    Génération de la DistanceMap ...")
     val matrice = Cli.base.getDistanceMap
+    println("    Génération terminée ...\n")
+
     //noinspection SpellCheckingInspection,RedundantBlock
-    println(s"DistanceMap résultante: \n${matrice}")
+    println(s"    DistanceMap résultante: \n    - ${matrice}")
 
     println()
   }
@@ -57,10 +61,40 @@ object Logic {
   /**
     * Implémentation avec affichage de la question 3
     */
+  //noinspection RedundantBlock
   def questionThree(): Unit = {
     println("    +-----------")
     println("    | Question 3: calcul des statistiques descriptives des aéroports\n")
-    // TODO
+
+    //noinspection ZeroIndexToHead
+    val firstAirport = Cli.base.toList(0)
+    val secondAirport = Cli.base.toList(1)
+
+    println(
+      s"Les aéroports utilisés pour la distance seront ceux " +
+        s"d'ID ${firstAirport.airportId} et ${secondAirport.airportId}"
+    )
+
+    println("    Génération de la DistanceMap ...")
+    val matrice = Cli.base.getDistanceMap
+    //noinspection SpellCheckingInspection
+    println("    Génération terminée.\n")
+
+    println("    Calculs des propriétés ...")
+    val distMin = matrice.minDistance
+    val distMax = matrice.maxDistance
+    val distAvg = matrice.avgDistance
+    val distMed = matrice.medianDistance
+    val distStd = matrice.stdDev
+    println("    Calculs effectués.\n")
+
+    println(s"    - Distance minimale: ${distMin}")
+    println(s"    - Distance maximale: ${distMax}")
+    println(s"    - Distance moyenne: ${distAvg}")
+    println(s"    - Distance médiane: ${distMed}")
+    println(s"    - Ecart-type: ${distStd}")
+
+    println()
   }
 
   /**

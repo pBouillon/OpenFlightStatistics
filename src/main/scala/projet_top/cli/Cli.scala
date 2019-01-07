@@ -2,7 +2,7 @@ package projet_top.cli
 
 import java.io.File
 
-import projet_top.airport.AirportDatabase
+import projet_top.airport.{AirportDatabase, AirportDistanceMap}
 
 object Cli {
 
