@@ -1,6 +1,34 @@
 package projet_top.cli
 
+import java.io.File
+
+import projet_top.airport.AirportDatabase
+
 object Cli {
+
+  val default_sources = "resources/airports.csv"
+
+  var base: AirportDatabase = _
+
+  /**
+    *
+    */
+  def load_csv(): Unit = {
+    println("Voulez vous charger le fichier d'aéroports par défaut ? (Y/N): ")
+
+    if (scala.io.StdIn.readLine() == "Y") {
+      base = AirportDatabase.loadFromCSV(new File(default_sources))
+    }
+    else {
+      print("Entrer le chemin vers le fichier CSV: ")
+      val file = scala.io.StdIn.readLine()
+
+      println("Chargement ...")
+      base = AirportDatabase.loadFromCSV(new File(file))
+    }
+    println("Chargement effectué !")
+  }
+
   /**
     * Traitement et execution de la commande utilisateur
     *
@@ -36,6 +64,9 @@ object Cli {
   def launchCli(): Unit = {
     // affiche l'en tête du projet
     println(CliData.header)
+
+    // charge une base
+    load_csv()
 
     // affiche le menu des commandes
     println(CliData.helper)
