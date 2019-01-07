@@ -2,14 +2,19 @@ package projet_top.cli
 
 import java.io.File
 
-import projet_top.airport.{AirportDatabase, AirportDistanceMap}
+import projet_top.airport.AirportDatabase
 
 object Cli {
 
   /**
     * chemin vers le fichier .csv par défaut des aéroports
     */
-  val default_sources = "resources/lightAirports.csv"
+  val defaultAirportsSources = "resources/lightAirports.csv"
+
+  /**
+    * chemin vers le fichier .csv par défaut des pays
+    */
+  val defaultCountriesSources = "resources/countries.csv"
 
   /**
     * AirportDatabase utilisée par le CLI
@@ -24,7 +29,7 @@ object Cli {
 
     if (scala.io.StdIn.readLine() == Option.Ok) {
       println("Chargement ...")
-      base = AirportDatabase.loadFromCSV(new File(default_sources))
+      base = AirportDatabase.loadFromCSV(new File(defaultAirportsSources))
     }
     else {
       print("Entrer le chemin vers le fichier CSV: ")

@@ -20,6 +20,7 @@ object CountryDatabase {
     var countries: List[Country] = Nil
 
     val reader = CSVReader.open(inputFile)
+
     reader.foreach(fields => {
       //noinspection ZeroIndexToHead
       countries = Country(

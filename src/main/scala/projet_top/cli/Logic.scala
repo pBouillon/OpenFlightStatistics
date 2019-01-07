@@ -1,6 +1,11 @@
 package projet_top.cli
 
+import java.io.File
+
+import projet_top.airport.AirportDatabase
 import projet_top.airport.airport_filters.{CountryNames, Hemisphere, Northern}
+import projet_top.cli.Cli.{base, defaultCountriesSources}
+import projet_top.country.CountryDatabase
 import projet_top.globe.Utils
 
 object Logic {
@@ -9,8 +14,6 @@ object Logic {
     * Implémentation avec affichage de la question 1
     */
   def questionOne(): Unit = {
-    var file = ""
-
     println("    +-----------")
     println("    | Question 1: chargement d'un fichier CSV\n")
 
@@ -125,10 +128,36 @@ object Logic {
   /**
     * Implémentation avec affichage de la question 5
     */
+  //noinspection RedundantBlock
   def questionFive(): Unit = {
     println("    +-----------")
     println("    | Question 5: calcul de la densité d'aéroports par rapport à la superficie d'un pays\n")
-    // TODO
+
+    var countryBase: CountryDatabase = null
+
+    print(s"    Voulez vous charger le fichier de pays par défaut ? (${Option.Ok}/${Option.No}): ")
+    if (scala.io.StdIn.readLine() == Option.Ok) {
+      println("    Chargement ...")
+      countryBase = CountryDatabase.loadFromCSV(new File(defaultCountriesSources))
+    }
+    else {
+      print("    Entrer le chemin vers le fichier CSV: ")
+      val file = scala.io.StdIn.readLine()
+
+      println("    Chargement ...")
+      countryBase = CountryDatabase.loadFromCSV(new File(file))
+    }
+    println("    Chargement effectué !\n")
+
+    println("    Pour ces tests, nous calculerons la densité par rapport pour le Canada.\n")
+
+    println("    Calcul de densité ...")
+    val density = Cli.base.getDensityIn(countryBase.getCountryByName("Canada"), _.inhabitants)
+    println("    Calcul effectué.\n")
+
+    println(s"Densité d'aéroports par rapport à la superficie au Canada: ${density}")
+
+    println()
   }
 
   /**
