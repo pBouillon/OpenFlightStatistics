@@ -10,6 +10,10 @@ sealed abstract class ProjectedPoint
   * Point projeté en dehors de la carte (peut se passer avec Mercator par exemple);
   */
 case object OutOfMap extends ProjectedPoint {
+  /**
+    * Retourne une représentation textuelle du point projeté.
+    * @return une représentation textuelle du point projeté
+    */
   override def toString: String = {
     "ProjectedPoint[<out of map>]"
   }
@@ -21,6 +25,10 @@ case object OutOfMap extends ProjectedPoint {
   * @param y coordonnée y en pixels
   */
 case class OnMap(x: Double, y: Double) extends ProjectedPoint {
+  /**
+    * Retourne une représentation textuelle du point projeté.
+    * @return une représentation textuelle du point projeté
+    */
   override def toString: String = {
     s"ProjectedPoint[<x: ${this.x}, y: ${this.y}>]"
   }
