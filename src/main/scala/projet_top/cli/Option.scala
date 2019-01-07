@@ -3,6 +3,10 @@ package projet_top.cli
 object Option extends Enumeration {
   type Option = Int
 
+  // basic answers
+  val Ok      = "O"
+  val No      = "N"
+
   // basic operations
   val Quit    = 0
   val Help    = 6

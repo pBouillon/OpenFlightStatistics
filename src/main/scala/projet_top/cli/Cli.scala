@@ -14,9 +14,9 @@ object Cli {
     *
     */
   def load_csv(): Unit = {
-    println("Voulez vous charger le fichier d'aéroports par défaut ? (Y/N): ")
+    println(s"Voulez vous charger le fichier d'aéroports par défaut ? (${Option.Ok}/${Option.No}): ")
 
-    if (scala.io.StdIn.readLine() == "Y") {
+    if (scala.io.StdIn.readLine() == Option.Ok) {
       base = AirportDatabase.loadFromCSV(new File(default_sources))
     }
     else {

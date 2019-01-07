@@ -11,9 +11,9 @@ object Logic {
     println("    +-----------")
     println("    | Question 1: chargement d'un fichier CSV\n")
 
-   print(s"    Votre base contient ${Cli.base.toList.length} aéroport(s), les afficher ? (Y/N): ")
+   print(s"    Votre base contient ${Cli.base.toList.length} aéroport(s), les afficher ? (${Option.Ok}/${Option.No}): ")
 
-    if (scala.io.StdIn.readLine() == "Y") {
+    if (scala.io.StdIn.readLine() == Option.Ok) {
       Cli.base.toList
         .sortBy(airport => airport.airportId)
         .foreach(airport => println(s"    - $airport"))
