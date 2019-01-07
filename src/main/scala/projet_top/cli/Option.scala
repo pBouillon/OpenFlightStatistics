@@ -9,7 +9,7 @@ object Option extends Enumeration {
 
   // basic operations
   val Quit    = 0
-  val Help    = 6
+  val Help    = 8
 
   // subject-specific questions
   val Quest1  = 1

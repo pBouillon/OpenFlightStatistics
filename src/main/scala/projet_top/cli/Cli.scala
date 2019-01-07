@@ -6,17 +6,24 @@ import projet_top.airport.AirportDatabase
 
 object Cli {
 
-  val default_sources = "resources/airports.csv"
+  /**
+    * chemin vers le fichier .csv par défaut des aéroports
+    */
+  val default_sources = "resources/lightAirports.csv"
 
+  /**
+    * AirportDatabase utilisée par le CLI
+    */
   var base: AirportDatabase = _
 
   /**
-    *
+    * Charge un csv par défaut ou spécifié par l'utilisateur si demandé
     */
   def load_csv(): Unit = {
-    println(s"Voulez vous charger le fichier d'aéroports par défaut ? (${Option.Ok}/${Option.No}): ")
+    print(s"Voulez vous charger le fichier d'aéroports par défaut ? (${Option.Ok}/${Option.No}): ")
 
     if (scala.io.StdIn.readLine() == Option.Ok) {
+      println("Chargement ...")
       base = AirportDatabase.loadFromCSV(new File(default_sources))
     }
     else {

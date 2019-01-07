@@ -33,6 +33,7 @@ object CliData {
        |  - ${Option.Quest6}) Résolution de la question 6
        |  - ${Option.Quest7}) Résolution de la question 7
        |
+       |  - ${Option.Help}) Afficher les commandes disponibles
        |  - ${Option.Quit}) Quitter l'application
        |*****************************************
     """.stripMargin

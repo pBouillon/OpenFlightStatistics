@@ -1,5 +1,8 @@
 package projet_top.cli
 
+import projet_top.airport.Airport
+import projet_top.globe.Utils
+
 object Logic {
 
   /**
@@ -11,7 +14,7 @@ object Logic {
     println("    +-----------")
     println("    | Question 1: chargement d'un fichier CSV\n")
 
-   print(s"    Votre base contient ${Cli.base.toList.length} aéroport(s), les afficher ? (${Option.Ok}/${Option.No}): ")
+    print(s"    Votre base contient ${Cli.base.toList.length} aéroport(s), les afficher ? (${Option.Ok}/${Option.No}): ")
 
     if (scala.io.StdIn.readLine() == Option.Ok) {
       Cli.base.toList
@@ -28,7 +31,27 @@ object Logic {
   def questionTwo(): Unit = {
     println("    +-----------")
     println("    | Question 2: calcul de distance entre deux aéroports et matrice des distances\n")
-    // TODO
+
+    //noinspection ZeroIndexToHead
+    val firstAirport = Cli.base.toList(0)
+    val secondAirport = Cli.base.toList(1)
+
+    println(
+      s"Les aéroports utilisés pour la distance seront ceux " +
+        s"d'ID ${firstAirport.airportId} et ${secondAirport.airportId}"
+    )
+
+    println("Evaluation de la distance ...")
+    val distance = Utils.distance(firstAirport, secondAirport)
+    //noinspection RedundantBlock
+    println(s"La distance entre ces deux aéroports est de: ${distance} km.\n")
+
+    println("Génération de la DistanceMap ...")
+    val matrice = Cli.base.getDistanceMap
+    //noinspection SpellCheckingInspection,RedundantBlock
+    println(s"DistanceMap résultante: \n${matrice}")
+
+    println()
   }
 
   /**
