@@ -1,6 +1,6 @@
 package projet_top.cli
 
-import projet_top.airport.Airport
+import projet_top.airport.airport_filters.{CountryNames, Hemisphere, Northern}
 import projet_top.globe.Utils
 
 object Logic {
@@ -100,10 +100,26 @@ object Logic {
   /**
     * Implémentation avec affichage de la question 4
     */
+  //noinspection RedundantBlock
   def questionFour(): Unit = {
     println("    +-----------")
     println("    | Question 4: calcul des statistiques descriptives d'un sous-ensemble d'aéroports\n")
-    // TODO
+
+    println(
+      "    Les filtres utilisés sont: \n" +
+      "    - Dans l'hémisphère Sud\n" +
+      "    - Ou au Canada\n"
+    )
+
+    println("    Calcul de la matrice réduite ...")
+    val subset = Cli.base.getSubset(CountryNames(List("Canada")) || Hemisphere(Northern)).getDistanceMap
+    println("    Calcul effectué.\n")
+
+    println(s"   Matrice réduite:\n    - ${subset}\n")
+
+    println(s"    Calcul de la distance minimale sur cette matrice: ${subset.minDistance}")
+
+    println()
   }
 
   /**
