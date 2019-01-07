@@ -1,5 +1,5 @@
-package projet_top.airports.airport_filters
-import projet_top.airports.Airport
+package projet_top.airport.airport_filters
+import projet_top.airport.Airport
 
 /**
   * Filtre par défaut qui accepte tous les aéroports.
@@ -12,4 +12,12 @@ object All extends AirportFilter {
     * @return true ssi le filtre "conserve" le candidat passé en paramètre
     */
   override def accepts(candidate: Airport): Boolean = true
+
+  /**
+    * Retourne une représentation de la contrainte du filtre.
+    * @return une représentation de la contrainte du filtre
+    */
+  override def constraintsRepr: String = {
+    "<no constraints>"
+  }
 }

@@ -1,28 +1,34 @@
-package projet_top.countries
+package projet_top.country
 
 import org.scalatest.FlatSpec
 
-//noinspection ScalaFileName
 /**
   * Tests pour le constructeur de Country
   */
+//noinspection ScalaFileName
 class CountryConstructorSpec extends FlatSpec {
-  "A country instantiated with an empty country name" should "throw an IAE" in {
-    intercept[IllegalArgumentException] {
+
+  behavior of "Country instantiation"
+
+  it should "throw an IAE when instantiated with an empty country name" in {
+      intercept[IllegalArgumentException] {
       Country(countryName = "", inhabitants = 0, surface = 0.0)
     }
   }
-  "A country instantiated with a negative number of inhabitants" should "throw an IAE" in {
+
+  it should "throw an IAE when instantiated with a negative number of inhabitants" in {
     intercept[IllegalArgumentException] {
       Country(countryName = "TestCountry", inhabitants = -1, surface = 0.0)
     }
   }
-  "A country instantiated with a negative surface" should "throw an IAE" in {
+
+  it should "throw an IAE when instantiated with a negative surface" in {
     intercept[IllegalArgumentException] {
       Country(countryName = "TestCountry", inhabitants = 0, surface = -1)
     }
   }
-  "A country correctly instanciated" should "not throw anything" in {
+
+  it should "not throw anything when correctly instantiated" in {
     Country(countryName = "TestCountry", inhabitants = 9001, surface = 1337.42)
   }
 }

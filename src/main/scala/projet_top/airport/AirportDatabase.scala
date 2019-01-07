@@ -1,12 +1,12 @@
-package projet_top.airports
+package projet_top.airport
 
 import java.io._
 
 import com.github.tototoshi.csv.CSVReader
+import projet_top.airport.airport_filters.AirportFilter
+import projet_top.country.Country
 
 import scala.collection.immutable
-import projet_top.airports.airport_filters.AirportFilter
-import projet_top.countries.Country
 
 
 /**
@@ -25,10 +25,10 @@ object AirportDatabase {
     val reader = CSVReader.open(inputFile)
     reader.foreach(fields => {
       //noinspection ZeroIndexToHead
-      airports = new Airport(
+      airports = Airport(
         airportId = fields(0).toInt,
-        name = fields(1),
-        city = fields(2),
+        airportName = fields(1),
+        cityName = fields(2),
         countryName = fields(3),
         latitude = fields(6).toDouble,
         longitude = fields(7).toDouble
@@ -58,7 +58,7 @@ object AirportDatabase {
   *
   * @param airportIdToAirport Map airportID <=> objets Airport contenants les données des aéroports
   */
-class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int, Airport]) {
+class AirportDatabase private (val airportIdToAirport: immutable.Map[Int, Airport]) {
   /**
     * Retourne l'objet Airport correspondant à l'ID choisi, et lève une exception si
     * cet ID n'est pas dans la base de données.
@@ -125,7 +125,6 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     */
   //noinspection ScalaUnusedSymbol
   def getSubset(airportFilter: AirportFilter = airport_filters.All): AirportDatabase = {
-    // TODO
     new AirportDatabase(
       this.airportIdToAirport filter { case (airportId, airport) => airportFilter.accepts(airport) }
     )
@@ -139,8 +138,7 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     *         de l'AirportDatabase courante
     */
   def getDistanceMap: AirportDistanceMap = {
-    // TODO
-    new AirportDistanceMap(Map(), Map())
+    new AirportDistanceMap(this)
   }
 
   /**
@@ -149,11 +147,7 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return la liste des objets Airport contenus dans l'AirportDatabase courante
     */
   def toList: List[Airport] = {
-    var airports: List[Airport] = Nil
-    this.airportIdToAirport.foreach {
-      case (_: Int, value: Airport) => airports = value :: airports
-    }
-    airports
+    this.airportIdToAirport.values.toList
   }
 
   /**
@@ -168,7 +162,30 @@ class AirportDatabase private (private val airportIdToAirport: immutable.Map[Int
     * @return la densité d'aéroports en fonction du champ extrait par la fonction againstWhat
     */
   def getDensityIn(country: Country, againstWhat: Country => Double): Double = {
-    // TODO
-    0.0
+    // récupère le nombre d'aéroport dans le pays ciblé
+    val nbAirportInCountry = this.airportIdToAirport.count(_._2.countryName == country.countryName)
+    // retourne la densité par rapport à la fonction extractrice
+    nbAirportInCountry / againstWhat(country)
+  }
+
+  /**
+    * Aperçu de l'objet.
+    * @return un aperçu de l'objet
+    */
+  override def toString: String = {
+    "AirportDatabase [\n" +
+    s"    airports        ${this.airportIdToAirport.size}\n" +
+    "\n]"
+  }
+
+  /**
+    * Aperçu de l'objet complet.
+    * @return un aperçu de l'objet complet
+    */
+  def toStringFull: String = {
+    "AirportDatabase [\n" +
+      s"    airports        ${this.airportIdToAirport.size}\n" +
+      this.toList.map(airport => "   " + airport.toString).mkString("\n") +
+      "\n]"
   }
 }

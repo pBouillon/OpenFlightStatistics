@@ -1,4 +1,4 @@
-package projet_top.countries
+package projet_top.country
 
 /**
   * Objet immuable qui contient les données relatives à un pays. Est utilisée principalement dans la
@@ -21,4 +21,16 @@ case class Country(countryName: String, inhabitants: Long, surface: Double) {
     surface >= 0.0,
     "country surface cannot be a negative value"
   )
+
+  /**
+    * Aperçu de l'objet
+    * @return un aperçu de l'objet
+    */
+  override def toString: String = {
+    "Country [\n" +
+    s"    countryName     ${this.countryName}\n" +
+    s"    inhabitants     ${this.inhabitants}\n" +
+    s"    surface         ${this.surface}\n" +
+    "]"
+  }
 }

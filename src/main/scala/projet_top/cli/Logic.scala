@@ -2,7 +2,7 @@ package projet_top.cli
 
 import java.io.File
 
-import projet_top.airports.AirportDatabase
+import projet_top.airport.AirportDatabase
 
 object Logic {
 
