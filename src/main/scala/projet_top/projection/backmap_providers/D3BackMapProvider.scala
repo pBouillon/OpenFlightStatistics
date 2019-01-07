@@ -14,7 +14,7 @@ import projet_top.Utils.encodeBase64
   * @param customMapJsonDataUrl (optionel) URL d'un fichier JSON à utiliser comme données GeoJSON pour construire le fond de carte
   */
 //noinspection RedundantBlock
-class D3BackMapProvider(rawApiUrl: String, style: Option[String] = None, customMapJsonDataUrl: Option[String] = None) extends BackmapProvider {
+class D3BackMapProvider(rawApiUrl: String, private val style: Option[String] = None, private val customMapJsonDataUrl: Option[String] = None) extends BackmapProvider {
   /**
     * URL normalisée de l'API.
     */
