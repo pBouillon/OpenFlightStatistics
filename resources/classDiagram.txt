@@ -1,258 +1,384 @@
 @startuml
 
 class Airport {
-	+ airportId : Int
-	+ name : String
-	+ city : String
-	+ airportName : String
-	+ cityName : String
-	+ countryName : String
-	+ latitude : Double
-	+ longitude : Double
-	+ Airport(Int airportId, String name, String city, String countryName, Double latitude, Double longitude)
+    {method} + {static} Airport(Int airportId, String airportName, String cityName, String countryName, Double latitude, Double longitude)
+    {method} + {static} apply(Int airportId, String airportName, String cityName, String countryName, Double latitude, Double longitude) : Airport
+    {method} + {static} unapply(airport: Airport): Option[(Int, String, String, String, Double, Double)]
+
+    {field} + airportId : Int
+    {field} + airportName : String
+    {field} + cityName : String
+    {field} + countryName : String
+    {field} + latitude : Double
+    {field} + longitude : Double
 }
+
+HasCoordinates <|.. Airport
 
 class AirportDatabase {
-	{field} - airportIdToAirport : Map[Int, Airport]
-	+ {static} loadFromCSV(File inputFile) : AirportDatabase
-	+ {static} fromList(List[Airport] airports) : AirportDatabase
-	- AirportDatabase(Map[Int, Airport] airportIdToAirport)
-	+ getAirportById(Int airportId) : Airport
-	+ apply(Int airportId) : Airport
-	+ contains(Int airportId) : Boolean
-	+ contains(Airport airport) : Boolean
-	+ getSubset(AirportFilter filter) : AirportDatabase
-	+ getDistanceMap() : AirportDistanceMap
-	+ toList() : List[Airport]
-	+ getDensityIn(Country country, (Country, Double) againstWhat) : Double
+    {method} - {static} AirportDatabase(Map[Int, Airport] airportIdToAirport)
+    {method} + {static} loadFromCSV(File inputFile) : AirportDatabase
+    {method} + {static} fromList(List[Airport] airports) : AirportDatabase
+
+    {field} + airportIdToAirport : Map[Int, Airport]
+
+    {method} + getAirportById(Int airportId) : Airport
+    {method} + apply(Int airportId) : Airport
+    {method} + contains(Int airportId) : Boolean
+    {method} + contains(Airport airport) : Boolean
+    {method} + getSubset(AirportFilter filter) : AirportDatabase
+    {method} + getDistanceMap : AirportDistanceMap
+    {method} + toList : List[Airport]
+    {method} + getDensityIn(Country country, Function[Country, Double] againstWhat) : Double
+    {method} + toStringFull: String
 }
+
+AirportDatabase o-- Airport
+AirportDatabase --> Airport
+AirportDatabase --> AirportDatabase
+AirportDatabase --> Country
 
 class AirportDistanceMap {
-	{field} - airportDatabase : AirportDatabase
-	{field} - airportIdToAirport : Map[Int, Airport)]
-	{field} - airportIdsToDist : Map[[Int, Int], Double]
-	{field} - noDupAirportRecords : Map[[Int, Int], Double]
-	{field} - sortedDistances : List[Double]
-	{field} - noDupLength: Int
-	{field} - containsPair : Boolean
-	{field} + minDistance : Double
-	{field} + maxDistance : Double
-	{field} + avgDistance : Double
-	{field} + medianDistance : Double
-	{field} + stdDev : Double
-	+ AirportDistanceMap(AirportDatabase)
-	+ apply(Int airportIdA, Int airportIdB) : Double
-	+ apply (Airport airportA, Airport airportB) : Double
-	+ getDistanceBetween(Airport, Airport) : Double
-	+ toString() : String
+    {field} + {static} EmptyMapSoNoValue : Double
+
+    {method} + {static} AirportDistanceMap(AirportDatabase)
+
+    {field} - airportDatabase : AirportDatabase
+    {field} - airportIdToAirport : Map[Int, Airport]
+    {field} - airportIdsToDistance : Map[(Int, Int), Double]
+    {field} - airportToAirportId : Map[Airport, Int]
+    {field} - pairsNumber : Int
+    {field} - sortedDistances : List[Double]
+
+    {method} + containsPairs : Boolean
+    {method} + minDistance : Double
+    {method} + maxDistance : Double
+    {method} + avgDistance : Double
+    {method} + medianDistance : Double
+    {method} + stdDev : Double
+    {method} + apply(Int airportIdA, Int airportIdB) : Double
+    {method} + apply (Airport airportA, Airport airportB) : Double
+    {method} + getDistanceBetween(Int airportIdA, Int airportIdB) : Double
+    {method} + getDistanceBetween(Airport, Airport) : Double
 }
 
+AirportDistanceMap *-- AirportDatabase
+AirportDistanceMap --> Airport
+
 class Country {
-	+ countryName : String
-	+ inhabitants : Long
-	+ surface : Double
-	+ Country(String countryName, Long inhabitants, Double surface)
-	+ toString() : String
+    {method} + {static} Country(String countryName, Long inhabitants, Double surface)
+    {method} + {static} apply(String countryName, Long inhabitants, Double surface) : Country
+    {method} + {static} unapply(country: Country) : Option[(String, Long, Double)]
+
+    + {field} countryName : String
+    + {field} inhabitants : Long
+    + {field} surface : Double
 }
 
 class CountryDatabase {
-	{field} - countryNameToCountry : Map[String, Country]
-	+ {static} loadFromCSV(File inputFile) : CountryDatabase
-	+ {static} fromList(List[Country] countries) : CountryDatabase
-	- CountryDatabase(Map[String, Country] countryNameToCountry)
-	+ getCountryByName(String countryName) : Country
-	+ apply(String countryName) : Country
-	+ contains(String countryName) : Boolean
-	+ contains(Country country) : Boolean
-	+ toList() : List[Country]
-	+ toString() : String
-	+ toStringFull() : String
+    {method} - {static} CountryDatabase(Map[String, Country] countryNameToCountry)
+    {method} + {static} loadFromCSV(File inputFile) : CountryDatabase
+    {method} + {static} fromList(List[Country] countries) : CountryDatabase
+
+    {field} + countryNameToCountry : Map[String, Country]
+
+    + {method} getCountryByName(String countryName) : Country
+    + {method} apply(String countryName) : Country
+    + {method} contains(String countryName) : Boolean
+    + {method} contains(Country country) : Boolean
+    + {method} toList : List[Country]
+    + {method} toStringFull : String
 }
+
+CountryDatabase *-- Country
+CountryDatabase --> Country
 
 abstract class AirportFilter {
-	+ {static} fancyWrap(constraintsRepr string) : String
-	+ accepts(Airport candidate) : Boolean
-	+ rejects(Airport candidate) : Boolean
-	+ unary_!() : AirportFilter
-	+ ||(AirportFilter that) : AirportFilter
-	+ &&(AirportFilter that) : AirportFilter
+    {method} + {static} fancyWrap(String constraintsRepr) : String
+
+    {method} + {abstract} constraintsRepr : String
+    {method} + {abstract} accepts(Airport candidate) : Boolean
+
+    {method} + rejects(Airport candidate) : Boolean
+    {method} + unary_! : AirportFilter
+    {method} + ||(AirportFilter that) : AirportFilter
+    {method} + &&(AirportFilter that) : AirportFilter
 }
+
+AirportFilter --> Airport
+
+class All << (O,#FF7700) Object >> {
+    {method} + accepts(Airport candidate) : Boolean
+    {method} + constraintsRepr : String
+}
+
+AirportFilter <|-- All
+All --> Airport
+
+class Around {
+    {method} - {static} Around(Point center, Double radius)
+    {method} + {static} apply(HasCoordinates center, Double radius) : Around
+    {method} + {static} unapply(Around around) : Option[(Point, Double)]
+
+    {field} + center : Point
+    {field} + radius : Double
+
+    {method} + accepts(Airport candidate) : Boolean
+    {method} + constraintsRepr : String
+}
+
+AirportFilter <|-- Around
+Around --> Point
+Around --> HasCoordinates
+Around --> Airport
 
 class CountryNames{
-	{field} + countryNames: List[String]
-	+ {static} apply(HasCoordinates center, Double radius) : Around
-	+ accepts(Airport candidate) : Boolean
-	+ CountryNames(List[String] countryNames)
-	+ constraintsRepr() : String
+    {method} + {static} CountryNames(List[String] countryNames)
+    {method} + {static} apply(List[String] countryNames) : CountryNames
+    {method} + {static} apply(String* countryNames) : CountryNames
+    {method} + {static} unapply(CountryNames countryNamesFilter) : Option[List[String]]
+
+    {field} + countryNames: List[String]
+
+    {method} + accepts(Airport candidate) : Boolean
+    {method} + constraintsRepr : String
 }
 
-class All << (S,#FF7700) Singleton >> {
-	+ accepts(Airport candidate) : Boolean
-	+ constraintsRepr() : String
-}
+AirportFilter <|-- CountryNames
+CountryNames --> Airport
 
 enum HemisphereChoice {
-	Northern
-	Southern
+    Northern
+    Southern
 }
 
 class Hemisphere {
-	+ Hemisphere(HemisphereChoice choice)
-	+ constraintsRepr() : String
+    {method} + {static} Hemisphere(HemisphereChoice choice)
+    {method} + {static} apply(HemisphereChoice choice): Hemisphere
+    {method} + {static} unapply(Hemisphere hemisphereFilter) : Option[HemisphereChoice]
+
+    {field} + choice : HemisphereChoice
+
+    {method} + accepts(Airport candidate) : Boolean
+    {method} + constraintsRepr : String
 }
 
-interface HasCoordinates {
-	+ longitude : Double
-	+ latitude : Double
-	+ toPoint() : Point
-}
-
-class Point {
-	+ Point (latitude, longitude)
-	+ toString() : String
-}
-
-class Utils << (S,#FF7700) Singleton >> {
-	+ EarthRadius : Double
-	+ distance (HasCoordinates, HasCoordinates) : Double
-}
-
-class Around {
-	{field} - countryNameToCountry : Map[String, Country]
-	+ {static} apply(HasCoordinates center, Double radius) : Around
-	+ {static} unapply(Around around) : Point | Double
-	- Around(Point center, Double radius)
-	+ accepts(Airport candidate) : Boolean
-	+ constraintsRepr() : String
-}
+AirportFilter <|-- Hemisphere
+Hemisphere --> HemisphereChoice
+Hemisphere *-- HemisphereChoice
+Hemisphere --> Airport
 
 class Window {
-	{field} - countryNameToCountry : Map[String, Country]
-	+ {static} apply(HasCoordinates coordA, HasCoordinates coordB) : Window
-	+ {static} unapply(Around around) : Point
-	- Window(Point bottomLeft, Point topRight)
-	+ accepts(Airport candidate) : Boolean
-	+ constraintsRepr() : String
+    {method} - {static} Window(Point bottomLeft, Point topRight)
+    {method} + {static} apply(HasCoordinates coordA, HasCoordinates coordB) : Window
+    {method} + {static} unapply(Window windowFilter) : Option[(Point, Point)]
+
+    {field} + bottomLeft : Point
+    {field} + topRight : Point
+
+    {method} + accepts(Airport candidate) : Boolean
+    {method} + constraintsRepr : String
 }
 
-abstract class BackMapProvider {
-	+ provide(Projector projector, Int width) : BufferedImage
+AirportFilter <|-- Window
+Window --> Point
+Window --> HasCoordinates
+Window *-- Point
+Window --> Airport
+
+interface HasCoordinates {
+    {field} + {abstract} latitude : Double
+    {field} + {abstract} longitude : Double
+
+    {method} + toPoint : Point
 }
 
-class D3BackMapProvider {
-	+ apiUrl : String
-	+ D3BackMapProvider(String rawApiUrl, String, String customMapJsonDataUrl)
-	+ provide(Projector, Int) : BufferedImage
-	+ requestBuilder(Int width, Int height, Double centerLatitude, Double centerLongitude, Projector projector)
+HasCoordinates --> Point
+
+class Point {
+    {method} + {static} Point (Double latitude, Double longitude)
+    {method} + {static} apply(Double latitude, Double longitude) : Point
+    {method} + {static} unapply(Point point) : Option[(Double, Double)]
+
+    {field} + latitude : Double
+    {field} + longitude : Double
 }
+
+HasCoordinates <|.. Point
+
+abstract class BackmapProvider {
+    {method} + {abstract} provide(Projector projector, Int width) : BufferedImage
+}
+
+BackmapProvider --> Projector
+
+class D3BackmapProvider {
+    {method} + {static} D3BackmapProvider(String rawApiUrl, Option[String] style, Option[String] customMapJsonDataUrl)
+
+    {field} - style : Option[String]
+    {field} - customMapJsonDataUrl : Option[String]
+    {field} + apiUrl : String
+
+    {method} + provide(Projector projector, Int width) : BufferedImage
+    {method} - requestBuilder(Int width, Int height, Double centerLatitude, Double centerLongitude, Projector projector) : String
+}
+
+BackmapProvider <|-- D3BackmapProvider
+D3BackmapProvider --> Projector
 
 abstract class Projector {
-	+ center : Point
-	+ name : String
-	+ description : String
-	+ ratioWidthHeight : Double
-	+ toString() : String
-	+ projects(HasCoordinates, Int) : ProjectedPoint
+    {field} + {abstract} center : Point
+
+    {method} + {abstract} name : String
+    {method} + {abstract} description : String
+    {method} + {abstract} ratioWidthHeight : Double
+    {method} + {abstract} projects(HasCoordinates obj, Int width) : ProjectedPoint
 }
+
+Projector *-- Point
+Projector --> HasCoordinates
+Projector --> ProjectedPoint
 
 class EquiRectangularProjector {
-	+ rotator : function
-	+ EquiRectangularProjector(HasCoordinates centerRaw)
+    {method} + {static} EquiRectangularProjector(HasCoordinates centerRaw)
+
+    {field} - rotator : Function[HasCoordinates, Point]
+    {field} + center : Point
+    {field} + name : String
+    {field} + description : String
+    {field} + ratioWidthHeight : Double
+    {method} + projects(HasCoordinates obj, Int width) : ProjectedPoint
 }
 
-interface Filling {
+Projector <|-- EquiRectangularProjector
+EquiRectangularProjector *-- Point
+EquiRectangularProjector --> HasCoordinates
+EquiRectangularProjector --> Point
+EquiRectangularProjector --> ProjectedPoint
 
+class EquiRectangularLat0Projector {
+    {method} + {static} EquiRectangularLat0Projector(HasCoordinates centerRaw)
+
+    {field} - rotator : Function[HasCoordinates, Point]
+    {field} + center : Point
+    {field} + name : String
+    {field} + description : String
+    {field} + ratioWidthHeight : Double
+    {method} + projects(HasCoordinates obj, Int width) : ProjectedPoint
 }
 
-class Filled {
+Projector <|-- EquiRectangularLat0Projector
+EquiRectangularLat0Projector *-- Point
+EquiRectangularLat0Projector --> HasCoordinates
+EquiRectangularLat0Projector --> Point
+EquiRectangularLat0Projector --> ProjectedPoint
 
-}
-
-class Outline {
-	+ Outline(width float)
+enum Filling {
+    Filled
+    Outline(Float width)
 }
 
 abstract class Marker {
-	+ color : Color
-	+ filling : Filling
-	+ shapeFactory (Double x, Double y) : Shape
-	+ putAt (Graphics2D brush, Double x, Double y)
+    {field} + {abstract} color : Color
+    {field} + {abstract} filling : Filling
+
+    {method} + {abstract} shapeFactory(Double xCenter, Double yCenter) : Shape
+    {method} + putAt(Graphics2D brush, Double x, Double y): Unit
 }
+
+Marker *-- Filling
+Marker --> Filling
 
 class Rectangle {
-	+ Rectangle (Color, Filling, Double width, Double height)
-	+ shapeFactory(Double xC, double yC) : Shape
+    {method} + {static} Rectangle(Color color, Filling filling, Double width, Double height)
+    {method} + {static} apply(Color color, Filling filling, Double width, Double height) : Rectangle
+    {method} + {static} unapply(Rectangle rectangleMarker) : Option[(Color, Filling, Double, Double)]
+
+    {field} + color : Color
+    {field} + filling : Filling
+    {field} + width : Double
+    {field} + height : Double
+
+    {method} + shapeFactory(Double xCenter, double yCenter) : Shape
 }
+
+Marker <|-- Rectangle
+Rectangle *-- Filling
+Rectangle --> Filling
+
 
 class Round {
-	+ Round (Color, Filling, Double radius)
-	+ shapeFactory(Double xC, double yC) : Shape
+    {method} + {static} Round(Color color, Filling filling, Double radius)
+    {method} + {static} apply(Color color, Filling filling, Double radius) : Round
+    {method} + {static} unapply(Round roundMarker) : Option[(Color, Filling, Double)]
+
+    {field} + color : Color
+    {field} + filling : Filling
+    {field} + radius : Double
+
+    {method} + shapeFactory(Double xCenter, double yCenter) : Shape
 }
 
-class MapCreator {
-	+ image : BufferedImage
-	+ brush : Graphics2D
-	+ MapCreator(Projector proj, BackMapProvider bmp, Int width)
-	+ plotObject(HasCoordinates, Marker)
-	+ saveToFile(outputFile File)
+Marker <|-- Round
+Round *-- Filling
+Round --> Filling
+
+class Square {
+    {method} + {static} Square(Color color, Filling filling, Double size)
+    {method} + {static} apply(Color color, Filling filling, Double size) : Square
+    {method} + {static} unapply(Square squareMarker) : Option[(Color, Filling, Double)]
+
+    {field} + color : Color
+    {field} + filling : Filling
+    {field} + size : Double
+
+    {method} + shapeFactory(Double xCenter, double yCenter) : Shape
 }
+
+Marker <|-- Square
+Square *-- Filling
+Square --> Filling
+
+class MapCreator {
+    {method} + {static} MapCreator(Projector projector, BackmapProvider backmapProvider, Int width)
+
+    {field} - projector : Projector
+    {field} - backmapProvider : BackmapProvider
+    {field} - width : Int
+    {field} - image : BufferedImage
+    {field} - brush : Graphics2D
+
+    {method} + plotObject(HasCoordinates obj, Marker marker) : Unit
+    {method} + plotAll(AirportDatabase airportDatabase, Marker marker) : Unit
+    {method} + saveToFile(File outputFile) : Unit
+}
+
+MapCreator *-- Projector
+MapCreator --> Projector
+MapCreator *-- BackmapProvider
+MapCreator --> BackmapProvider
+MapCreator --> HasCoordinates
+MapCreator --> Marker
+MapCreator --> AirportDatabase
 
 abstract class ProjectedPoint {
 
 }
-class OutOfMap {
-	+ toString() : String
-}
-class OnMap {
-	+ OnMap(Double x, Double y)
-	+ toString() : String
+
+class OutOfMap << (O,#FF7700) Object >> {
 }
 
 ProjectedPoint <|-- OutOfMap
+
+class OnMap {
+    {method} + {static} OnMap(Double x, Double y)
+    {method} + {static} apply(Double x, Double y) : OnMap
+    {method} + {static} unapply(OnMap onMap) : Option[(Double, Double)]
+
+    {field} + x : Double
+    {field} + y : Double
+}
+
 ProjectedPoint <|-- OnMap
-
-MapCreator ..> Marker
-MapCreator ..> HasCoordinates
-MapCreator ..> Projector
-MapCreator ..> BackMapProvider
-
-Marker ..> Filling
-Marker <|-- Round
-Marker <|-- Rectangle
-
-Filling <|-- Outline
-Filling <|-- Filled
-
-Projector <|-- EquiRectangularProjector
-Projector ..> ProjectedPoint
-
-BackMapProvider <|-- D3BackMapProvider
-BackMapProvider ..> Projector
-
-HasCoordinates <|-- Airport
-HasCoordinates <|-- Point
-
-Utils ..> HasCoordinates
-Window ..> HasCoordinates
-Around ..> HasCoordinates
-
-AirportFilter <|-- Around
-AirportFilter <|-- Window
-AirportFilter <|-- All
-AirportFilter <|-- CountryNames
-AirportFilter <|-- Hemisphere
-Hemisphere ..> HemisphereChoice
-
-Airport o-- AirportDatabase
-Airport o-- AirportDistanceMap
-Airport o-- AirportFilter
-
-AirportDatabase o-- AirportDistanceMap
-
-AirportDatabase ..> AirportDistanceMap
-AirportDatabase ..> AirportFilter
-AirportDatabase ..> Country
-
-Country o-- CountryDatabase
 
 @enduml

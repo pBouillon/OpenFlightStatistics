@@ -1,6 +1,7 @@
-package projet_top.airport
+package projet_top.tests.airport
 
 import org.scalatest.FlatSpec
+import projet_top.airport.{Airport, AirportDatabase}
 
 object AirportDatabaseTestObjects {
   val airportList: List[Airport] = Airport(
@@ -30,7 +31,7 @@ class AirportDatabaseGetAirportByIdTest extends FlatSpec {
 
   behavior of "The AirportDatabase getAirportById method"
 
-  it should "throw an NSEE when looking for a non-existent ID" in {
+  it should "throw a NSEE when looking for a non-existent ID" in {
     intercept[NoSuchElementException](
       AirportDatabaseTestObjects.airportDatabase.getAirportById(-1)
     )

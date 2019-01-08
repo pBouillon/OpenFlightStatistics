@@ -1,6 +1,7 @@
-package projet_top.airport
+package projet_top.tests.airport
 
 import org.scalatest.FlatSpec
+import projet_top.airport.Airport
 
 /**
   * Tests pour le constructeur de Airport

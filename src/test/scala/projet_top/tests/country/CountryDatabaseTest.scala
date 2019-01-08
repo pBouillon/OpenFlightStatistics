@@ -1,6 +1,7 @@
-package projet_top.country
+package projet_top.tests.country
 
 import org.scalatest.FlatSpec
+import projet_top.country.{Country, CountryDatabase}
 
 object CountryDatabaseTestObjects {
   val countryList: List[Country] = Country (

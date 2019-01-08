@@ -1,8 +1,9 @@
 .idea
 .vscode
 **/.directory
-doc
 target
 project/target
 
 *.png
+.DS_Store
+
