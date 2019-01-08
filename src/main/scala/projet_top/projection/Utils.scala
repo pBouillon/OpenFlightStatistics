@@ -113,7 +113,7 @@ object Utils {
 
     val (x, y, z) = (cos(obj.longitude) * cos(obj.latitude), sin(obj.longitude) * cos(obj.latitude), sin(obj.latitude))
     val k = z * cos(rotLatitude) + x * sin(rotLatitude)
-    Point(asin(k), atan2(y, x * cos(rotLatitude) - z * sin(rotLatitude)))
+    Point(normLatitude(asin(k)), normLongitude(atan2(y, x * cos(rotLatitude) - z * sin(rotLatitude))))
   }
 
   /**
