@@ -51,7 +51,9 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
     assert(ret == expected)
 
   }
-
+  /**
+    * Tests pour la récupération de la distance entre les deux aéroports choisis, identifiés par leur nom.
+    */
   it should "throw an NSEE when looking for a non-existent airport name" in {
 
     val impossibleAirport = Airport(-1,"Gotham Aiport","Gotham City","Gotham Name",-1,1)
@@ -88,6 +90,9 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
   }
 
 }
+/**
+  * Tests pour la récupération de la distance entre les deux aéroports choisis, identifiés par leur ID(apply method).
+  */
 
   class AirportDistanceMapApplyTest extends FlatSpec {
 
@@ -125,6 +130,9 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
       assert(ret == expected)
 
     }
+  /**
+    * Tests pour la récupération de la distance entre les deux aéroports choisis, identifiés par leur nom(apply method).
+    */
 
     it should "throw an NSEE when looking for a non-existent airport name" in {
 
