@@ -11,7 +11,7 @@ object Cli {
   /**
     * chemin vers le fichier .csv par défaut des aéroports
     */
-  val defaultAirportsSources = "resources/lightAirports.csv"
+  val defaultAirportsSources = "resources/airports.csv"
 
   /**
     * chemin vers le fichier .csv par défaut des pays
@@ -28,7 +28,7 @@ object Cli {
     */
   def load_csv(): Unit = {
     print(
-      s"Voulez vous charger le fichier d'aéroports par défaut (base réduite et incomplète)?" +
+      s"Voulez vous charger le fichier d'aéroports par défaut (base réduite et incomplète pour optimiser la vitesse) ?" +
       s"(${utils.Options.Ok}/${utils.Options.No}): "
     )
 
