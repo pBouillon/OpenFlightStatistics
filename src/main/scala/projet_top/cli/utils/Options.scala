@@ -1,6 +1,6 @@
-package projet_top.cli
+package projet_top.cli.utils
 
-object Option extends Enumeration {
+object Options extends Enumeration {
   type Option = Int
 
   // basic answers

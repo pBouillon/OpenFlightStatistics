@@ -1,17 +1,18 @@
-package projet_top.cli
+package projet_top.cli.logic
 
 import java.io.File
 
 import projet_top.airport.airport_filters.{CountryNames, Hemisphere, Northern}
 import projet_top.cli.Cli.defaultCountriesSources
-import projet_top.cli.CliProjectionLogic._
+import MapCreationUtils.{genBase, genMarker, genProjector}
+import projet_top.cli.utils.MapCreation
+import projet_top.cli.{Cli, utils}
 import projet_top.country.CountryDatabase
 import projet_top.globe.Utils
 import projet_top.projection.MapCreator
 import projet_top.projection.projectors.Projector
 
-object Logic {
-
+object QuestionResolution {
   /**
     * Implémentation avec affichage de la question 1
     */
@@ -19,9 +20,9 @@ object Logic {
     println("    +-----------")
     println("    | Question 1: chargement d'un fichier CSV\n")
 
-    print(s"    Votre base contient ${Cli.base.toList.length} aéroport(s), les afficher ? (${Option.Ok}/${Option.No}): ")
+    print(s"    Votre base contient ${Cli.base.toList.length} aéroport(s), les afficher ? (${utils.Options.Ok}/${utils.Options.No}): ")
 
-    if (scala.io.StdIn.readLine() == Option.Ok) {
+    if (scala.io.StdIn.readLine() == utils.Options.Ok) {
       Cli.base.toList
         .sortBy(airport => airport.airportId)
         .foreach(airport => println(s"    - $airport"))
@@ -138,8 +139,8 @@ object Logic {
 
     var countryBase: CountryDatabase = null
 
-    print(s"    Voulez vous charger le fichier de pays par défaut ? (${Option.Ok}/${Option.No}): ")
-    if (scala.io.StdIn.readLine() == Option.Ok) {
+    print(s"    Voulez vous charger le fichier de pays par défaut ? (${utils.Options.Ok}/${utils.Options.No}): ")
+    if (scala.io.StdIn.readLine() == utils.Options.Ok) {
       println("    Chargement ...")
       countryBase = CountryDatabase.loadFromCSV(new File(defaultCountriesSources))
     }
@@ -169,23 +170,23 @@ object Logic {
   //noinspection RedundantBlock
   def questionSix(): Unit = {
     println("    +-----------")
-    println("    | Question 6: carte des aéroports\n")
+    println("    | Question 6: projections d'aéroports sur une carte\n")
 
     // image size
     print(
-    s"    Voulez vous utiliser la largeur par défaut (${Projection.defaultWidth} px) ? (${Option.Ok}/${Option.No}): "
+    s"    Voulez vous utiliser la largeur par défaut (${MapCreation.defaultWidth} px) ? (${utils.Options.Ok}/${utils.Options.No}): "
     )
 
     var imageWidth = 0
-    if (scala.io.StdIn.readLine() == Option.Ok) {
-      imageWidth = Projection.defaultWidth
+    if (scala.io.StdIn.readLine() == utils.Options.Ok) {
+      imageWidth = MapCreation.defaultWidth
     }
     else {
-      print(s"    Taille souhaitée entre ${Projection.minWidth} et ${Projection.maxWidth} (en px): ")
+      print(s"    Taille souhaitée entre ${MapCreation.minWidth} et ${MapCreation.maxWidth} (en px): ")
       imageWidth = scala.io.StdIn.readInt()
-      if (imageWidth <= Projection.minWidth || imageWidth > Projection.maxWidth) {
-        println(s"    Taille invalide, utilisation de la taille par défaut (${Projection.defaultWidth} px)")
-        imageWidth = Projection.defaultWidth
+      if (imageWidth <= MapCreation.minWidth || imageWidth > MapCreation.maxWidth) {
+        println(s"    Taille invalide, utilisation de la taille par défaut (${MapCreation.defaultWidth} px)")
+        imageWidth = MapCreation.defaultWidth
       }
     }
 
@@ -212,7 +213,7 @@ object Logic {
     println()
 
     // map creation
-    val mapCreator = new MapCreator(projector, Projection.defaultBackmapProvider)(imageWidth)
+    val mapCreator = new MapCreator(projector, MapCreation.defaultBackmapProvider)(imageWidth)
 
     val baseUsed = genBase()
 
@@ -228,5 +229,4 @@ object Logic {
 
     println()
   }
-
 }

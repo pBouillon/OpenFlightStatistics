@@ -24,8 +24,8 @@ trait HasCoordinates {
   )
 
   /**
-    * Creates a point with the same coordinates as this object.
-    * @return a point with the same coordinates as this object
+    * Créé un point avec les même coordonnées que cet objet.
+    * @return un point avec les même coordonnées que cet objet
     */
   def toPoint: Point = {
     Point(this.latitude, this.longitude)
