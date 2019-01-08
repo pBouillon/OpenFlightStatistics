@@ -11,7 +11,7 @@ object MapCreation {
     new D3BackmapProvider("http://d3backmapprovider.westeurope.azurecontainer.io:8080/")
 
   // marker
-  var defaultMarkerColorValue: String = "2B7F7F"
+  var defaultMarkerColorValue: String = "#D34747"
   val defaultMarkerColor: Color = new Color (
     Integer.valueOf( defaultMarkerColorValue.substring( 1, 3 ), 16 ),
     Integer.valueOf( defaultMarkerColorValue.substring( 3, 5 ), 16 ),

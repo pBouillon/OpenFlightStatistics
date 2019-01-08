@@ -124,7 +124,7 @@ object MapCreationUtils {
     val userInput = scala.io.StdIn.readInt()
 
     if (userInput == 1) {
-      projector = new EquiRectangularLat0Projector(genProjectionCenter())
+      projector = new EquiRectangularLat0Projector(MapCreation.center)
     }
     else if (userInput == 2) {
       projector = new EquiRectangularProjector(genProjectionCenter())
