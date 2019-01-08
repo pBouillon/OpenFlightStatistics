@@ -217,7 +217,7 @@ object QuestionResolution {
 
     val baseUsed = genBase()
 
-    baseUsed.airportIdToAirport.toList.foreach( el => mapCreator.plotObject(el._2)(marker) )
+    mapCreator.plotAll(baseUsed)(marker)
 
     println()
 
