@@ -24,7 +24,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
         .getDistanceBetween(invalidAirportId)(invalidAirportId)
     }
   }
-
   it should "throw an NSEE when looking for a non-existent ID and an existent one" in {
     val invalidAirportId = -1
     val validAirportId1 = 1
@@ -34,8 +33,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
         .getDistanceBetween(validAirportId1)(invalidAirportId)
     }
   }
-
-
   it should "throw a distance between airport in the map thanks to ID" in {
     val validAirportId1 = 1
     val validAirportId2 = 2
@@ -46,7 +43,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
 
     assert(ret == expected)
   }
-
   /**
     * Tests pour la récupération de la distance entre les deux aéroports choisis, identifiés par leur nom.
     */
@@ -58,7 +54,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
         .getDistanceBetween(impossibleAirport)(impossibleAirport)
     }
   }
-
   it should "throw an NSEE when looking for a non-existent airport name and an existent one" in {
     val impossibleAirport = Airport(-1, "Gotham Aiport", "Gotham City", "Gotham Name", -1, 1)
     val possibleAirport = AirportDatabaseTestObjects.airportDatabase
@@ -69,7 +64,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
         .getDistanceBetween(possibleAirport)(impossibleAirport)
     }
   }
-
   it should "throw a distance between airports in the map" in {
     val expected = 15.725331604303992
     val possibleAirport1 = AirportDatabaseTestObjects.airportDatabase
@@ -100,7 +94,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
           .apply(invalidAirportId)(invalidAirportId)
       }
     }
-
     it should "throw an NSEE when looking for an existent non-existent distance between airports in the map" in {
       val invalidAirportId = -1
       val validAirportId1 = 1
@@ -110,18 +103,16 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
           .apply(validAirportId1)(invalidAirportId)
       }
     }
-
     it should "throw a distance between airport in the map" in {
       val expected = 15.725331604303992
       val validAirportId1 = 1
       val validAirportId2 = 2
 
-      val ret = AirportDistanceMapTestObject.airportDistanceMap.
-        apply(validAirportId1)(validAirportId2)
+      val ret = AirportDistanceMapTestObject.airportDistanceMap
+        .apply(validAirportId1)(validAirportId2)
 
       assert(ret == expected)
     }
-
     it should "throw an NSEE when looking for a non-existent airport name" in {
       val impossibleAirport = Airport(-1, "Gotham Aiport", "Gotham City", "Gotham Name", -1, 1)
 
@@ -130,7 +121,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
           .apply(impossibleAirport)(impossibleAirport)
       }
     }
-
     it should "throw an NSEE when looking for a non-existent airport name and an existent one" in {
       val impossibleAirport = Airport(-1, "Gotham Aiport", "Gotham City", "Gotham Name", -1, 1)
       val possibleAirport = AirportDatabaseTestObjects.airportDatabase
@@ -141,7 +131,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
           .apply(possibleAirport)(impossibleAirport)
       }
     }
-
     it should "throw a distance between airports in the map" in {
       val expected = 15.725331604303992
       val possibleAirport1 = AirportDatabaseTestObjects.airportDatabase
@@ -154,7 +143,6 @@ class AirportDistanceMapGetDistanceBetweenTest extends FlatSpec {
 
       assert(ret == expected)
     }
-
   }
 
 
