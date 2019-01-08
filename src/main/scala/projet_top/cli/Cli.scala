@@ -56,13 +56,12 @@ object Cli {
       case Option.Quest4 => Logic.questionFour()
       case Option.Quest5 => Logic.questionFive()
       case Option.Quest6 => Logic.questionSix()
-      case Option.Quest7 => Logic.questionSeven()
       case Option.Help =>
-        println(CliData.helper)
+        println(Data.helper)
       case Option.Quit =>
         println("Fermeture de l'application ...")
         System.exit(0)
-      case _ => println(CliData.errMessage)
+      case _ => println(Data.errMessage)
     }
   }
 
@@ -75,18 +74,18 @@ object Cli {
     */
   def launchCli(): Unit = {
     // affiche l'en tête du projet
-    println(CliData.header)
+    println(Data.header)
 
     // charge une base
     load_csv()
 
     // affiche le menu des commandes
-    println(CliData.helper)
+    println(Data.helper)
 
     var userInput = 0
     while (true) {
       // en attente de l'entrée utilisateur
-      print(CliData.prefix)
+      print(Data.prefix)
       userInput = scala.io.StdIn.readInt()
 
       // execution de la commande

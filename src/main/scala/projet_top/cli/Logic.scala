@@ -6,6 +6,9 @@ import projet_top.airport.airport_filters.{CountryNames, Hemisphere, Northern}
 import projet_top.cli.Cli.defaultCountriesSources
 import projet_top.country.CountryDatabase
 import projet_top.globe.Utils
+import projet_top.projection.MapCreator
+import projet_top.projection.markers._
+import projet_top.projection.projectors.{EquiRectangularLat0Projector, EquiRectangularProjector, Projector}
 
 object Logic {
 
@@ -162,18 +165,137 @@ object Logic {
   /**
     * Implémentation avec affichage de la question 6
     */
+  //noinspection RedundantBlock
   def questionSix(): Unit = {
     println("    +-----------")
     println("    | Question 6: carte des aéroports\n")
-    // TODO
+
+    // image size
+    print(
+    s"    Voulez vous utiliser la largeur par défaut (${Projection.defaultWidth} px) ? (${Option.Ok}/${Option.No}): "
+    )
+
+    var imageWidth = 0
+    if (scala.io.StdIn.readLine() == Option.Ok) {
+      imageWidth = Projection.defaultWidth
+    }
+    else {
+      print(s"    Taille souhaitée entre ${Projection.minWidth} et ${Projection.maxWidth} (en px): ")
+      imageWidth = scala.io.StdIn.readInt()
+      if (imageWidth <= Projection.minWidth || imageWidth > Projection.maxWidth) {
+        println(s"Taille invalide, utilisation de la taille par défaut (${Projection.defaultWidth} px)")
+        imageWidth = Projection.defaultWidth
+      }
+    }
+
+    println()
+
+    // projector
+    val projector: Projector = genProjector()
+
+    if (projector == null) {
+      println("Type de projection inconnue ...\n")
+      return
+    }
+
+    println()
+
+    // marker
+    val marker = genMarker()
+
+    if (marker == null) {
+      println("Type de marker inconnu ...\n")
+      return
+    }
+
+    // map creation
+    val mapCreator = new MapCreator(projector, Projection.defaultBackmapProvider)(imageWidth)
+    Cli.base.airportIdToAirport.toList.foreach( el => mapCreator.plotObject(el._2)(marker) )
+
+    println()
+
+    // saving
+    print(s"    Entrer le nom du fichier destination: ")
+    val filename = scala.io.StdIn.readLine()
+    mapCreator.saveToFile(new File(filename + ".png"))
+    println(s"    Carte générée dans ${filename}.png")
+
+    println()
   }
 
   /**
-    * Implémentation avec affichage de la question 7
+    *
     */
-  def questionSeven(): Unit = {
-    println("    +-----------")
-    println("    | Question 7: carte des aéroports centrée sur l'un d'entre eux\n")
-    // TODO
+  def genMarker(): Marker = {
+    var marker: Marker = null
+    var filling: Filling = null
+
+    // marker's style
+    print(s"    Utiliser un marqueur plein ?(${Option.Ok}/${Option.No}): ")
+    if (scala.io.StdIn.readLine() == Option.Ok) {
+      filling = Filled
+    }
+    else {
+      filling = Outline(Projection.defaultMarkerOutlineThickness)
+    }
+
+
+
+    // marker's shape
+    println(
+      "    Quel type de marker voulez-vous ?\n" +
+      "    - 1) Rectangulaire\n" +
+      "    - 2) Rond\n" +
+      "    - 3) Carré"
+    )
+
+    print("    " + Data.prefix)
+    val userInput = scala.io.StdIn.readInt()
+
+    if (userInput == 1) {
+      //noinspection RedundantNewCaseClass
+      marker = new Rectangle(Projection.defaultMarkerColor, filling)(Projection.defaultMarkerSize * 2, Projection.defaultMarkerSize)
+    }
+    else if (userInput == 2) {
+      //noinspection RedundantNewCaseClass
+      marker = new Round(Projection.defaultMarkerColor, filling)(Projection.defaultMarkerSize)
+    }
+    else if (userInput == 3) {
+      //noinspection RedundantNewCaseClass
+      marker = new Square(Projection.defaultMarkerColor, filling)(Projection.defaultMarkerSize)
+    }
+
+    marker
+  }
+
+  /**
+    *
+    */
+  //noinspection RedundantBlock
+  def genProjector(): Projector = {
+    var projector: Projector = null
+
+    println(
+    "    Quel type de projection voulez-vous ?\n" +
+    s"    - 1) Equirectangular\n" +
+    s"    - 2) Equirectangular centré sur un aéroport"
+    )
+
+    print("    " + Data.prefix)
+    val userInput = scala.io.StdIn.readInt()
+
+    if (userInput == 1) {
+      projector = new EquiRectangularLat0Projector(Projection.center)
+    }
+    else if (userInput == 2) {
+      print("    Id de l'aéroport à utiliser: ")
+      val airportId = scala.io.StdIn.readInt()
+
+      val airport = Cli.base.getAirportById(airportId)
+      println(s"    Aéorport choisi: ${airport}")
+      projector = new EquiRectangularProjector(airport)
+    }
+
+    projector
   }
 }

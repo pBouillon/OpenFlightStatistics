@@ -18,8 +18,8 @@ object Main {
     * @param args options de lancement de l'application (inutilisées)
     */
   def main(args: Array[String]): Unit = {
-//    val myWidth = 4000
-//    val osloPos = globe.Point(59.913868, 10.752245)
+//    val myWidth = 2000
+//    val osloPos = globe.Point(0, 0)
 //    val myProjector = new EquiRectangularLat0Projector(osloPos)
 //    val myBackmapProvider = new D3BackMapProvider("http://d3backmapprovider.westeurope.azurecontainer.io:8080/")
 //    val myMapCreator = new MapCreator(myProjector, myBackmapProvider)(myWidth)

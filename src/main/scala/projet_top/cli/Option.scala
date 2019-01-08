@@ -18,5 +18,4 @@ object Option extends Enumeration {
   val Quest4  = 4
   val Quest5  = 5
   val Quest6  = 6
-  val Quest7  = 7
 }
