@@ -3,12 +3,12 @@ package projet_top.cli.utils
 import java.awt.Color
 
 import projet_top.globe.Point
-import projet_top.projection.backmap_providers.{BackmapProvider, D3BackMapProvider}
+import projet_top.projection.backmap_providers.{BackmapProvider, D3BackmapProvider}
 
 object MapCreation {
-  // map privoder
+  // map provider
   val defaultBackmapProvider: BackmapProvider =
-    new D3BackMapProvider("http://d3backmapprovider.westeurope.azurecontainer.io:8080/")
+    new D3BackmapProvider("http://d3backmapprovider.westeurope.azurecontainer.io:8080/")
 
   // marker
   val defaultMarkerColor: Color = Color.blue
