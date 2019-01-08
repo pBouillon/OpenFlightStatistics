@@ -1,3 +1,5 @@
+package projet_top.tests
+
 /**
   * Méthodes utiles lors des tests unitaires
   */

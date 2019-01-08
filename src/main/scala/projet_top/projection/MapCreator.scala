@@ -32,9 +32,11 @@ class MapCreator(projector: Projector, backmapProvider: BackmapProvider)(width: 
 
   /**
     * Place un marqueur sur la carte à la position de l'objet.
+ *
     * @param obj Objet que l'on veut représenter sur la carte
     * @param marker marqueur à utiliser pour représenter l'objet
     */
+  //noinspection RedundantBlock
   def plotObject(obj: HasCoordinates)(marker: Marker): Unit = {
     val projected = this.projector.projects(obj)(this.width)
     projected match {
