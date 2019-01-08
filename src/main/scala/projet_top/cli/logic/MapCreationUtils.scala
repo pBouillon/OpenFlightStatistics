@@ -21,7 +21,10 @@ object MapCreationUtils {
   def genBase(): AirportDatabase = {
     var baseUsed = Cli.base
 
-    print(s"    Représenter tous les aéroports de tous les pays ?(${utils.Options.Ok}/${utils.Options.No}): ")
+    print(
+      s"    Représenter tous les aéroports de tous les pays présents en base ?" +
+      s"(${utils.Options.Ok}/${utils.Options.No}): "
+    )
     if (scala.io.StdIn.readLine() == utils.Options.Ok) {
       return baseUsed
     }

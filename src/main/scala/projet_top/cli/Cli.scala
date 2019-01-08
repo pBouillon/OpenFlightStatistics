@@ -27,7 +27,10 @@ object Cli {
     * Charge un csv par défaut ou spécifié par l'utilisateur si demandé
     */
   def load_csv(): Unit = {
-    print(s"Voulez vous charger le fichier d'aéroports par défaut ? (${utils.Options.Ok}/${utils.Options.No}): ")
+    print(
+      s"Voulez vous charger le fichier d'aéroports par défaut (base réduite et incomplète)?" +
+      s"(${utils.Options.Ok}/${utils.Options.No}): "
+    )
 
     if (scala.io.StdIn.readLine() == utils.Options.Ok) {
       println("Chargement ...")

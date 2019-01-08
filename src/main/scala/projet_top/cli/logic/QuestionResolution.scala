@@ -159,7 +159,7 @@ object QuestionResolution {
     val density = Cli.base.getDensityIn(countryBase.getCountryByName("Canada"), _.inhabitants)
     println("    Calcul effectué.\n")
 
-    println(s"Densité d'aéroports par rapport à la superficie au Canada: ${density}")
+    println(s"Densité d'aéroports par rapport à la superficie au Canada: ${density} aéoroport(s)/km²")
 
     println()
   }
@@ -216,7 +216,6 @@ object QuestionResolution {
     val mapCreator = new MapCreator(projector, MapCreation.defaultBackmapProvider)(imageWidth)
 
     val baseUsed = genBase()
-
     mapCreator.plotAll(baseUsed)(marker)
 
     println()
