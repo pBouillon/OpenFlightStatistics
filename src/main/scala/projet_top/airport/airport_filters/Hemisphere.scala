@@ -10,6 +10,10 @@ sealed trait HemisphereChoice
   * Hémisphère Nord.
   */
 case object Northern extends HemisphereChoice {
+  /**
+    * Retourne une représentation textuelle de l'hémisphère.
+    * @return une représentation textuelle de l'hémisphère
+    */
   override def toString: String = "Northern"
 }
 
@@ -17,6 +21,10 @@ case object Northern extends HemisphereChoice {
   * Hémisphère Sud.
   */
 case object Southern extends HemisphereChoice {
+  /**
+    * Retourne une représentation textuelle de l'hémisphère.
+    * @return une représentation textuelle de l'hémisphère
+    */
   override def toString: String = "Southern"
 }
 
