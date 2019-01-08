@@ -118,10 +118,12 @@ object Utils {
 
   /**
     * Créé une fonction qui calcule les coordonnées d'un objet après une rotation de longitude puis latitude choisie.
+ *
     * @param rotLatitude delta-latitude de rotation
     * @param rotLongitude delta-longitude de rotation
     * @return la fonction de calcul de coordonnées
     */
+  //noinspection ScalaUnnecessaryParentheses
   def rotator(rotLatitude: Double, rotLongitude: Double): Function[HasCoordinates, Point] = {
     val rotLatFunc = rotationLatitude(rotLatitude) _
     val rotLongFunc = rotationLongitude(rotLongitude) _
