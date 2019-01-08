@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 
 import javax.imageio.ImageIO
+import projet_top.airport.AirportDatabase
 import projet_top.globe.HasCoordinates
 import projet_top.projection.backmap_providers.BackmapProvider
 import projet_top.projection.markers.Marker
@@ -39,6 +40,17 @@ class MapCreator(projector: Projector, backmapProvider: BackmapProvider)(width: 
     projected match {
       case OutOfMap => println(s"[WARNING] Object ${obj} cannot be plotted on the map with projector ${this.projector} !")
       case OnMap(x, y) => marker.putAt(this.brush)(x, y)
+    }
+  }
+
+  /**
+    * Place un marqueur sur la carte pour chaque aéroport de la database choisie.
+    * @param airportDatabase la database à utiliser
+    * @param marker le marqueur à placer pour chaque aéroport
+    */
+  def plotAll(airportDatabase: AirportDatabase)(marker: Marker): Unit = {
+    airportDatabase.toList.foreach {
+      airport => this.plotObject(airport)(marker)
     }
   }
 
