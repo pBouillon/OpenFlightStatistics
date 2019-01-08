@@ -30,7 +30,7 @@ class AirportDatabaseGetAirportByIdTest extends FlatSpec {
 
   behavior of "The AirportDatabase getAirportById method"
 
-  it should "throw an NSEE when looking for a non-existent ID" in {
+  it should "throw a NSEE when looking for a non-existent ID" in {
     intercept[NoSuchElementException](
       AirportDatabaseTestObjects.airportDatabase.getAirportById(-1)
     )
