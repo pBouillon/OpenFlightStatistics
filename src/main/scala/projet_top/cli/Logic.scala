@@ -4,11 +4,11 @@ import java.io.File
 
 import projet_top.airport.airport_filters.{CountryNames, Hemisphere, Northern}
 import projet_top.cli.Cli.defaultCountriesSources
+import projet_top.cli.CliProjectionLogic._
 import projet_top.country.CountryDatabase
 import projet_top.globe.Utils
 import projet_top.projection.MapCreator
-import projet_top.projection.markers._
-import projet_top.projection.projectors.{EquiRectangularLat0Projector, EquiRectangularProjector, Projector}
+import projet_top.projection.projectors.Projector
 
 object Logic {
 
@@ -117,6 +117,7 @@ object Logic {
     )
 
     println("    Calcul de la matrice réduite ...")
+
     val subset = Cli.base.getSubset(CountryNames(List("Canada")) || Hemisphere(Northern)).getDistanceMap
     println("    Calcul effectué.\n")
 
@@ -183,7 +184,7 @@ object Logic {
       print(s"    Taille souhaitée entre ${Projection.minWidth} et ${Projection.maxWidth} (en px): ")
       imageWidth = scala.io.StdIn.readInt()
       if (imageWidth <= Projection.minWidth || imageWidth > Projection.maxWidth) {
-        println(s"Taille invalide, utilisation de la taille par défaut (${Projection.defaultWidth} px)")
+        println(s"    Taille invalide, utilisation de la taille par défaut (${Projection.defaultWidth} px)")
         imageWidth = Projection.defaultWidth
       }
     }
@@ -208,9 +209,14 @@ object Logic {
       return
     }
 
+    println()
+
     // map creation
     val mapCreator = new MapCreator(projector, Projection.defaultBackmapProvider)(imageWidth)
-    Cli.base.airportIdToAirport.toList.foreach( el => mapCreator.plotObject(el._2)(marker) )
+
+    val baseUsed = genBase()
+
+    baseUsed.airportIdToAirport.toList.foreach( el => mapCreator.plotObject(el._2)(marker) )
 
     println()
 
@@ -223,79 +229,4 @@ object Logic {
     println()
   }
 
-  /**
-    *
-    */
-  def genMarker(): Marker = {
-    var marker: Marker = null
-    var filling: Filling = null
-
-    // marker's style
-    print(s"    Utiliser un marqueur plein ?(${Option.Ok}/${Option.No}): ")
-    if (scala.io.StdIn.readLine() == Option.Ok) {
-      filling = Filled
-    }
-    else {
-      filling = Outline(Projection.defaultMarkerOutlineThickness)
-    }
-
-
-
-    // marker's shape
-    println(
-      "    Quel type de marker voulez-vous ?\n" +
-      "    - 1) Rectangulaire\n" +
-      "    - 2) Rond\n" +
-      "    - 3) Carré"
-    )
-
-    print("    " + Data.prefix)
-    val userInput = scala.io.StdIn.readInt()
-
-    if (userInput == 1) {
-      //noinspection RedundantNewCaseClass
-      marker = new Rectangle(Projection.defaultMarkerColor, filling)(Projection.defaultMarkerSize * 2, Projection.defaultMarkerSize)
-    }
-    else if (userInput == 2) {
-      //noinspection RedundantNewCaseClass
-      marker = new Round(Projection.defaultMarkerColor, filling)(Projection.defaultMarkerSize)
-    }
-    else if (userInput == 3) {
-      //noinspection RedundantNewCaseClass
-      marker = new Square(Projection.defaultMarkerColor, filling)(Projection.defaultMarkerSize)
-    }
-
-    marker
-  }
-
-  /**
-    *
-    */
-  //noinspection RedundantBlock
-  def genProjector(): Projector = {
-    var projector: Projector = null
-
-    println(
-    "    Quel type de projection voulez-vous ?\n" +
-    s"    - 1) Equirectangular\n" +
-    s"    - 2) Equirectangular centré sur un aéroport"
-    )
-
-    print("    " + Data.prefix)
-    val userInput = scala.io.StdIn.readInt()
-
-    if (userInput == 1) {
-      projector = new EquiRectangularLat0Projector(Projection.center)
-    }
-    else if (userInput == 2) {
-      print("    Id de l'aéroport à utiliser: ")
-      val airportId = scala.io.StdIn.readInt()
-
-      val airport = Cli.base.getAirportById(airportId)
-      println(s"    Aéorport choisi: ${airport}")
-      projector = new EquiRectangularProjector(airport)
-    }
-
-    projector
-  }
 }

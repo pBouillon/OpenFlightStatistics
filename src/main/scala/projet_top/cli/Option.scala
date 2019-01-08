@@ -4,7 +4,7 @@ object Option extends Enumeration {
   type Option = Int
 
   // basic answers
-  val Ok      = "O"
+  val Ok      = "o"
   val No      = "N"
 
   // basic operations
