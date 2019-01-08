@@ -116,15 +116,15 @@ object MapCreationUtils {
 
     println(
       "    Quel type de projection voulez-vous ?\n" +
-        s"    - 1) Equirectangular\n" +
-        s"    - 2) Equirectangular centré sur un aéroport"
+        s"    - 1) Equirectangulaire centré seulement sur la longitude de l'aéroport\n" +
+        s"    - 2) Equirectangulaire centré la latitude et la longitude de l'aéroport"
     )
 
     print("    " + Displayables.prefix)
     val userInput = scala.io.StdIn.readInt()
 
     if (userInput == 1) {
-      projector = new EquiRectangularLat0Projector(MapCreation.center)
+      projector = new EquiRectangularLat0Projector(genProjectionCenter())
     }
     else if (userInput == 2) {
       projector = new EquiRectangularProjector(genProjectionCenter())
