@@ -22,10 +22,11 @@ object CountryDatabase {
     var countries: List[Country] = Nil
 
     val reader = CSVReader.open(inputFile)
+
     reader.foreach(fields => {
       //noinspection ZeroIndexToHead
       countries = Country(
-        countryName = fields(0).toString,
+        countryName = fields(0),
         inhabitants = fields(1).toLong,
         surface = fields(2).toDouble
       ) :: countries

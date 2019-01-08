@@ -16,16 +16,16 @@ trait HasCoordinates {
 
   require(
     -90 <= this.latitude && this.latitude < 90,
-    "longitude must be in range [-90, 90[°"
+    s"latitude must be in range [-90, 90[° (found: ${this.latitude})"
   )
   require(
     -180 <= this.longitude && this.longitude < 180,
-    "longitude must be in range [-180, 180[°"
+    s"longitude must be in range [-180, 180[° (found: ${this.longitude})"
   )
 
   /**
-    * Creates a point with the same coordinates as this object.
-    * @return a point with the same coordinates as this object
+    * Créé un point avec les même coordonnées que cet objet.
+    * @return un point avec les même coordonnées que cet objet
     */
   def toPoint: Point = {
     Point(this.latitude, this.longitude)
