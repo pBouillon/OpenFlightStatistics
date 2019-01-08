@@ -18,7 +18,7 @@ object QuestionResolution {
     */
   def questionOne(): Unit = {
     println("    +-----------")
-    println("    | Question 1: chargement d'un fichier CSV\n")
+    println("    | Question 1: affichage du contenu du fichier CSV\n")
 
     print(s"    Votre base contient ${Cli.base.toList.length} aéroport(s), les afficher ? (${utils.Options.Ok}/${utils.Options.No}): ")
 
