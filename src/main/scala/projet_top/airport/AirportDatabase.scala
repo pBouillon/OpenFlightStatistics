@@ -5,7 +5,6 @@ import java.io._
 import com.github.tototoshi.csv.CSVReader
 import projet_top.airport.airport_filters.AirportFilter
 import projet_top.country.Country
-import projet_top.Utils.prefixLinesWith
 
 import scala.collection.immutable
 
@@ -185,8 +184,8 @@ class AirportDatabase private (val airportIdToAirport: immutable.Map[Int, Airpor
     */
   def toStringFull: String = {
     "AirportDatabase [\n" +
-      s"    airports        ${this.airportIdToAirport.size}\n\n" +
-      prefixLinesWith(this.toList.sortBy(_.airportId).map(_.toString).mkString(",\n"), "    ") +
+      s"    airports        ${this.airportIdToAirport.size}\n" +
+      this.toList.map(airport => "   " + airport.toString).mkString("\n") +
       "\n]"
   }
 }

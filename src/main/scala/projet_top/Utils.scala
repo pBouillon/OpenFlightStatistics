@@ -14,15 +14,4 @@ object Utils {
   def encodeBase64(data: String): String = {
     Base64.getEncoder.encodeToString(data.getBytes("ASCII"))
   }
-
-  /**
-    * Préfixe chaque ligne de sourceString par le préfixe choisi, et retourne
-    * la chaîne résultat.
-    * @param sourceString chaîne dont on veut préfixer chaque ligne
-    * @param prefix préfixe pour chaque début de ligne de sourceString
-    * @return le résultat du préfixage
-    */
-  def prefixLinesWith(sourceString: String, prefix: String): String = {
-    sourceString.split("\\n").map(line => { if (line.length > 0) { prefix + line } else line }).mkString("\n")
-  }
 }

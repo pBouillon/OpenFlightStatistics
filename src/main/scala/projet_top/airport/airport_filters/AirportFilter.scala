@@ -36,7 +36,7 @@ abstract class AirportFilter {
     * Inverse le filtre courant.
     * @return un nouveau filtre qui accepte l'opposé de ce qu'accepte ce filtre
     */
-  def unary_! : AirportFilter = new CustomAirportFilter(this.rejects, s"!(${this.constraintsRepr})")
+  def unary_!(): AirportFilter = new CustomAirportFilter(this.rejects, s"!(${this.constraintsRepr})")
 
   /**
     * Réalise un OU des deux filtres.
