@@ -9,6 +9,9 @@ import scala.math.{pow, sqrt}
   * Objet compagnon de la classe AirportDistanceMap. Sert à contenir les méthodes et champs statiques.
   */
 object AirportDistanceMap {
+  /**
+    * Valeur retournée par les fonctions statistiques quand l'AirportDistanceMap ne contient aucune paire.
+    */
   val EmptyMapSoNoValue: Double = -1
 }
 
@@ -20,8 +23,13 @@ object AirportDistanceMap {
   */
 //noinspection RedundantBlock,ScalaUnusedSymbol
 class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
-
+  /**
+    * Contient la même map que dans l'airportDatabase passée au constructeur.
+    */
   private val airportIdToAirport: Map[Int, Airport] = this.airportDatabase.airportIdToAirport
+  /**
+    * Contient la map des distances véritables.
+    */
   private val airportIdsToDistance: Map[(Int, Int), Double] =
     for ((airportId1, airport1) <- this.airportIdToAirport;
          (airportId2, airport2) <- this.airportIdToAirport if airportId1 < airportId2)

@@ -6,6 +6,8 @@ import com.github.tototoshi.csv.CSVReader
 
 import scala.collection.immutable
 
+import projet_top.Utils.prefixLinesWith
+
 /**
   * Objet compagnon de la classe CountryDatabase. Contient les champs et méthodes statiques
   */
@@ -53,7 +55,7 @@ object CountryDatabase {
   * @param countryNameToCountry map countryName <=> objets Country contenants les données des pays
   */
 //noinspection RedundantBlock
-class CountryDatabase private (private val countryNameToCountry: immutable.Map[String, Country]) {
+class CountryDatabase private (val countryNameToCountry: immutable.Map[String, Country]) {
   /**
     * Retourne l'objet Country correspondant au countryName choisi, et lève une exception si ce
     * countryName n'est pas dans la base de données.
@@ -135,8 +137,8 @@ class CountryDatabase private (private val countryNameToCountry: immutable.Map[S
     */
   def toStringFull: String = {
     "CountryDatabase [\n" +
-      s"    countries       ${this.countryNameToCountry.size}\n" +
-      this.toList.map(country => "   " + country.toString).mkString("\n") +
+      s"    countries       ${this.countryNameToCountry.size}\n\n" +
+      prefixLinesWith(this.toList.sortBy(_.countryName).map(_.toString).mkString(",\n"), "    ") +
       "\n]"
   }
 }

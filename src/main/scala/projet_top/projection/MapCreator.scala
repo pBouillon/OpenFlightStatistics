@@ -22,12 +22,12 @@ class MapCreator(projector: Projector, backmapProvider: BackmapProvider)(width: 
   /**
     * Image en train d'être modifiée qui représente la carte + les marqueurs tracés.
     */
-  val image: BufferedImage = backmapProvider.provide(projector)(width)
+  private val image: BufferedImage = backmapProvider.provide(projector)(width)
 
   /**
     * Brush permettant de modifier l'image (ici, d'ajouter les marqueurs).
     */
-  val brush: Graphics2D = this.image.createGraphics()
+  private val brush: Graphics2D = this.image.createGraphics()
 
   /**
     * Place un marqueur sur la carte à la position de l'objet.
