@@ -34,17 +34,20 @@ object QuestionResolution {
   /**
     * Implémentation avec affichage de la question 2
     */
+  //noinspection RedundantBlock
   def questionTwo(): Unit = {
     println("    +-----------")
     println("    | Question 2: calcul de distance entre deux aéroports et matrice des distances\n")
 
-    //noinspection ZeroIndexToHead
-    val firstAirport = Cli.base.toList(0)
-    val secondAirport = Cli.base.toList(1)
+    print("    ID du premier aéroport: ")
+    val firstAirport = Cli.base.toList(scala.io.StdIn.readInt())
+
+    print("    ID du second aéroport: ")
+    val secondAirport = Cli.base.toList(scala.io.StdIn.readInt())
 
     println(
-      s"    Les aéroports utilisés pour la distance seront ceux " +
-        s"d'ID ${firstAirport.airportId} et ${secondAirport.airportId}"
+      s"    Les aéroports utilisés pour la distance seront:\n" +
+      s"- ${firstAirport}\n- ${secondAirport}"
     )
 
     println("    Evaluation de la distance ...")
