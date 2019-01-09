@@ -206,7 +206,7 @@ Nous n'avons pas eu le temps d'implémenter d'autres types de projection, et don
     
     \section{Complexité}
     
-    La seule complexité notable de notre projet est la création de l'objet \tt{AirportDistanceMap}, puisque, lors de l'exécution de l'algorithme, il s'agit de calculer des données relatives aux aéroports entre eux. De fait, il nous fait itérer deux fois sur chaque élément du tableau. Il en résulte une complexité en n carré qui, bien que peu élégante, est malheureusement nécessaire pour cette partie.
+    La seule complexité notable de notre projet est la création de l'objet \tt{AirportDistanceMap}, puisque, lors de l'exécution de l'algorithme, il s'agit de calculer des données relatives aux aéroports entre eux. De fait, il nous fait itérer deux fois sur chaque élément du tableau. Il en résulte une complexité en O(n^2) qui, bien que peu élégante, est malheureusement nécessaire pour cette partie.
 %================================================================================================================
 
     \chapter{Technologies} % parsing CSV / etc.
@@ -1027,9 +1027,14 @@ Pour gagner en rigueur, en temps et en efficacité, nous pourrions mettre en pla
 \part*{Sources}\label{part:sources}
 \addcontentsline{toc}{part}{\nameref{part:sources}}
 
-this is sources!
-
 Martin \sc{Odersky} \& al., 2016, \it{Programming in Scala} (3\tss{rd} edition), \sf{artima}
+
+Rémi \sc{Bachelet}, MOOC Gestion De Projet
+
+StackExchange, \href{https://gis.stackexchange.com/questions/10808/manually-transforming-rotated-lat-lon-to-regular-lat-lon}{manipulations sur les projections}
+
+Wikipedia \href{https://fr.wikipedia.org/wiki/Projection_cylindrique_\%C3\%A9quidistante}{Ressources sur les projections}
+
 
 %================================================================================================================
 
