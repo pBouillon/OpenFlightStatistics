@@ -1,0 +1,129 @@
+%%%%%%%%%%%%%%  CAPITALES EN ROMAIN DANS LES MATH
+\def\MakeRomanCapitalMaths{{\count0=65\loop
+\count1=\count0
+\advance\count1 by 28672
+\global\mathcode\count0=\count1
+\ifnum\count0<90 \advance\count0 by1\repeat}}
+\MakeRomanCapitalMaths
+
+%%%%%%%%%%%%%%  GUILLEMETS ALLEMANDS, FRANCAIS ET ES-ZET
+
+\def\glqq{$\smash{\raise-5.5pt\hbox{\rq\rq}}$\kern0.05em}
+\def\grqq{\lq\lq\ }
+
+\def\glq{$\smash{\raise-5.5pt\hbox{\rq}}$\kern0.05em}
+\def\grq{\lq\ }
+
+
+\def\flqq{\protect\@flqq}
+\def\@flqq{\relax \ifmmode \ll \else
+   {\raise .2ex\hbox{$\scriptscriptstyle \ll $}}\fi}
+\def\frqq{\protect\@frqq}
+\def\@frqq{\relax \ifmmode \gg \else
+   {\raise .2ex\hbox{$\scriptscriptstyle \gg $}}\fi}
+
+\let\3\ss
+
+
+%%%%%%%%%%%% INEGALITES LARGES A LA FRANCAISE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\font\ams=msam10
+
+\def\lef{\mathrel{\hbox{\ams\char54}}}
+\def\gef{\mathrel{\hbox{\ams\char62}}}
+\let\leq\lef
+\let\geq\gef
+\let\le\lef
+\let\ge\gef
+
+%%%%  CE QUI PRECEDE PEUT SUFFIRE SI ON N'UTILISE PAS INEGALITES LARGES EN SMALL NI DANS LES
+%%%%  NOTES DE BAS DE PAGE. A VERIFIER
+
+%%%%%%%%%%%%% FICHIER OLDNUMBERS 10.STY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% CREE A PARTIRE DE oldnumbers11.sty (ALBERTO ARABIA) PAR ANDRE BELLAICHE. PLEASE REPORT ERRORS
+% Fichier pour la gestion des fontes AMS sous format LaTeX
+%(Arabia. Jullet 1993)
+%Mode d'utilisation:
+%
+%          A rajouter dans \documentstyle[oldnumbers11,...]{...}
+%
+%\catcode`@=11 
+%
+%                               
+%
+\font\xxvoldnumbers=cmmi10 at 25pt 
+\font\xxoldnumbers=cmmi10 at 20pt 
+\font\svntnoldnumbers=cmmi10 at 17pt 
+\font\frtnoldnumbers=cmmi10 at 14pt 
+\font\twlvoldnumbers=cmmi10 at 12pt 
+\font\elvnoldnumbers=cmmi10 at 11pt
+\font\tenoldnumbers=cmmi10 at10pt
+\font\nineoldnumbers=cmmi10 at 9.5pt
+\font\FOOTNOTEoldnumbers = cmmi10 at 8.6pt %%% bizarreRRie dasn oldnumbers11.sty
+                              %%%%small\tenoldnumbers\else
+                              %%%%scriptsize\eightoldnumbers\else
+                              %%%%footnotesize\nineoldnumbers\else
+                              %%%%SANS DOUTE POUR AVOIR UN GRAND CHIFFRE EN APPEL DE NOTE
+\font\eightoldnumbers=cmmi10 at 8pt
+\font\sevenoldnumbers=cmmi10 at 7pt
+\font\sixoldnumbers=cmmi10 at 6pt
+\font\fiveoldnumbers=cmmi10 at 5pt
+%\input newsetsize.sty
+%
+\def\oldnumbers{\protect\oldnumbersfragile}
+\def\oldnumbersfragile{\ifx\@currsize\normalsize %
+                             %normal
+                             \tenoldnumbers\else
+        \ifx\@currsize\small %
+                             %smalll
+                             \nineoldnumbers\else
+             \ifx\@currsize\scriptsize  %
+                             %scriptsize
+                             \sevenoldnumbers\else
+                   \ifx\@currsize\footnotesize  %
+                             %footnotesize
+                             \FOOTNOTEoldnumbers\else
+                         \ifx\@currsize\tiny % 
+                             %tiny
+                             \fiveoldnumbers\else
+                              \ifx\@currsize\large % 
+                             %large
+                             \twlvoldnumbers\else
+                                   \ifx\@currsize\Large % 
+                             %Large
+                             \frtnoldnumbers\else
+%
+%
+%
+% Enlever les doubles pourcentages pour acceder 
+% aux autres tailles prevues par LATEX.
+%
+                                        \ifx\@currsize\LARGE % 
+                             %LARGE
+                             \svntnoldnumbers\else%
+                                                        \ifx\@currsize\huge % 
+                             %huge
+                             \xxoldnumbers\else%
+                                                        \ifx\@currsize\Huge % 
+                             %Huge
+                             \xxvoldnumbers\else%
+%%%\immediate\write16{No 'oldnumbers' at \donnetaille  size.}
+AAAAAAA
+\fi
+                                                    \fi
+                                               \fi
+                                         \fi 
+                                    \fi 
+                              \fi 
+                         \fi 
+                   \fi 
+             \fi 
+        \fi}
+%
+%
+%\catcode`@=12 %
+%
+%% changed 29 Apr 86
+\let\oldstyle\oldnumbers
+%%%%%%%%%%%\let\counterstyle\oldnumbers
+\def\old#1{{\oldstyle#1}}

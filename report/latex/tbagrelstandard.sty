@@ -1,0 +1,250 @@
+\NeedsTeXFormat{LaTeX2e}
+
+\ProvidesPackage{tbagrelstandard}[16/08/2017 - V0.3.1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[english, french]{babel}
+\RequirePackage{etoolbox}
+\RequirePackage{calc}
+
+\RequirePackage[margin=2cm]{geometry}
+\RequirePackage[activate={true, nocompatibility}, stretch=10, shrink=10, kerning=true]{microtype}
+\RequirePackage{hyperref}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{oldnbs11}
+\RequirePackage{ospecial}
+\RequirePackage{xcolor}
+\RequirePackage{upref}
+\RequirePackage{setspace}
+\RequirePackage{enumitem}
+\RequirePackage[scr]{rsfso}
+\RequirePackage[retainorgcmds]{IEEEtrantools}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\RequirePackage{caption}
+\RequirePackage{fancyhdr}
+% \RequirePackage[pagestyles, outermarks]{titlesec}
+% \RequirePackage{lastpage} NOT WORKING
+\RequirePackage{fancybox}
+\RequirePackage{pgfornament}
+\RequirePackage{tabularx}
+\RequirePackage{indentfirst}
+\RequirePackage{avant}
+\RequirePackage{lmodern}
+
+% Famille police SFT
+\newcommand{\sftdefault}{pag}
+\newcommand{\sftfamily}{\fontfamily{\sftdefault}\selectfont}
+\newcommand{\textsft}[1]{{\fontfamily{\sftdefault}\selectfont #1}}
+
+% Opérateurs mathématiques
+\DeclareMathOperator{\Arcsin}{Arcsin}
+\DeclareMathOperator{\Arccos}{Arccos}
+\DeclareMathOperator{\Arctan}{Arctan}
+
+% Commande de tabulation
+\newcommand{\tab}{\hspace{1cm}}       % Tabulation
+
+% Commandes ensembles math
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Rb}{\mathbf{R}}
+\newcommand{\Nb}{\mathbf{N}}
+\newcommand{\Db}{\mathbf{D}}
+\newcommand{\Zb}{\mathbf{Z}}
+\newcommand{\Qb}{\mathbf{Q}}
+\newcommand{\Cb}{\mathbf{C}}
+
+% Commande vecteur
+\newcommand{\lvec}[1]{\mathchoice%
+{\overrightarrow{\displaystyle\mathstrut#1\,\,}}%
+{\overrightarrow{\textstyle\mathstrut#1\,\,}}%
+{\overrightarrow{\scriptstyle\mathstrut#1\,\,}}%
+{\overrightarrow{\scriptscriptstyle\mathstrut#1\,\,}}}
+
+% Pour les environnements enumerate
+\renewcommand{\theenumi}{\textbf{\arabic{enumi}}}
+\renewcommand{\labelenumi}{\textbf{\theenumi.}}
+\renewcommand{\theenumii}{\textbf{\alph{enumii}}}
+\renewcommand{\labelenumii}{\textbf{\theenumii.}}
+
+% Vecteurs i et j en maths
+\newcommand{\veci}{\vec{\imath}}
+\newcommand{\vecj}{\vec{\jmath}}
+
+% Operateurs en maths
+\renewcommand{\u}[1]{\,\mathrm{#1}}
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\dt}{\mathrm{d}t}
+\newcommand{\dy}{\mathrm{d}y}
+\newcommand{\di}[1]{\mathrm{d}#1}
+\newcommand{\EE}[1]{\cdot 10^{#1}}
+\renewcommand{\i}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\renewcommand{\no}[1]{n\textsuperscript{o}#1}
+\newcommand{\degC}{\degres{}\mathrm{C}}
+
+% Commande restriction maths
+\renewcommand{\restriction}[2]{\mathchoice
+              {\setbox1\hbox{${\displaystyle #1}_{\scriptstyle #2}$}
+              \restrictionaux{#1}{#2}}
+              {\setbox1\hbox{${\textstyle #1}_{\scriptstyle #2}$}
+              \restrictionaux{#1}{#2}}
+              {\setbox1\hbox{${\scriptstyle #1}_{\scriptscriptstyle #2}$}
+              \restrictionaux{#1}{#2}}
+              {\setbox1\hbox{${\scriptscriptstyle #1}_{\scriptscriptstyle #2}$}
+              \restrictionaux{#1}{#2}}}
+\newcommand{\restrictionaux}[2]{{#1\,\smash{\vrule height .8\ht1 depth .85\dp1}}_{\,#2}}
+
+% Ensemble solution
+\renewcommand{\S}{\mathscr{S}}
+
+% Commande limite
+\newcommand{\lims}{\lim\limits}
+
+% Commande intervalle d'entiers
+\newcommand{\itg}[1]{[\![#1]\!]}
+
+% Commande \intertext dans les environnements IEEEeqnarray
+\makeatletter
+\patchcmd{\@IEEEeqnarray}{\relax}{\relax\intertext@}{}{}
+\makeatother
+
+% En-tête personnalisé et boîtes de titre
+\newcommand{\heading}[5]{{#5
+\noindent{#1} \hfill #3 \\
+#2 \hfill #4}}
+
+\newcommand{\fancytitle}[4]{\begin{center}
+\cornersize*{6mm}\setlength{\fboxsep}{#3}\noindent
+\Ovalbox{\begin{minipage}{#2-2\fboxsep}
+\begin{center}
+#4
+#1
+\end{center}
+\end{minipage}}
+\end{center}}
+
+\newcommand{\fancymarkbox}[5]{\begin{center}
+\cornersize*{6mm}\setlength{\fboxsep}{#4}\noindent
+\Ovalbox{\begin{minipage}{\linewidth-2\fboxsep}
+#5
+\vspace{0.5cm}
+\hspace{1cm}#1\hfill#2\hspace{1cm}
+\vspace{#3}
+\end{minipage}}
+\end{center}}
+
+\newcommand{\fancyovalbox}[3]{\cornersize*{6mm}\setlength{\fboxsep}{#3}\noindent
+\Ovalbox{\begin{minipage}{#2-2\fboxsep}\begin{center}
+#1
+\end{center}\end{minipage}}}
+
+\newcommand{\ornament}[2]{\begin{center}
+\pgfornament[width=#2]{#1}
+\end{center}}
+
+% Raccourcis
+\newcommand{\tn}[1]{\textnormal{#1}}
+\newcommand{\ep}[1]{\emph{#1}}
+\renewcommand{\up}[1]{\textup{#1}}
+\renewcommand{\sl}[1]{\textsl{#1}}
+\renewcommand{\sc}[1]{\textsc{#1}}
+\renewcommand{\it}[1]{\textit{#1}}
+\newcommand{\md}[1]{\textmd{#1}}
+\renewcommand{\bf}[1]{\textbf{#1}}
+\renewcommand{\rm}[1]{\textrm{#1}}
+\renewcommand{\sf}[1]{\textsf{#1}}
+\renewcommand{\tt}[1]{\texttt{#1}}
+\newcommand{\sft}[1]{\textsft{#1}}
+\newcommand{\mtn}[1]{\mathnormal{#1}}
+\newcommand{\mrm}[1]{\mathrm{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+\newcommand{\mtt}[1]{\mathtt{#1}}
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\renewcommand{\mit}[1]{\mathit{#1}}
+\newcommand{\mbb}[1]{\mathbb{#1}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mca}[1]{\mathcala{#1}}
+\newcommand{\mcb}[1]{\mathcalb{#1}}
+\newcommand{\mcc}[1]{\mathcalc{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Définition des vecteurs
+\let\svec\vec
+% Choix vecteur par défaut
+\let\vec\lvec
+% \let\vec\svec
+
+% Définition des alphabets caligraphiques
+\let\mathcala\mathscr
+\let\mathcalb\mathcal
+\let\mathcalc\mathfrak
+% Alphabet caligraphique par défaut
+\let\mathcal\mathcala
+% \let\mathcal\mathcalb
+% \let\mathcal\mathcalc
+
+% Définition des variantes de phi
+\let\lphi\phi
+\let\vphi\varphi
+% Choix variante de phi par défaut
+\let\phi\vphi
+
+% Définition des variantes de epsilon
+\let\lepsilon\epsilon
+\let\vepsilon\varepsilon
+% Choix variante de epsilon par défaut
+\let\epsilon\vepsilon
+% \let\epsilon\lepsilon
+
+% Définition des fractions
+\let\sfrac\frac
+\let\lfrac\dfrac
+% Choix fraction par défaut
+\let\frac\sfrac
+% \let\frac\dfrac
+
+% Définition des iff
+\let\liff\iff
+\let\siff\Leftrightarrow
+% Choix iff par défaut
+\let\iff\liff
+% \let\iff\siff
+
+% Définition des [l|g]eqslant
+\let\rleq\leq
+\let\rgeq\geq
+\let\sleq\leqslant
+\let\sgeq\geqslant
+% Choix [l|g]eqslant par défaut
+\let\leq\rleq
+\let\geq\rgeq
+% \let\leq\sleq
+% \let\geq\sgeq
+
+% Raccourcis
+\let\lto\longrightarrow
+\let\lsto\longmapsto
+\let\non\nonumber
+\let\wh\widehat
+\let\noi\noindent
+\let\x\times
+\let\cd\cdot
+\let\tss\textsuperscript
+
+\pagestyle{plain}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput
