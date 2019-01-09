@@ -11,7 +11,7 @@ object Cli {
   /**
     * chemin vers le fichier .csv par défaut des aéroports
     */
-  val defaultAirportsSources = "resources/airports.csv"
+  val defaultAirportsSources = "resources/lightAirports.csv"
 
   /**
     * chemin vers le fichier .csv par défaut des pays

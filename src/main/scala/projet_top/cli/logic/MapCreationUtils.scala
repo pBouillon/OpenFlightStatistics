@@ -116,8 +116,8 @@ object MapCreationUtils {
 
     println(
       "    Quel type de projection voulez-vous ?\n" +
-        s"    - 1) Equirectangulaire centré seulement sur la longitude de l'aéroport\n" +
-        s"    - 2) Equirectangulaire centré la latitude et la longitude de l'aéroport"
+        s"    - 1) Equirectangulaire centrée seulement sur la longitude de l'aéroport\n" +
+        s"    - 2) Equirectangulaire centrée la latitude et la longitude de l'aéroport"
     )
 
     print("    " + Displayables.prefix)

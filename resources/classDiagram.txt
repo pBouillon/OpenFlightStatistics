@@ -44,9 +44,6 @@ class AirportDistanceMap {
     {method} + {static} AirportDistanceMap(AirportDatabase)
 
     {field} - airportDatabase : AirportDatabase
-    {field} - airportIdToAirport : Map[Int, Airport]
-    {field} - airportIdsToDistance : Map[(Int, Int), Double]
-    {field} - airportToAirportId : Map[Airport, Int]
     {field} - pairsNumber : Int
     {field} - sortedDistances : List[Double]
 
