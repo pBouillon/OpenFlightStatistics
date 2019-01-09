@@ -2,10 +2,9 @@ package projet_top.cli.logic
 
 import java.io.File
 
-import projet_top.airport.airport_filters.{CountryNames, Hemisphere, Northern}
 import projet_top.cli.Cli.defaultCountriesSources
 import MapCreationUtils.{genBase, genMarker, genProjector}
-import projet_top.cli.utils.MapCreation
+import projet_top.cli.utils.{Displayables, MapCreation}
 import projet_top.cli.{Cli, utils}
 import projet_top.country.CountryDatabase
 import projet_top.globe.Utils
@@ -47,7 +46,7 @@ object QuestionResolution {
 
     println(
       s"    Les aéroports utilisés pour la distance seront:\n" +
-      s"- ${firstAirport}\n- ${secondAirport}"
+      s"- ${firstAirport}\n- ${secondAirport}\n"
     )
 
     println("    Evaluation de la distance ...")
@@ -74,15 +73,6 @@ object QuestionResolution {
   def questionThree(): Unit = {
     println("    +-----------")
     println("    | Question 3: calcul des statistiques descriptives des aéroports\n")
-
-    //noinspection ZeroIndexToHead
-    val firstAirport = Cli.base.toList(0)
-    val secondAirport = Cli.base.toList(1)
-
-    println(
-      s"Les aéroports utilisés pour la distance seront ceux " +
-        s"d'ID ${firstAirport.airportId} et ${secondAirport.airportId}"
-    )
 
     println("    Génération de la DistanceMap ...")
     val matrice = Cli.base.getDistanceMap
@@ -114,20 +104,22 @@ object QuestionResolution {
     println("    +-----------")
     println("    | Question 4: calcul des statistiques descriptives d'un sous-ensemble d'aéroports\n")
 
-    println(
-      "    Les filtres utilisés sont: \n" +
-      "    - Dans l'hémisphère Sud\n" +
-      "    - Ou au Canada\n"
+    val generatedBase = genBase()
+
+    print(
+      s"    Votre base réduite contient ${generatedBase.toList.length} aéroport(s), " +
+      s"les afficher ? (${utils.Options.Ok}/${utils.Options.No}): "
     )
 
-    println("    Calcul de la matrice réduite ...")
+    if (scala.io.StdIn.readLine() == utils.Options.Ok) {
+      generatedBase.toList
+        .sortBy(airport => airport.airportId)
+        .foreach(airport => println(s"    - $airport"))
+    }
 
-    val subset = Cli.base.getSubset(CountryNames(List("Canada")) || Hemisphere(Northern)).getDistanceMap
-    println("    Calcul effectué.\n")
+    println()
 
-    println(s"   Matrice réduite:\n    - ${subset}\n")
-
-    println(s"    Calcul de la distance minimale sur cette matrice: ${subset.minDistance}")
+    println(s"    DistanceMap de la base réduite: ${generatedBase.getDistanceMap}")
 
     println()
   }
@@ -156,13 +148,17 @@ object QuestionResolution {
     }
     println("    Chargement effectué !\n")
 
-    println("    Pour ces tests, nous calculerons la densité par rapport pour le Canada.\n")
+    println("    Entrez le nom du pays (tel que présent en base) sur lequel faire ces statistiques")
+    print("    " + Displayables.prefix)
+    val countryName = scala.io.StdIn.readLine()
+
+    println()
 
     println("    Calcul de densité ...")
-    val density = Cli.base.getDensityIn(countryBase.getCountryByName("Canada"), _.inhabitants)
+    val density = Cli.base.getDensityIn(countryBase.getCountryByName(countryName), _.inhabitants)
     println("    Calcul effectué.\n")
 
-    println(s"Densité d'aéroports par rapport à la superficie au Canada: ${density} aéoroport(s)/km²")
+    println(s"    Densité pour le pays choisi (${countryName}): ${density} aéoroport(s)/km²")
 
     println()
   }
