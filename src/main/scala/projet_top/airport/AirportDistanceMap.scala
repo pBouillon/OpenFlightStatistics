@@ -2,7 +2,7 @@ package projet_top.airport
 
 import projet_top.globe.Utils.distance
 
-import scala.collection.immutable
+import scala.util.Sorting.quickSort
 import scala.math.{pow, sqrt}
 
 /**
@@ -24,37 +24,24 @@ object AirportDistanceMap {
 //noinspection RedundantBlock,ScalaUnusedSymbol
 class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
   /**
-    * Contient la même map que dans l'airportDatabase passée au constructeur.
-    */
-  private val airportIdToAirport: Map[Int, Airport] = this.airportDatabase.airportIdToAirport
-  /**
-    * Contient la map des distances véritables.
-    */
-  private val airportIdsToDistance: Map[(Int, Int), Double] =
-    for ((airportId1, airport1) <- this.airportIdToAirport;
-         (airportId2, airport2) <- this.airportIdToAirport if airportId1 < airportId2)
-    yield { (airportId1, airportId2) -> distance(airport1, airport2) }
-
-  /**
-    * Inverse de la map airportIdToAirport, utilisée par apply(Airport, Airport)
-    */
-  private val airportToAirportId: immutable.Map[Airport, Int] =
-    this.airportIdToAirport map { case (airportId, airport) => (airport, airportId) }
-
-  /**
     * Nombre de pairs d'aéroports dans la map des distances.
     */
-  private val pairsNumber: Int = airportIdsToDistance.size
+  private val pairsNumber: Int = (this.airportDatabase.airportIdToAirport.size * (this.airportDatabase.airportIdToAirport.size - 1)) / 2
 
   /**
     * Liste triée des distances.
     */
-  private val sortedDistances =
-    this.airportIdsToDistance.map({
-      case ((airportId1, airportId2), distance) => distance
-    }).toList.sortWith({
-      case (distance1, distance2) => distance1 < distance2
-    })
+  private val sortedDistances = Array.ofDim[Double](pairsNumber)
+  private[this] var i = 0
+  for ((airportId1, airport1) <- this.airportDatabase.airportIdToAirport) {
+    for ((airportId2, airport2) <- this.airportDatabase.airportIdToAirport) {
+      if (airportId1 < airportId2) {
+        this.sortedDistances(i) = distance(airport1, airport2)
+        i += 1
+      }
+    }
+  }
+  quickSort(sortedDistances)
 
   //----------------------------------------------------------------------------
   // METHOD-LIKE FIELDS
@@ -72,8 +59,11 @@ class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
     */
   lazy val minDistance: Double = {
     // on prend la première valeur de la liste des distances rangées dans l'odre croissant
-
-    this.sortedDistances.head
+    if (this.containsPairs) {
+      this.sortedDistances.head
+    } else {
+      AirportDistanceMap.EmptyMapSoNoValue
+    }
   }
 
   /**
@@ -81,8 +71,11 @@ class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
     */
   lazy val maxDistance: Double = {
     // on prend la dernière valeur de la liste des distances rangées dans l'odre croissant
-
-    this.sortedDistances.last
+    if (this.containsPairs) {
+      this.sortedDistances.last
+    } else {
+      AirportDistanceMap.EmptyMapSoNoValue
+    }
   }
 
   /**
@@ -101,12 +94,16 @@ class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
     * Distance médiane entre les aéroports de la carte.
     */
   lazy val medianDistance: Double = {
-    // On calcule notre médiane selon le nombre d'éléments (pair/impair) dans notre ensemble
-    if (this.pairsNumber % 2 == 1)
-      this.sortedDistances(this.pairsNumber / 2)
-    else {
-      val (centerLeft, centerRight) = sortedDistances.splitAt(this.pairsNumber / 2)
-      (centerLeft.last + centerRight.head) / 2.0
+    if (this.containsPairs) {
+      // On calcule notre médiane selon le nombre d'éléments (pair/impair) dans notre ensemble
+      if (this.pairsNumber % 2 == 1)
+        this.sortedDistances(this.pairsNumber / 2)
+      else {
+        val (centerLeft, centerRight) = sortedDistances.splitAt(this.pairsNumber / 2)
+        (centerLeft.last + centerRight.head) / 2.0
+      }
+    } else {
+      AirportDistanceMap.EmptyMapSoNoValue
     }
   }
 
@@ -114,9 +111,13 @@ class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
     * Écart-type des distances qui séparent les aéroports de la carte.
     */
   lazy val stdDev: Double = {
-    val avg = this.avgDistance
-    // On calcule l'écart-type et on le renvoie
-    sqrt(this.sortedDistances.map({ distance => pow(distance - avg, 2) }).sum / this.pairsNumber)
+    if (this.containsPairs) {
+      val avg = this.avgDistance
+      // On calcule l'écart-type et on le renvoie
+      sqrt(this.sortedDistances.map({ distance => pow(distance - avg, 2) }).sum / this.pairsNumber)
+    } else {
+      AirportDistanceMap.EmptyMapSoNoValue
+    }
   }
 
   /**
@@ -127,13 +128,17 @@ class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
     * @return la distance entre les deux
     */
   def getDistanceBetween(airportIdA: Int)(airportIdB: Int): Double = {
-    val (airportId1, airportId2) = (airportIdA min airportIdB, airportIdA max airportIdB)
-    if (!this.airportIdsToDistance.contains((airportId1, airportId2))) {
+    if (!this.airportDatabase.contains(airportIdA)) {
       throw new NoSuchElementException(
-        s"Distance between airport with IDs ${airportId1} and ${airportId2} is not present in the map"
+        "The first airport specified is not present in the map"
       )
     }
-    this.airportIdsToDistance(airportId1, airportId2)
+    if (!this.airportDatabase.contains(airportIdB)) {
+      throw new NoSuchElementException(
+        "The second airport specified is not present in the map"
+      )
+    }
+    distance(this.airportDatabase.getAirportById(airportIdA), this.airportDatabase.getAirportById(airportIdB))
   }
 
   /**
@@ -154,17 +159,17 @@ class AirportDistanceMap(private val airportDatabase: AirportDatabase) {
     * @return la distance entre les deux
     */
   def getDistanceBetween(airportA: Airport)(airportB: Airport): Double = {
-    if (!this.airportToAirportId.contains(airportA)) {
+    if (!this.airportDatabase.contains(airportA)) {
       throw new NoSuchElementException(
         "The first airport specified is not present in the map"
       )
     }
-    if (!this.airportToAirportId.contains(airportB)) {
+    if (!this.airportDatabase.contains(airportB)) {
       throw new NoSuchElementException(
         "The second airport specified is not present in the map"
       )
     }
-    this.getDistanceBetween(this.airportToAirportId(airportA))(this.airportToAirportId(airportB))
+    this.getDistanceBetween(airportA.airportId)(airportB.airportId)
   }
 
   /**
