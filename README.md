@@ -19,15 +19,13 @@
 
 ### Bibliothèque pour lire les fichiers CSV (respect de *don't reinvent the wheel*)
 
-Notre application utilise une bibliothèque pour le chargement des `.csv` afin de ne pas perdre de temps sur de l'existant.
-
 - [`scala-csv`](https://github.com/tototoshi/scala-csv) -- selon Awesome Scala
 
 ## Implémentation des questions et utilisation
 
-### Prémice - CLI 
+### Prémices - CLI 
 
-Pour un usage facilité de notre logiciel, nous avons mis en place une interface simplifiée, console, pour l'utiliser. Il s'agit d'un petit outil console permettant de naviguer entre les options et de choisir celle(s) souhaitée(s) par l'utilisateur.  
+Pour un usage facilité de notre logiciel, nous avons mis en place une interface simplifiée, en mode console, pour l'utiliser. Il s'agit d'un petit outil console permettant de naviguer entre les options et de choisir celle(s) souhaitée(s) par l'utilisateur.  
 
 Il est à noter que les valeurs affichées pour les extraits suivants dépendent de la base par défaut. Ces valeurs peuvent donc varier si la base est différente ou certaines valeurs altérées.
 
@@ -69,7 +67,7 @@ projet_top >
 
 _Note:_ Par défaut, comme dans l'exemple ci-dessus, on chargera la base de données réduite, mais il est tout a fait possible de spécifier un chemin vers un autre fichier `.csv` pour d'autres données.
 
-_Remarque:_ Pour la suite des exemples, cette en tête sera omise, par soucis de clarté.
+_Remarque:_ Pour la suite des exemples, cette en-tête sera omise, par soucis de clarté.
 
 #### Aide
 
@@ -241,6 +239,7 @@ projet_top >
 ### Question 4 - calcul des statistiques descriptives d'un sous-ensemble d'aéroports
 
 #### Implémentation
+
 ```scala
 // base d'aéroports
 val base: AirportDatabase = ...
@@ -251,6 +250,7 @@ val paysSelectionnes: List[String] = List("Canada", "France")
 
 base.getSubset(CountryNames(paysSelectionnes) || Hemisphere(hemisphereSelectionne))
 ```
+
 #### Utilisation via CLI 
 
 ```text
@@ -274,12 +274,13 @@ projet_top > 4
     stdDev          2401.426673463976
 ]
 
-projet_top > 
+projet_top >
 ```
 
 ### Question 5 - calcul de la densité d'aéroports par rapport à la superficie d'un pays
 
 #### Implémentation
+
 ```scala
 // base d'aéroports
 val base: AirportDatabase = ...
@@ -293,6 +294,7 @@ val paysEvalue: String = "France"
 // résultat
 val density = base.getDensityIn(countryBase.getCountryByName(countryName), _.inhabitants)
 ```
+
 #### Utilisation via CLI 
 
 ```text
@@ -315,9 +317,10 @@ projet_top > 5
 projet_top > 
 ```
 
-### Question 6 (7 incluse) - projections d'aéroports sur une carte
+### Questions 6 et 7 - projections d'aéroports sur une carte
 
 #### Implémentation
+
 ```scala
 // base d'aéroports
 val base: AirportDatabase = ...
@@ -360,6 +363,7 @@ generateurCarte.plotAll(base)(marqueur)
 val nomDestination: String = "out"
 mapCreator.saveToFile(new File(nomDestination + ".png"))
 ```
+
 #### Utilisation via CLI 
 
 ```text
