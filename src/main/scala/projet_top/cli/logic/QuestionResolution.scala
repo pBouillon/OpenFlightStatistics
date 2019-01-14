@@ -130,7 +130,7 @@ object QuestionResolution {
   //noinspection RedundantBlock
   def questionFive(): Unit = {
     println("    +-----------")
-    println("    | Question 5: calcul de la densité d'aéroports par rapport à la superficie d'un pays\n")
+    println("    | Question 5: calcul de la densité d'aéroports par rapport à la population d'un pays\n")
 
     var countryBase: CountryDatabase = null
 
@@ -158,7 +158,7 @@ object QuestionResolution {
     val density = Cli.base.getDensityIn(countryBase.getCountryByName(countryName), _.inhabitants)
     println("    Calcul effectué.\n")
 
-    println(s"    Densité pour le pays choisi (${countryName}): ${density} aéoroport(s)/km²")
+    println(s"    Densité pour le pays choisi (${countryName}): ${density} aéoroport(s)/habitants")
 
     println()
   }
