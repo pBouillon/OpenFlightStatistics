@@ -39,10 +39,10 @@ object QuestionResolution {
     println("    | Question 2: calcul de distance entre deux aéroports et matrice des distances\n")
 
     print("    ID du premier aéroport: ")
-    val firstAirport = Cli.base.toList(scala.io.StdIn.readInt())
+    val firstAirport = Cli.base(scala.io.StdIn.readInt())
 
     print("    ID du second aéroport: ")
-    val secondAirport = Cli.base.toList(scala.io.StdIn.readInt())
+    val secondAirport = Cli.base(scala.io.StdIn.readInt())
 
     println(
       s"    Les aéroports utilisés pour la distance seront:\n" +
