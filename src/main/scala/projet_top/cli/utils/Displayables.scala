@@ -31,7 +31,7 @@ object Displayables {
      |  - ${Options.Quest2}) Résolution de la question 2 - calcul de distance entre deux aéroports et matrice des distances
      |  - ${Options.Quest3}) Résolution de la question 3 - calcul des statistiques descriptives des aéroports
      |  - ${Options.Quest4}) Résolution de la question 4 - calcul des statistiques descriptives d'un sous-ensemble d'aéroports
-     |  - ${Options.Quest5}) Résolution de la question 5 - calcul de la densité d'aéroports par rapport à la superficie d'un pays
+     |  - ${Options.Quest5}) Résolution de la question 5 - calcul de la densité d'aéroports par rapport à la population d'un pays
      |  - ${Options.Quest6}) Résolution de la question 6 - projections d'aéroports sur une carte
      |
      |  - ${Options.Help}) Afficher les commandes disponibles
